@@ -1,0 +1,237 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: AUS Basic Theme Uzbek Language v 0.1\n"
+"POT-Creation-Date: 2015-04-10 18:27+0500\n"
+"PO-Revision-Date: 2015-04-11 16:24+0500\n"
+"Last-Translator: Anvar Ulugov <wasatiyatm@gmail.com>\n"
+"Language-Team: \n"
+"Language: uz_UZ\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.7.5\n"
+"X-Poedit-Basepath: d:\\wserver\\htdocs\\wpdemo\\wp-content\\themes\\\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Poedit-KeywordsList: __;_e\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-SearchPath-0: aus_basicb.0.0.1\n"
+
+#: aus_basicb.0.0.1/aus-panel-accordion-menu/admin.php:55
+#: aus_basicb.0.0.1/aus-panel-accordion-menu/admin.php:145
+#: aus_basicb.0.0.1/aus-panel-oop/core/class-panel.php:73
+#: aus_basicb.0.0.1/aus-panel-oop/core/class-panel.php:139
+#: aus_basicb.0.0.1/inc/options-slim.php:75
+#: aus_basicb.0.0.1/inc/options-slim.php:132
+#, php-format
+msgid "%s theme options"
+msgstr ""
+
+#: aus_basicb.0.0.1/aus-panel-accordion-menu/admin.php:153
+#: aus_basicb.0.0.1/aus-panel-oop/core/class-panel.php:147
+#: aus_basicb.0.0.1/inc/options-slim.php:140
+msgid "Show header"
+msgstr "Yuqori qism"
+
+#: aus_basicb.0.0.1/aus-panel-accordion-menu/admin.php:160
+#: aus_basicb.0.0.1/aus-panel-oop/core/class-panel.php:154
+#: aus_basicb.0.0.1/inc/options-slim.php:147
+msgid "Show header description"
+msgstr ""
+
+#: aus_basicb.0.0.1/aus-panel-accordion-menu/admin.php:167
+#: aus_basicb.0.0.1/aus-panel-oop/core/class-panel.php:161
+#: aus_basicb.0.0.1/inc/options-slim.php:154
+msgid "Show footer"
+msgstr ""
+
+#: aus_basicb.0.0.1/aus-panel-accordion-menu/admin.php:175
+#: aus_basicb.0.0.1/aus-panel-oop/core/class-panel.php:169
+#: aus_basicb.0.0.1/inc/options-slim.php:162
+#, fuzzy
+msgid "Show footer description"
+msgstr "Барча маколалар"
+
+#: aus_basicb.0.0.1/aus-panel-accordion-menu/admin.php:181
+#: aus_basicb.0.0.1/aus-panel-oop/core/class-panel.php:175
+#: aus_basicb.0.0.1/inc/options-slim.php:168
+msgid "Show sidebar"
+msgstr ""
+
+#: aus_basicb.0.0.1/aus-panel-accordion-menu/admin.php:188
+#: aus_basicb.0.0.1/aus-panel-oop/core/class-panel.php:182
+#: aus_basicb.0.0.1/inc/options-slim.php:175
+#, fuzzy
+msgid "Show sidebar description"
+msgstr "Барча маколалар"
+
+#: aus_basicb.0.0.1/aus-panel-accordion-menu/admin.php:195
+#: aus_basicb.0.0.1/aus-panel-oop/core/class-panel.php:189
+#: aus_basicb.0.0.1/inc/options-slim.php:182
+msgid "Show logo"
+msgstr ""
+
+#: aus_basicb.0.0.1/aus-panel-accordion-menu/admin.php:202
+#: aus_basicb.0.0.1/aus-panel-oop/core/class-panel.php:196
+#: aus_basicb.0.0.1/inc/options-slim.php:189
+msgid "Show logo description"
+msgstr "Logoni ko'rsatish"
+
+#: aus_basicb.0.0.1/aus-panel-accordion-menu/admin.php:209
+#: aus_basicb.0.0.1/aus-panel-oop/core/class-panel.php:203
+#: aus_basicb.0.0.1/inc/options-slim.php:196
+msgid "Show featured category"
+msgstr ""
+
+#: aus_basicb.0.0.1/aus-panel-accordion-menu/admin.php:216
+#: aus_basicb.0.0.1/aus-panel-oop/core/class-panel.php:210
+#: aus_basicb.0.0.1/inc/options-slim.php:203
+msgid "Show featured_cat description"
+msgstr ""
+
+#: aus_basicb.0.0.1/aus-panel-accordion-menu/admin.php:222
+#: aus_basicb.0.0.1/aus-panel-oop/core/class-panel.php:216
+#: aus_basicb.0.0.1/inc/options-slim.php:209
+msgid "Rich text editor"
+msgstr "Vizual tahrirlovchi yordamchisi"
+
+#: aus_basicb.0.0.1/aus-panel-accordion-menu/admin.php:229
+#: aus_basicb.0.0.1/aus-panel-oop/core/class-panel.php:223
+#: aus_basicb.0.0.1/inc/options-slim.php:216
+msgid "Rich text editor description"
+msgstr ""
+
+#: aus_basicb.0.0.1/aus-panel-accordion-menu/admin.php:267
+#: aus_basicb.0.0.1/aus-panel-oop/core/class-panel.php:261
+#: aus_basicb.0.0.1/inc/options-slim.php:254
+#, fuzzy
+msgid "General Options"
+msgstr "Moslamalar"
+
+#: aus_basicb.0.0.1/aus-panel-accordion-menu/defaults.php:6
+#: aus_basicb.0.0.1/aus-panel-oop/modules/generals/class-generals.php:8
+msgid "General"
+msgstr "Umumiy"
+
+#: aus_basicb.0.0.1/aus-panel-accordion-menu/defaults.php:14
+msgid "Elements"
+msgstr ""
+
+#: aus_basicb.0.0.1/aus-panel-accordion-menu/defaults.php:29
+msgid "Basics"
+msgstr "Asoslar"
+
+#: aus_basicb.0.0.1/aus-panel-accordion-menu/defaults.php:36
+#: aus_basicb.0.0.1/aus-panel-oop/modules/typography/class-typography.php:8
+#: aus_basicb.0.0.1/aus-panel/modules/typography/typography.php:6
+msgid "Typography"
+msgstr ""
+
+#: aus_basicb.0.0.1/aus-panel-accordion-menu/defaults.php:49
+msgid "Post elements"
+msgstr ""
+
+#: aus_basicb.0.0.1/aus-panel-accordion-menu/defaults.php:55
+msgid "Page elements"
+msgstr ""
+
+#: aus_basicb.0.0.1/aus-panel/core/modules.php:22
+msgid "Module"
+msgstr ""
+
+#: aus_basicb.0.0.1/aus-panel/modules/generals/generals.php:6
+msgid "Generals"
+msgstr ""
+
+#: aus_basicb.0.0.1/comments.php:22 aus_basicb.0.0.1/comments.php:39
+msgid "&larr; Older Comments"
+msgstr ""
+
+#: aus_basicb.0.0.1/comments.php:23 aus_basicb.0.0.1/comments.php:40
+msgid "Newer Comments &rarr;"
+msgstr ""
+
+#: aus_basicb.0.0.1/comments.php:45
+msgid "Comments are closed."
+msgstr ""
+
+#: aus_basicb.0.0.1/functions.php:56
+msgid "Left sidebar"
+msgstr ""
+
+#: aus_basicb.0.0.1/functions.php:67
+msgid "Right sidebar"
+msgstr "O&lsquo;ng ustun"
+
+#: aus_basicb.0.0.1/functions.php:137
+#, php-format
+msgid "Page %s"
+msgstr "Sahifa: %s"
+
+#: aus_basicb.0.0.1/functions.php:162
+msgid "Our contributors"
+msgstr ""
+
+#: aus_basicb.0.0.1/inc/elements.php:251
+msgid "&laquo;"
+msgstr "&laquo;"
+
+#: aus_basicb.0.0.1/inc/elements.php:252
+msgid "&raquo;"
+msgstr "&raquo;"
+
+#: aus_basicb.0.0.1/inc/elements.php:368 aus_basicb.0.0.1/inc/elements.php:377
+msgid "Tags:"
+msgstr "Kalit so'zlar:"
+
+#: aus_basicb.0.0.1/inc/elements.php:485
+msgid "Read more <i class=\"fa fa-angle-double-right\"></i>"
+msgstr "Davomini o'qish <i class=\"fa fa-angle-double-right\"></i>"
+
+#: aus_basicb.0.0.1/inc/elements.php:494 aus_basicb.0.0.1/loop.php:4
+msgid "Edith this"
+msgstr "Tahrirlash"
+
+#: aus_basicb.0.0.1/inc/elements.php:526
+msgid "Name"
+msgstr "Ism"
+
+#: aus_basicb.0.0.1/inc/elements.php:528
+msgid "Email"
+msgstr "Email"
+
+#: aus_basicb.0.0.1/inc/elements.php:530
+msgid "Website"
+msgstr "Sayt"
+
+#: aus_basicb.0.0.1/inc/elements.php:557
+msgid "Submit"
+msgstr "Yuborish"
+
+#: aus_basicb.0.0.1/inc/elements.php:590 aus_basicb.0.0.1/inc/elements.php:666
+msgid "Log in to Reply"
+msgstr "Javob berish uchun a'zo sifatida kiring"
+
+#: aus_basicb.0.0.1/inc/elements.php:593 aus_basicb.0.0.1/inc/elements.php:669
+msgid "Reply"
+msgstr "Javob berish"
+
+#: aus_basicb.0.0.1/inc/options-slim.php:92
+#: aus_basicb.0.0.1/inc/options-slim.php:107
+#, php-format
+msgid "%s Theme"
+msgstr ""
+
+#: aus_basicb.0.0.1/loop.php:26
+msgid "Sorry, no posts matched your criteria."
+msgstr "Kechirasiz, siz so'ragan ma'lumot topilmadi"
+
+#: aus_basicb.0.0.1/post.php:23
+msgid "&laquo; previous article"
+msgstr "&laquo; oldingi maqola "
+
+#: aus_basicb.0.0.1/post.php:24
+msgid "next article &raquo;"
+msgstr "keyingi maqola &raquo;"
+
+#~ msgid "more"
+#~ msgstr "davomi"

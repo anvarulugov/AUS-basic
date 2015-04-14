@@ -1,0 +1,6 @@
+Elements - todo
+
+1. Menularda class va attributelarni ham chiqadigan qilish kerak
+2. Thumbnailda sizeni olib tashlash kerak
+3. Elements categoryda cat id bn ham ko'rsatadigan qilish kerak
+4. Galleryni sozlash kerak

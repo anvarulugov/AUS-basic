@@ -1,0 +1,344 @@
+/*
+Theme Name: AUS Basic on Bootstrap3
+Theme URI: http://wp.ulugov.uz/
+Description: Basic Theme Framework (used Bootstrap CSS framework)
+Author: Anvar ULugov
+Author URI: http://ulugov.uz/
+Version: 1.2
+Tags: white, blue, light, responsive-layout, theme-options
+Text Domain: themeslug;
+
+License: GPL2
+License URI:
+
+General comments (optional).
+*/
+
+/*
+ * Wordpress standart css classes
+ */
+
+/* Alignment */
+.alignleft {
+	display: inline;
+	float: left;
+	margin-right: 15px;
+}
+.alignright {
+	display: inline;
+	float: right;
+	margin-left: 15px;
+}
+.aligncenter {
+	clear: both;
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.wp-caption {}
+.wp-caption-text {}
+.sticky {}
+.gallery-caption {}
+.bypostauthor{} 
+
+
+/**
+ * Layout styles
+ */
+
+.header {
+	height: 100px;
+	background: url(media/img/header_bg.png) #fff;
+}
+
+.header h1 {
+	margin: 15px 0 5px 0;
+}
+
+.logo_text {
+	color: #000;
+	font-weight: bold;
+}
+
+.logo_text:hover,
+.logo_text:focus {
+	color: #000;
+	text-decoration: none;
+}
+
+.page-bottom {
+	margin-top: 15px;
+	color: #fff;
+	text-align: center;
+	padding-top: 20px;
+	padding-bottom: 20px;
+	width: 100%;
+	background: url(media/img/header_bg.png) #FF0000;
+}
+
+.footer {
+	padding-top: 15px;
+	padding-bottom: 15px;
+}
+
+
+/**
+ * Post elements styles
+ */
+/*section {}
+article {}
+.entry-header {}
+.entry-title {}
+.entry-meta {}
+.entry-content {}
+.entry-footer {}*/
+
+.content section {
+	margin-bottom: 15px;
+}
+
+section .lead {
+	margin: 10px 0;
+}
+
+section figure {
+	margin: 0 auto 15px auto;
+}
+
+.entry-meta {
+	display: block;
+	opacity: 0.6;
+	padding: 10px;
+	border-top: 1px dashed #ddd;
+	border-bottom: 1px dashed #ddd;
+	margin-bottom: 10px;
+	-webkit-transition: all 0.5s ease;
+	-moz-transition: all 0.5s ease;
+	-ms-transition: all 0.5s ease;
+	-o-transition: all 0.5s ease;
+	transition: all 0.5s ease;
+}
+
+.entry-meta:hover {
+	opacity: 1;
+}
+
+/**
+ * Comments styles
+ */
+
+.form-submit {
+		display: none;
+}
+.comment-form-author,
+.comment-form-email,
+.comment-form-url {
+		width: 50%;
+}
+
+.comment-list {
+	margin-top: 20px;
+	padding-top: 15px;
+}
+
+.comment-list li {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+
+.comment-list .row {
+	margin-bottom: 0px;
+}
+.comment-list .panel .panel-heading {
+	padding: 4px 15px;
+	position: absolute;
+	border:none;
+	/*Panel-heading border radius*/
+	border-top-right-radius:0px;
+	top: 1px;
+}
+.comment-list .panel .panel-heading.right {
+	border-right-width: 0px;
+	/*Panel-heading border radius*/
+	border-top-left-radius:0px;
+	right: 16px;
+}
+.comment-list .panel .panel-heading .panel-body {
+	padding-top: 6px;
+}
+.comment-list figcaption {
+	/*For wrapping text in thumbnail*/
+	word-wrap: break-word;
+}
+/* Portrait tablets and medium desktops */
+@media (min-width: 768px) {
+	.comment-list .arrow:after, .comment-list .arrow:before {
+		content: "";
+		position: absolute;
+		width: 0;
+		height: 0;
+		border-style: solid;
+		border-color: transparent;
+	}
+	.comment-list .panel.arrow.left:after, .comment-list .panel.arrow.left:before {
+		border-left: 0;
+	}
+	/*****Left Arrow*****/
+	/*Outline effect style*/
+	.comment-list .panel.arrow.left:before {
+		left: 0px;
+		top: 30px;
+		/*Use boarder color of panel*/
+		border-right-color: inherit;
+		border-width: 16px;
+	}
+	/*Background color effect*/
+	.comment-list .panel.arrow.left:after {
+		left: 1px;
+		top: 31px;
+		/*Change for different outline color*/
+		border-right-color: #FFFFFF;
+		border-width: 15px;
+	}
+	/*****Right Arrow*****/
+	/*Outline effect style*/
+	.comment-list .panel.arrow.right:before {
+		right: -16px;
+		top: 30px;
+		/*Use boarder color of panel*/
+		border-left-color: inherit;
+		border-width: 16px;
+	}
+	/*Background color effect*/
+	.comment-list .panel.arrow.right:after {
+		right: -14px;
+		top: 31px;
+		/*Change for different outline color*/
+		border-left-color: #FFFFFF;
+		border-width: 15px;
+	}
+}
+.comment-list .comment-post {
+	margin-top: 6px;
+}
+
+.comment-list .comment-user {
+	padding:0 5px 0 0;
+}
+
+.comment-list .comment-avatar img {
+	margin-top: 10px;
+	border-radius: 50%;
+}
+
+/**
+ * Widget Styles
+ */
+
+.widget {
+	margin-bottom: 20px;
+}
+
+.widget .table {
+	margin-bottom: 0;
+}
+
+.widget ul {
+	padding: 0;
+	margin: 0;
+}
+
+.widget li {
+	list-style: none;
+}
+
+.widget li:not(:last-child) {
+	border-bottom: 1px solid #ddd;
+}
+
+/* Widget Calendar */
+.widget_calendar table caption {
+	text-align: center;
+	font-weight: bold;
+}
+
+/* Widget Tag cloud */
+.tagcloud {
+	padding: 10px 15px 15px 15px;
+}
+
+/* Widget subscriber styles */
+.wpmltext {
+	color: #000;
+	padding: 5px 10px;
+	-webkit-border-radius: 9px;
+	border-radius: 9px;
+	margin-bottom: 10px;
+	font-size: 23px;
+	line-height: 25px;
+	border: none;
+}
+
+.wpmltext:focus {
+	border: none;
+	outline: 0;
+  -webkit-box-shadow:inset 0 0 10px 0 #4D4D4D;
+	box-shadow:inset 0 0 10px 0 #4D4D4D;
+}
+
+.page-bottom .button {
+	color: #fff;
+	background-color: #337ab7;
+	border-color: #2e6da4;
+	display: inline-block;
+	padding: 6px 12px;
+	margin-bottom: 0;
+	font-size: 14px;
+	font-weight: 400;
+	line-height: 1.42857143;
+	text-align: center;
+	white-space: nowrap;
+	vertical-align: middle;
+	-ms-touch-action: manipulation;
+	touch-action: manipulation;
+	cursor: pointer;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+	background-image: none;
+	border: 1px solid transparent;
+	border-radius: 4px;
+}
+.page-bottom .button:hover,
+.page-bottom .button:focus {
+	color: #fff;
+	background-color: #286090;
+	border-color: #204d74;
+}
+
+.wpmlerror, 
+.wpmlrequired, 
+ul.wpmlerror li {
+	color: #fff !important;
+	list-style: none;
+	padding: 0;
+	margin: 0;
+}
+
+/**
+ * Extra styles
+ */
+.bs-callout {
+	padding: 20px;
+	margin: 20px 0;
+	border: 1px solid #eee;
+	border-left-width: 5px;
+	border-radius: 3px;
+}
+
+.bs-callout-info {
+	border-left-color: #1b809e;
+}
