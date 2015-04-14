@@ -1,2 +1,2 @@
 # Elements
-Elements - Wordpress theme framework
+Elements - Wordpress theme
