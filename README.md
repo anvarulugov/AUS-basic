@@ -1,2 +1,2 @@
-# Elements
-Elements - Wordpress theme
+# AUS Basic
+Starter - Wordpress theme
