@@ -173,7 +173,7 @@ class AUS_theme_options {
 				'id' => 'show_sidebar',
 				'type' => 'select',
 				'description' => __( 'Show sidebar description', 'themeslug' ),
-				'options' => array( false => '— Select —', 'on' => 'Yes', 'off' => 'No'),
+				'options' => array( false => '&ndash; Select &ndash;', 'on' => 'Yes', 'off' => 'No'),
 			)
 		);
 

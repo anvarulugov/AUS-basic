@@ -67,6 +67,10 @@ General comments (optional).
 	text-decoration: none;
 }
 
+.sidebar {
+	padding-top: 20px;
+}
+
 .page-bottom {
 	margin-top: 15px;
 	color: #fff;
@@ -80,6 +84,15 @@ General comments (optional).
 .footer {
 	padding-top: 15px;
 	padding-bottom: 15px;
+}
+
+/**
+ * Bootstrap customizations
+ */
+
+.navbar {
+	margin-bottom: 0;
+	border-radius: 0;
 }
 
 

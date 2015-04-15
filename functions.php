@@ -26,12 +26,10 @@ function themeslug_on_bootstrap_setup() {
 
 	// Enable support for Post Thumbnails and declare necessary sizes.
 	add_theme_support( 'post-thumbnails' );
-	add_image_size( 'featured-post', 282, 192, true );
-	add_image_size( 'home-loop-post', 252, 172, true );
 	add_image_size( 'gallery-thumbnail', 400, 300, true );
 
 	// Enable post formats
-	add_theme_support( 'post-formats', array( 'image', 'gallery', 'video', 'audio' ) );
+	//add_theme_support( 'post-formats', array( 'image', 'gallery', 'video', 'audio' ) );
 
 	// Register wp_nav_menu() positions
 	register_nav_menus(array(
@@ -158,50 +156,6 @@ function themeslug_wp_title( $title, $sep ) {
 
 }
 add_action( 'wp_title', 'themeslug_wp_title', 10, 2 );
-
-if ( ! function_exists( 'themeslug_list_authors' ) ) :
-/**
- * Print a list of all site contributors who published at least one post
- *
- * @since Themeslug on Bootstrap 1.1
- */
-function themeslug_list_authors() {
-	$authors_ids = get_users( array(
-		'fields'		=> 'ID',
-		'order_by'	=> 'post_count',
-		'order'		=> 'DESC',
-		'who'			=> 'authors',
-	) );
-
-	?>
-
-	<div class="autorsmenu">
-		<H2 class="blue7 text-center"><?php _e( 'Our contributors', 'themeslug'); ?></H2>
-		<ul class="authors">
-	<?php 
-
-	foreach ($authors_ids as $authors_id) :
-		$post_count = count_user_posts( $authors_id );
-
-		// Move on if user has not published a post (yet).
-		if ( ! $post_count ) {
-			continue;
-		}
-	?>
-	<li class="a-menu-item col-md-2 col-sm-3">
-		<a href="<?php echo esc_url( get_author_posts_url( $authors_id ) ); ?>" class="img-thumbnail">
-			<?php echo get_avatar( $authors_id, 101 ); ?>
-			<p><?php echo get_the_author_meta( 'display_name',$authors_id ); ?></p>
-		</a>
-	</li>
-	<?php 
-	endforeach;
-	?>
-		</ul>
-	</div>
-	<?php 
-}
-endif;
 
 add_action( 'aus_before_footer', 'page_bottom_widget' );
 function page_bottom_widget() {

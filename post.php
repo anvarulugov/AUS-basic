@@ -18,6 +18,17 @@
 	</div>
 	<footer class="entry-footer">
 		<?php $elements->tags( array( 'class'=>'red-tags' ), false ); ?>
+		<?php 
+		wp_link_pages( array( 
+			'before'=>'<ul class="pagination"><li><span>' . __( 'Pages:', 'themeslug' )  . '</span></li>', 
+			'after'=>'</ul>',
+			'link_before'=>'<span>',
+			'link_after'=>'</span>',
+			'next_or_number'=>'number',
+			'separator'=>'',
+			'echo' => 1
+		) ); 
+		?>
 	</footer>
 	<?php if($post->post_type == 'post') : ?>
 		<ul class="pager">

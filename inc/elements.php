@@ -22,6 +22,7 @@
  * - excerpt 
  * - content 
  * - readmore 
+ * - link_pages
  * Comments
  * - comment_form_fields
  * - comment_form_textarea
@@ -140,11 +141,11 @@ class AUS_theme_elements {
 
 		$container_class = 'container';
 		$navbar_class = 'navbar-default';
-
+		$html = '';
 		extract( $args, EXTR_OVERWRITE );
 		$pages = $this->get_pages( $nav_location );
 		if ( $pages ):
-			$html  = '<nav class="navbar ' . $navbar_class . '" role="navigation">';
+			$html .= '<nav class="navbar ' . $navbar_class . '" role="navigation">';
 			$html .= '<div class="' . $container_class . '">';
 			$html .= '<!-- Brand and toggle get grouped for better mobile display -->';
 			$html .= '<div class="navbar-header">';
@@ -166,7 +167,6 @@ class AUS_theme_elements {
 			$html .= '<div class="collapse navbar-collapse" id="navbar-collapse-' . $nav_location . '">';
 			$html .= '<ul class="nav navbar-nav">';
 			foreach ( $pages as $page ) {
-
 				if ( empty( $page['childs'] ) ):
 					$html .= '<li><a title="' . $page['attr_title'] . '" class="' . $page['classes'] . '" target="' . $page['target'] . '" href="' . $page['url'] . '">' . $page['title'] . '</a></li>';
 				elseif ( !empty( $page['childs'] ) ):
@@ -195,8 +195,11 @@ class AUS_theme_elements {
 		$theme_locations = get_nav_menu_locations();
 		if ( isset( $theme_locations[ $nav_location ] ) ) {
 			$menu_obj = get_term( $theme_locations[ $nav_location ], 'nav_menu' );
-			$menu_name = $menu_obj->name;
-			$items = wp_get_nav_menu_items( $menu_name );
+			if ( isset( $menu_obj->name ) && ! empty( $menu_obj->name ) ) {
+				$items = wp_get_nav_menu_items( $menu_obj->name );
+			} else {
+				$items = false;
+			}			
 		} else {
 			$items = false;
 		}
@@ -262,8 +265,8 @@ class AUS_theme_elements {
 		$pages = paginate_links( array( 
 			'base' => str_replace( $big, '%#%', esc_url( get_pagenum_link( $big ) ) ),
 			'format' => '?paged=%#%',
-			'prev_text' => __( '&laquo;' ),
-			'next_text' => __( '&raquo;' ),
+			'prev_text' => __( '&laquo;', 'themeslug' ),
+			'next_text' => __( '&raquo;', 'themeslug' ),
 			'mid_size' => 5,
 			'type' => 'array',
 			'current' => max( 1, get_query_var( 'paged' ) ),
@@ -272,7 +275,8 @@ class AUS_theme_elements {
 		$pager = '<ul class="pagination">';
 		if ( isset( $pages ) and !empty( $pages ) ) {
 			foreach ( $pages as $page ) {
-				$pager .= '<li>' . $page . '</li>';
+				$current = strpos( $page, 'current' );
+				$pager .= '<li ' . ( $current ? 'class="active"' : '' ) . '>' . $page . '</li>';
 			}
 		}
 		$pager .= '</ul>';
@@ -389,7 +393,7 @@ class AUS_theme_elements {
 		
 		if ( $default ) {
 
-			the_tags( '<div class="' . $class . '">' . $icon . '&nbsp;&nbsp;' . __( 'Tags:' ) . ': ', ' • ', '</div>' );
+			the_tags( '<div class="' . $class . '">' . $icon . '&nbsp;&nbsp;' . __( 'Tags:', 'themeslug' ) . ': ', ' &#9679; ', '</div>' );
 
 		} else {
 
@@ -417,14 +421,14 @@ class AUS_theme_elements {
 
 		if ( comments_open() ) {
 			if ( $num_comments == 0 ) {
-				$html = '<a href="' . get_comments_link() .'">' . __('No Comments') .'</a>';
+				$html = '<a href="' . get_comments_link() .'">' . __( 'No Comments', 'themeslug' ) .'</a>';
 			} elseif ( $num_comments > 1 ) {
-				$html = '<a href="' . get_comments_link() .'">' . $num_comments . __(' Comments') .'</a>';
+				$html = '<a href="' . get_comments_link() .'">' . $num_comments . __( ' Comments', 'themeslug' ) .'</a>';
 			} else {
-				$html = '<a href="' . get_comments_link() .'">' . __('1 Comment') .'</a>';
+				$html = '<a href="' . get_comments_link() .'">' . __( '1 Comment', 'themeslug' ) .'</a>';
 			}
 		} else {
-			$html =  __('Comments are off for this post.');
+			$html =  __('Comments are off for this post.', 'themeslug' );
 		}
 
 		echo $html;
@@ -577,7 +581,7 @@ class AUS_theme_elements {
 	function comment_form_textarea( $args ) {
 
 		$args['comment_field'] = '<div class="form-group comment-form-comment">
-				<label for="comment">' . _x( 'Comment', 'noun' ) . '</label> 
+				<label for="comment">' . __( 'Comment', 'themeslug' ) . '</label> 
 				<textarea class="form-control" id="comment" name="comment" cols="45" rows="8" aria-required="true"></textarea>
 			</div>';
 		return $args;
@@ -589,7 +593,7 @@ class AUS_theme_elements {
 	 * @return [type] [description]
 	 */
 	function comment_button() {
-	    echo '<button class="btn btn-default" type="submit">' . __( 'Submit', 'themeslug' ) . '</button>';
+		 echo '<button class="btn btn-default" type="submit">' . __( 'Submit', 'themeslug' ) . '</button>';
 	}
 	
 	/**
@@ -620,7 +624,7 @@ class AUS_theme_elements {
 			$html .= '</header>';
 			
 			if ( $comment->comment_approved == '0' ) {
-			$html .= '<div class="alert alert-success" role="alert">' . __( 'Your comment is awaiting moderation.' ) . '</div>';
+			$html .= '<div class="alert alert-success" role="alert">' . __( 'Your comment is awaiting moderation.', 'themeslug' ) . '</div>';
 			}
 			
 			$html .= '<div class="comment-post"><p>' . apply_filters( 'comment_text', get_comment_text() ) . '</p></div>';

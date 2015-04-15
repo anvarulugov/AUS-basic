@@ -24,7 +24,7 @@
 <?php endwhile; ?>
 <?php $elements->pager(); ?>
 <?php else : ?>
-	<p><?php _e('Sorry, no posts matched your criteria.'); ?></p>
+	<p><?php _e('Sorry, no posts matched your criteria.', 'themeslug'); ?></p>
 <?php endif; ?>
-<?php do_action( 'aus_after_loop' ); ?>
+<?php do_action( 'aus_after_loop', 'themeslug' ); ?>
 </div>
