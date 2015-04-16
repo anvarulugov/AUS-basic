@@ -1,6 +1,6 @@
 <?php 
 
-$themeslug_options = array(
+$aus_options = array(
 	'featured_cat' => false,
 	'thumbnail_size' => 'thumbnail',
 	'thumbnail_img' => '',//get_template_directory_uri() . '/media/img/thumbnail.png',

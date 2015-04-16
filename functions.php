@@ -1,12 +1,14 @@
 <?php 
 require_once(TEMPLATEPATH.'/inc/defaults.php');
 require_once(TEMPLATEPATH.'/inc/functions.php');
+require_once(TEMPLATEPATH.'/inc/options.php');
 require_once(TEMPLATEPATH.'/inc/elements.php');
-require_once(TEMPLATEPATH.'/inc/widget-category-posts.php');
 
-$theme_name = 'ThemeName';
-$theme_slug = 'themeslug';
+$theme_name = 'AUS Basic';
+$theme_slug = 'aus-basic';
 
+/* Activate Theme Options Class */
+new AUS_theme_options($theme_name,$theme_slug);
 
 /* Activate Theme Elements Class */
 $elements = new AUS_theme_elements($theme_name,$theme_slug);
@@ -14,12 +16,12 @@ global $elements;
 
 if ( ! isset( $content_width ) ) $content_width = 850;
 
-if ( ! function_exists('themeslug_on_bootstrap_setup') ) :
+if ( ! function_exists('aus_basic_setup') ) :
 
-function themeslug_on_bootstrap_setup() {
+function aus_basic_setup() {
 
-	// Make themeslug available for translation.
-	load_theme_textdomain( 'themeslug', get_template_directory() . '/languages' );
+	// Make aus-basic available for translation.
+	load_theme_textdomain( 'aus-basic', get_template_directory() . '/languages' );
 	
 	// Add RSS feed links to <head> for posts and comments.
 	add_theme_support( 'automatic-feed-links' );
@@ -46,13 +48,13 @@ function themeslug_on_bootstrap_setup() {
 	) );
 }
 
-endif; //themeslug_on_bootstrap_setup
-add_action( 'after_setup_theme', 'themeslug_on_bootstrap_setup' );
+endif; //aus_basic_setup
+add_action( 'after_setup_theme', 'aus_basic_setup' );
 
-function themeslug_widgets_init() {
+function aus_widgets_init() {
 
 	register_sidebar( array(
-		'name'			=> __( 'Left sidebar', 'themeslug' ),
+		'name'			=> __( 'Left sidebar', 'aus-basic' ),
 		'id'				=> 'left',
 		'description'	=> 'Left column of the theme.',
 		'class'			=> '',
@@ -63,7 +65,7 @@ function themeslug_widgets_init() {
 	) );
 
 	register_sidebar( array(
-		'name'			=> __( 'Right sidebar', 'themeslug' ),
+		'name'			=> __( 'Right sidebar', 'aus-basic' ),
 		'id'				=> 'right',
 		'description'	=> 'Right column of the theme.',
 		'class'			=> '',
@@ -74,7 +76,7 @@ function themeslug_widgets_init() {
 	) );
 
 	register_sidebar( array(
-		'name'			=> __( 'Page buttom', 'themeslug' ),
+		'name'			=> __( 'Page buttom', 'aus-basic' ),
 		'id'				=> 'page_bottom',
 		'description'	=> 'Page bottom of the theme.',
 		'class'			=> '',
@@ -84,21 +86,21 @@ function themeslug_widgets_init() {
 		'after_title'	=> ''
 	) );
 }
-add_action( 'widgets_init', 'themeslug_widgets_init');
+add_action( 'widgets_init', 'aus_widgets_init');
 
 /**
- * Register Open-Sans and Roboto Google fonts for themeslug theme
+ * Register Open-Sans and Roboto Google fonts for aus-basic theme
  */ 
-function themeslug_google_fonts() {
+function aus_google_fonts() {
 
 	wp_enqueue_style( 'Open-Sans', '//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800&subset=latin,cyrillic-ext,latin-ext,cyrillic' );
 
 	wp_enqueue_style( 'Roboto', '//fonts.googleapis.com/css?family=Roboto:400,100,100italic,300,300italic,400italic,500,500italic,700,700italic,900,900italic&subset=latin,cyrillic-ext,cyrillic,latin-ext' );
 
 }
-add_action( 'wp_enqueue_scripts', 'themeslug_google_fonts' );
+add_action( 'wp_enqueue_scripts', 'aus_google_fonts' );
 
-function themeslug_scripts() {
+function aus_scripts() {
 
 	wp_enqueue_style( 'bootstrap-min', get_template_directory_uri() . '/media/css/bootstrap.min.css', array(), '3.3.0' );
 
@@ -114,15 +116,15 @@ function themeslug_scripts() {
 
 	wp_enqueue_script( 'lightbox', get_template_directory_uri() . '/media/js/lightbox.min.js', array( 'jquery' ), '3.3.0', true );
 
-	wp_enqueue_script( 'themeslug-script', get_template_directory_uri() . '/media/js/functions.js', array( 'jquery' ), '3.3.0', true );
+	wp_enqueue_script( 'aus-basic-script', get_template_directory_uri() . '/media/js/functions.js', array( 'jquery' ), '3.3.0', true );
 
 }
-add_action( 'wp_enqueue_scripts', 'themeslug_scripts' );
+add_action( 'wp_enqueue_scripts', 'aus_scripts' );
 
-function themeslug_settings($option) {
+function aus_settings($option) {
 
-	global $themeslug_options;
-	$options = get_option('themeslug_options',$themeslug_options);
+	global $aus_options;
+	$options = get_option('aus_options',$aus_options);
 	if(isset($options[$option]))
 		return $options[$option];
 	else
@@ -130,7 +132,7 @@ function themeslug_settings($option) {
 
 }
 
-function themeslug_wp_title( $title, $sep ) {
+function aus_wp_title( $title, $sep ) {
 
 	if ( is_feed() ) {
 		return $title;
@@ -155,7 +157,7 @@ function themeslug_wp_title( $title, $sep ) {
 	return $title;
 
 }
-add_action( 'wp_title', 'themeslug_wp_title', 10, 2 );
+add_action( 'wp_title', 'aus_wp_title', 10, 2 );
 
 add_action( 'aus_before_footer', 'page_bottom_widget' );
 function page_bottom_widget() {

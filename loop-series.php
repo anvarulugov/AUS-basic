@@ -15,7 +15,7 @@
 </ol>
 <?php $elements->pager(); ?>
 <?php else : ?>
-	<p><?php _e( 'Sorry, no posts matched your criteria.', 'themeslug' ); ?></p>
+	<p><?php _e( 'Sorry, no posts matched your criteria.', 'aus-basic' ); ?></p>
 <?php endif; ?>
 <?php do_action( 'aus_after_loop' ); ?>
 </div>

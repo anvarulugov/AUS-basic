@@ -12,7 +12,7 @@
 		</div>
 	</header>
 	<figure>
-		<?php $elements->thumbnail('large',array( 'class'=>'img-responsive aligncenter' ) ); ?>
+		<?php $elements->thumbnail('',array( 'class'=>'img-responsive aligncenter' ) ); ?>
 	</figure>
 	<div class="entry-exerpt">
 		<?php $elements->excerpt( 300, $post->ID ); ?>...
@@ -24,7 +24,7 @@
 <?php endwhile; ?>
 <?php $elements->pager(); ?>
 <?php else : ?>
-	<p><?php _e('Sorry, no posts matched your criteria.', 'themeslug'); ?></p>
+	<p><?php _e('Sorry, no posts matched your criteria.', 'aus-basic'); ?></p>
 <?php endif; ?>
-<?php do_action( 'aus_after_loop', 'themeslug' ); ?>
+<?php do_action( 'aus_after_loop' ); ?>
 </div>

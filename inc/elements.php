@@ -265,8 +265,8 @@ class AUS_theme_elements {
 		$pages = paginate_links( array( 
 			'base' => str_replace( $big, '%#%', esc_url( get_pagenum_link( $big ) ) ),
 			'format' => '?paged=%#%',
-			'prev_text' => __( '&laquo;', 'themeslug' ),
-			'next_text' => __( '&raquo;', 'themeslug' ),
+			'prev_text' => __( '&laquo;', 'aus-basic' ),
+			'next_text' => __( '&raquo;', 'aus-basic' ),
 			'mid_size' => 5,
 			'type' => 'array',
 			'current' => max( 1, get_query_var( 'paged' ) ),
@@ -364,11 +364,12 @@ class AUS_theme_elements {
 		$post_categories = get_the_terms( $post_id, $taxonomy );
 		$cats = array();
 		$last_cat = end( $post_categories );
+		$html = '';
 		foreach ( $post_categories as $c ) {
 			$cat = get_category( $c );
 			if ( $cat->term_id != $this->settings( 'featured_cat' ) ) {
 				if ( $link )
-					$html  = '<a class="' . $class . '" target="' . $target . '" title="' . $title . '" href="' . get_category_link( $cat->term_id ) . '">';
+					$html .= '<a class="' . $class . '" target="' . $target . '" title="' . $title . '" href="' . get_category_link( $cat->term_id ) . '">';
 				$html .= $cat->name;
 				if ( $link )
 					$html .= '</a>';
@@ -393,7 +394,7 @@ class AUS_theme_elements {
 		
 		if ( $default ) {
 
-			the_tags( '<div class="' . $class . '">' . $icon . '&nbsp;&nbsp;' . __( 'Tags:', 'themeslug' ) . ': ', ' &#9679; ', '</div>' );
+			the_tags( '<div class="' . $class . '">' . $icon . '&nbsp;&nbsp;' . __( 'Tags:', 'aus-basic' ) . ': ', ' &#9679; ', '</div>' );
 
 		} else {
 
@@ -402,7 +403,7 @@ class AUS_theme_elements {
 			if ( $tags ) {
 
 				$html = '<ul class="list-inline ' . $class . '" >';
-				$html .= '<li>' . $icon . '&nbsp;&nbsp;' . __( 'Tags:', 'themeslug' ) . '</li>';
+				$html .= '<li>' . $icon . '&nbsp;&nbsp;' . __( 'Tags:', 'aus-basic' ) . '</li>';
 				foreach ( $tags as $tag ) {
 					$html .= '<li><a href="' . get_tag_link( $tag->term_id ) . '"><span class="label label-default">' . $tag->name . '</span></a></li>';
 				}
@@ -421,14 +422,14 @@ class AUS_theme_elements {
 
 		if ( comments_open() ) {
 			if ( $num_comments == 0 ) {
-				$html = '<a href="' . get_comments_link() .'">' . __( 'No Comments', 'themeslug' ) .'</a>';
+				$html = '<a href="' . get_comments_link() .'">' . __( 'No Comments', 'aus-basic' ) .'</a>';
 			} elseif ( $num_comments > 1 ) {
-				$html = '<a href="' . get_comments_link() .'">' . $num_comments . __( ' Comments', 'themeslug' ) .'</a>';
+				$html = '<a href="' . get_comments_link() .'">' . $num_comments . __( ' Comments', 'aus-basic' ) .'</a>';
 			} else {
-				$html = '<a href="' . get_comments_link() .'">' . __( '1 Comment', 'themeslug' ) .'</a>';
+				$html = '<a href="' . get_comments_link() .'">' . __( '1 Comment', 'aus-basic' ) .'</a>';
 			}
 		} else {
-			$html =  __('Comments are off for this post.', 'themeslug' );
+			$html =  __('Comments are off for this post.', 'aus-basic' );
 		}
 
 		echo $html;
@@ -480,8 +481,28 @@ class AUS_theme_elements {
 		} elseif ( ! empty( $first_img ) ) {
 			echo '<a href="' . $post->guid . '"><img src="' . $first_img . '" ' . $args . '/></a>';
 		} elseif ( $this->settings( 'thumbnail_img' ) ) {
-			echo '<a href="' . $post->guid . '"><img src="' . $this->settings( 'thumbnail_img' ) . '" ' . $args . '/></a>';
+
+			$default_thumbnail_sized = $this->get_thumbnail( $this->settings( 'thumbnail_img' ), $this->settings( 'thumbnail_size' ) );
+			
+			if ( $default_thumbnail_sized ) {
+				$default_thumbnail = $default_thumbnail_sized;
+			} else {
+				$default_thumbnail = $this->settings( 'thumbnail_img' );
+			}
+			echo '<a href="' . $post->guid . '"><img src="' . $default_thumbnail . '" ' . $args . '/></a>';
+		
 		}
+	}
+
+	private function get_thumbnail( $image, $size ) {
+		global $wpdb;
+		$attachment = $wpdb->get_col($wpdb->prepare("SELECT ID FROM $wpdb->posts WHERE guid='%s';", $image )); 
+      $id = $attachment[0];
+      $thumbnail = wp_get_attachment_image_src( $id, $size );
+      if ( isset( $thumbnail[0] ) && ! empty( $thumbnail[0] ) )
+      	return $thumbnail[0];
+      else
+      	return false;
 	}
 
 	/**
@@ -521,7 +542,7 @@ class AUS_theme_elements {
 
 		extract( $args, EXTR_OVERWRITE );
 
-		$html = '<a class="' . $class . '" href="' . get_permalink( $post->ID ) . '">' . __( 'Read more <i class="fa fa-angle-double-right"></i>', 'themeslug' ) . '</a>';
+		$html = '<a class="' . $class . '" href="' . get_permalink( $post->ID ) . '">' . __( 'Read more <i class="fa fa-angle-double-right"></i>', 'aus-basic' ) . '</a>';
 		echo $html;
 
 	}
@@ -530,7 +551,7 @@ class AUS_theme_elements {
 
 		global $post;
 		$class = 'btn btn-sm btn-default';
-		$text = __( 'Edith this', 'themeslug' );
+		$text = __( 'Edith this', 'aus-basic' );
 		extract( $args, EXTR_OVERWRITE );
 
 		$html = '<a class="' . $class . '" href="' . get_edit_post_link() . '"><i class="fa fa-pencil"></i> ' . $text . '</a>';
@@ -562,11 +583,11 @@ class AUS_theme_elements {
 		$html5	= current_theme_supports( 'html5', 'comment-form' ) ? 1 : 0;
 		
 		$fields   =  array( 
-			'author' => '<div class="form-group comment-form-author">' . '<label for="author">' . __( 'Name', 'themeslug' ) . ( $req ? ' <span class="required">*</span>' : '' ) . '</label> ' .
+			'author' => '<div class="form-group comment-form-author">' . '<label for="author">' . __( 'Name', 'aus-basic' ) . ( $req ? ' <span class="required">*</span>' : '' ) . '</label> ' .
 						'<input class="form-control" id="author" name="author" type="text" value="' . esc_attr( $commenter['comment_author'] ) . '" size="30"' . $aria_req . ' /></div>',
-			'email'  => '<div class="form-group comment-form-email"><label for="email">' . __( 'Email', 'themeslug' ) . ( $req ? ' <span class="required">*</span>' : '' ) . '</label> ' .
+			'email'  => '<div class="form-group comment-form-email"><label for="email">' . __( 'Email', 'aus-basic' ) . ( $req ? ' <span class="required">*</span>' : '' ) . '</label> ' .
 						'<input class="form-control" id="email" name="email" ' . ( $html5 ? 'type="email"' : 'type="text"' ) . ' value="' . esc_attr(  $commenter['comment_author_email'] ) . '" size="30"' . $aria_req . ' /></div>',
-			'url'	=> '<div class="form-group comment-form-url"><label for="url">' . __( 'Website', 'themeslug' ) . '</label> ' .
+			'url'	=> '<div class="form-group comment-form-url"><label for="url">' . __( 'Website', 'aus-basic' ) . '</label> ' .
 						'<input class="form-control" id="url" name="url" ' . ( $html5 ? 'type="url"' : 'type="text"' ) . ' value="' . esc_attr( $commenter['comment_author_url'] ) . '" size="30" /></div>',
 		 );
 		
@@ -581,7 +602,7 @@ class AUS_theme_elements {
 	function comment_form_textarea( $args ) {
 
 		$args['comment_field'] = '<div class="form-group comment-form-comment">
-				<label for="comment">' . __( 'Comment', 'themeslug' ) . '</label> 
+				<label for="comment">' . __( 'Comment', 'aus-basic' ) . '</label> 
 				<textarea class="form-control" id="comment" name="comment" cols="45" rows="8" aria-required="true"></textarea>
 			</div>';
 		return $args;
@@ -593,7 +614,7 @@ class AUS_theme_elements {
 	 * @return [type] [description]
 	 */
 	function comment_button() {
-		 echo '<button class="btn btn-default" type="submit">' . __( 'Submit', 'themeslug' ) . '</button>';
+		 echo '<button class="btn btn-default" type="submit">' . __( 'Submit', 'aus-basic' ) . '</button>';
 	}
 	
 	/**
@@ -624,17 +645,17 @@ class AUS_theme_elements {
 			$html .= '</header>';
 			
 			if ( $comment->comment_approved == '0' ) {
-			$html .= '<div class="alert alert-success" role="alert">' . __( 'Your comment is awaiting moderation.', 'themeslug' ) . '</div>';
+			$html .= '<div class="alert alert-success" role="alert">' . __( 'Your comment is awaiting moderation.', 'aus-basic' ) . '</div>';
 			}
 			
 			$html .= '<div class="comment-post"><p>' . apply_filters( 'comment_text', get_comment_text() ) . '</p></div>';
 			$html .= '<p class="text-right">';
 			
 			if ( get_option( 'comment_registration' ) && ! is_user_logged_in() ) {
-			$html .= '<a rel="nofollow" class="comment-reply-login btn btn-default btn-sm" href="' . esc_url( wp_login_url( get_permalink() ) ) . '"><i class="fa fa-reply"></i> ' . __( 'Log in to Reply', 'themeslug' ) . '</a>';
+			$html .= '<a rel="nofollow" class="comment-reply-login btn btn-default btn-sm" href="' . esc_url( wp_login_url( get_permalink() ) ) . '"><i class="fa fa-reply"></i> ' . __( 'Log in to Reply', 'aus-basic' ) . '</a>';
 			} else {
 			$html .= '<a href="' . get_permalink() . '&replytocom=' . $comment->comment_ID . '#respond" class="comment-reply-link btn btn-default btn-sm" onclick="return addComment.moveForm( \'comment-' . $comment->comment_ID . '\', \'' . $comment->comment_ID . '\', \'respond\', \'' . $comment->comment_post_ID . '\' )">';
-			$html .= '<i class="fa fa-reply"></i> ' . __( 'Reply', 'themeslug' );
+			$html .= '<i class="fa fa-reply"></i> ' . __( 'Reply', 'aus-basic' );
 			$html .= '</a>';
 			}
 			
@@ -646,157 +667,5 @@ class AUS_theme_elements {
 		echo $html;
 	}
 
-	/**
-	 * Lists the entry comments
-	 * Custom list function, it is not a Wordpress default function or callback
-	 * @param  boolean $post_id [description]
-	 * @return [type]           [description]
-	 */
-	public function comments_list( $post_id = false ) {
-		if ( ! $post_id ) {
-			global $post;
-			$post_id = $post->ID;
-		}
-		$comments = $this->comments_array( $post_id );
-		if( $comments ) {
-			$html = '<section class="comment-list">';
-			$count = 0;
-			foreach ( $comments as $comment ) {
-				$count++;
-				$html .= $this->comment_format( $comment );
-			}
-			$html .= '</section>';
-			echo $html;
-		}
-	}
-
-
-
-
-
-
-
-	/**
-	 * Formats the comment data
-	 * @param  array $comment
-	 * @return html
-	 */
-	private function comment_format( $comment, $offset = 0 ) {
-
-		$html  = '<article ' . comment_class( 'row', $comment['comment_ID'], $comment['post_id'], false ) . ' id="comment-' . $comment['comment_ID'] . '">';
-
-		if ( $offset > 3 )
-			$offset = 3;
-
-		$col = 10 - $offset;
-
-		$comment_thumb  = '<div class="col-md-2 col-sm-2 hidden-xs col-md-offset-' . $offset . '">';
-		$comment_thumb .= '<figure class="comment-avatar">';
-		$comment_thumb .= get_avatar( $comment['comment_author_email'], 70 );
-		$comment_thumb .= '</div>';		
-
-		$comment_content  = '<div class="col-md-' . $col . ' col-sm-' . $col . '">';
-		$comment_content .= '<div class="panel panel-default arrow left">';
-		$comment_content .= '<div class="panel-heading right">' . $comment['comment_depth'] . '</div>';
-		$comment_content .= '<div class="panel-body">';
-		$comment_content .= '<header class="text-left">';
-		$comment_content .= '<div class="comment-user"><i class="fa fa-user"></i> ' . $comment['comment_author'] . ' | <time class="comment-date" datetime="' . date( 'Y-m-d' , strtotime( $comment['comment_date'] ) ) . '"><i class="fa fa-clock-o"></i> ' . date( get_option( 'date_format' ), strtotime( $comment['comment_date'] ) ) . '</time> - Parent: ' . $comment['comment_parent'] . ' ID: ' . $comment['comment_ID'] . '</div>';
-		$comment_content .= '</header>';
-		$comment_content .= '<div class="comment-post">';
-		$comment_content .= '<p>Offset: ' . $offset . ' ' . $comment['comment_content'] . '</p>';
-		$comment_content .= '</div>';
-		$comment_content .= '<p class="text-right">';
-		if ( get_option( 'comment_registration' ) && ! is_user_logged_in() ) {
-			$comment_content .= '<a rel="nofollow" class="comment-reply-login btn btn-default btn-sm" href="' . esc_url( wp_login_url( get_permalink() ) ) . '"><i class="fa fa-reply"></i> ' . __( 'Log in to Reply', 'themeslug' ) . '</a>';
-		} else {
-			$comment_content .= '<a href="' . get_permalink() . '&replytocom=' . $comment['comment_ID'] . '#respond" class="comment-reply-link btn btn-default btn-sm" onclick="return addComment.moveForm( \'comment-' . $comment['comment_ID'] . '\', \'' . $comment['comment_ID'] . '\', \'respond\', \'' . $comment['post_id'] . '\' )">';
-			$comment_content .= '<i class="fa fa-reply"></i> ' . __( 'Reply', 'themeslug' );
-			$comment_content .= '</a>';
-		}
-		$comment_content .= '</p>';
-		$comment_content .= '</div>';
-		$comment_content .= '</div>';
-		$comment_content .= '</div>';
-
-		if ( $comment_right ) {
-			$html .= $comment_content;
-			$html .= $comment_thumb;
-		} else  {
-			$html .= $comment_thumb;
-			$html .= $comment_content;
-		}
-		
-
-		$html .= '</article>';
-		
-		if ( $comment['childs'] ) {
-			$offset++;
-			foreach ( $comment['childs'] as $comment ) {
-				$html .= $this->comment_format( $comment, $offset );
-			}
-		}
-		return $html;
-	}
-
-	/**
-	 * Return the array of comments for given post/page
-	 * @param  integer $post_id [description]
-	 * @return array          [description]
-	 */
-	private function comments_array( $post_id = null ) {
-		$comments = get_comments( array( 'post_id' => $post_id, 'order'=>'ASC' ) );
-		$i = 0;
-		foreach ( $comments as $comment ) {
-			if ( $comment->comment_parent == 0 and $comment->comment_approved == 1 ) {
-				$i++;
-				$comments_list[] = array( 
-					'post_id' => $comment->comment_post_ID ,
-					'comment_ID' => $comment->comment_ID,
-					'comment_parent' => $comment->comment_parent,
-					'comment_depth' => $i,
-					'comment_author' => $comment->comment_author,
-					'comment_author_email' => $comment->comment_author_email,
-					'comment_author_url' => $comment->comment_author_url,
-					'comment_date' => $comment->comment_date,
-					'comment_content' => $comment->comment_content,
-					'childs' => $this->get_comment_childs( $comment->comment_ID, $comments, $i ),
-				 );
-			}
-		}
-		return $comments_list;
-	}
-
-	/**
-	 * Returns the array of child comments for given comment
-	 * @param  integer $parent ID of parent comment
-	 * @param  array $childs array of all child comments
-	 * @param  integer $depth  depth of the comment
-	 * @return array        [description]
-	 */
-	private function get_comment_childs( $parent, $childs, $depth ) {
-		$children = array();
-		$i = 0;
-		foreach ( $childs as $child ) {
-			if ( $child->comment_parent == $parent and $child->comment_approved == 1 ) {
-				$i++;
-				$children[] = array( 
-					'post_id' => $child->comment_post_ID ,
-					'comment_ID' => $child->comment_ID,
-					'comment_parent' => $child->comment_parent,
-					'comment_depth' => $depth . '.' . $i,
-					'comment_author' => $child->comment_author,
-					'comment_author_email' => $child->comment_author_email,
-					'comment_author_url' => $child->comment_author_url,
-					'comment_date' => $child->comment_date,
-					'comment_content' => $child->comment_content,
-					'childs' => $this->get_comment_childs( $child->comment_ID, $childs, $depth . '.' . $i ),
-				 );
-			}
-
-		}
-		return $children;
-	}
-
 }
-
 ?>

@@ -11,8 +11,8 @@ global $elements;
 
 	<?php if ( get_comment_pages_count() > 1 && get_option( 'page_comments' ) ) : ?>
 		<ul class="pager">
-			<li class="previous"><?php previous_comments_link( __( '&larr; Older Comments', 'themeslug' ) ); ?></li>
-			<li class="next"><?php next_comments_link( __( 'Newer Comments &rarr;', 'themeslug' ) ); ?></li>
+			<li class="previous"><?php previous_comments_link( __( '&larr; Older Comments', 'aus-basic' ) ); ?></li>
+			<li class="next"><?php next_comments_link( __( 'Newer Comments &rarr;', 'aus-basic' ) ); ?></li>
 		</ul>
 	<?php endif; // Check for comment navigation. ?>
 
@@ -28,13 +28,13 @@ global $elements;
 
 	<?php if ( get_comment_pages_count() > 1 && get_option( 'page_comments' ) ) : ?>
 		<ul class="pager">
-			<li class="previous"><?php previous_comments_link( __( '&larr; Older Comments', 'themeslug' ) ); ?></li>
-			<li class="next"><?php next_comments_link( __( 'Newer Comments &rarr;', 'themeslug' ) ); ?></li>
+			<li class="previous"><?php previous_comments_link( __( '&larr; Older Comments', 'aus-basic' ) ); ?></li>
+			<li class="next"><?php next_comments_link( __( 'Newer Comments &rarr;', 'aus-basic' ) ); ?></li>
 		</ul>
 	<?php endif; // Check for comment navigation. ?>
 
 	<?php if ( ! comments_open() ) : ?>
-		<p class="no-comments"><?php _e( 'Comments are closed.', 'themeslug' ); ?></p>
+		<p class="no-comments"><?php _e( 'Comments are closed.', 'aus-basic' ); ?></p>
 	<?php endif; ?>
 
 <?php endif; // have_comments() ?>

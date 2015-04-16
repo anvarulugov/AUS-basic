@@ -20,7 +20,7 @@
 		<?php $elements->tags( array( 'class'=>'red-tags' ), false ); ?>
 		<?php 
 		wp_link_pages( array( 
-			'before'=>'<ul class="pagination"><li><span>' . __( 'Pages:', 'themeslug' )  . '</span></li>', 
+			'before'=>'<ul class="pagination"><li><span>' . __( 'Pages:', 'aus-basic' )  . '</span></li>', 
 			'after'=>'</ul>',
 			'link_before'=>'<span>',
 			'link_after'=>'</span>',
@@ -32,8 +32,8 @@
 	</footer>
 	<?php if($post->post_type == 'post') : ?>
 		<ul class="pager">
-			<li class="previous"><?php previous_post_link('%link', __('&laquo; previous article','themeslug'), TRUE); ?></li>
-			<li class="next"><?php next_post_link('%link', __('next article &raquo;','themeslug'), TRUE); ?></li>
+			<li class="previous"><?php previous_post_link('%link', __('&laquo; previous article','aus-basic'), TRUE); ?></li>
+			<li class="next"><?php next_post_link('%link', __('next article &raquo;','aus-basic'), TRUE); ?></li>
 		</ul>
 	<?php endif; ?>
 </article>
