@@ -145,7 +145,7 @@ class AUS_theme_elements {
 		extract( $args, EXTR_OVERWRITE );
 		$pages = $this->get_pages( $nav_location );
 		if ( $pages ):
-			$html .= '<nav class="navbar ' . $navbar_class . '" role="navigation">';
+			$html .= '<nav class="navbar ' . $navbar_class . ( $nav_location != 'primary' ? ' not-primary' : ' primary' ) . '" role="navigation">';
 			$html .= '<div class="' . $container_class . '">';
 			$html .= '<!-- Brand and toggle get grouped for better mobile display -->';
 			$html .= '<div class="navbar-header">';
@@ -156,6 +156,7 @@ class AUS_theme_elements {
 					$html .= '<a class="navbar-brand" href="' . home_url() . '"><i class="fa fa-home"></i></a>';
 				}
 			}
+			$html .= '<li class="visible-xs navbar-brand">Navigation</li>';
 			$html .= '<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse-' . $nav_location . '">';
 			$html .= '<span class="sr-only">Toggle navigation</span>';
 			$html .= '<span class="icon-bar"></span>';
