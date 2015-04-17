@@ -1,17 +1,17 @@
 <?php 
 /**
- * AU Slim Options
+ * AUS Basic Options
  *
  * Theme Options page generator class
- * Uses Wordpress default form html style
+ * Uses Wordpress default form html markup
  *
  * @link http://codex.wordpress.org/Creating_Options_Pages
  *
  * @package WordPress
- * @subpackage AU Slim Options
- * @since AU Slim Options 0.1.1
+ * @subpackage AUS Bsic Options
+ * @since AUS Bsic 0.1.1
  * @author Anvar Ulugov
- * @license 
+ * @license GPL2
  */
 
 class AUS_theme_options {

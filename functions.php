@@ -1,8 +1,9 @@
 <?php 
 require_once(TEMPLATEPATH.'/inc/defaults.php');
 require_once(TEMPLATEPATH.'/inc/functions.php');
-require_once(TEMPLATEPATH.'/inc/options.php');
-require_once(TEMPLATEPATH.'/inc/elements.php');
+require_once(TEMPLATEPATH.'/inc/class-tgm.php');
+require_once(TEMPLATEPATH.'/inc/class-options.php');
+require_once(TEMPLATEPATH.'/inc/class-elements.php');
 
 $theme_name = 'AUS Basic';
 $theme_slug = 'aus-basic';
