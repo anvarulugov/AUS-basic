@@ -41,10 +41,10 @@ class AUS_theme_elements {
 	 * @param $theme_slug
 	 * @param $menutype
 	 */
-	function __construct( $theme_name = 'API', $theme_slug = 'api', $menutype = 'sublevel' ) {
+	function __construct( $config ) {
 
-		$this->theme_name = $theme_name;
-		$this->theme_slug = $theme_slug;
+		$this->theme_name = $config['theme_name'];
+		$this->theme_slug = $config['theme_slug'];
 
 		$this->init();
 
@@ -171,7 +171,7 @@ class AUS_theme_elements {
 				if ( empty( $page['childs'] ) ):
 					$html .= '<li><a title="' . $page['attr_title'] . '" class="' . $page['classes'] . '" target="' . $page['target'] . '" href="' . $page['url'] . '">' . $page['title'] . '</a></li>';
 				elseif ( !empty( $page['childs'] ) ):
-					$html .= '<li class="dropdown"><a href="' . $page['url'] . '" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">' . $page['title'] . '<span class="caret"></span></a>';
+					$html .= '<li class="dropdown"><a href="' . $page['url'] . '" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">' . $page['title'] . '&nbsp;<span class="caret"></span></a>';
 					$html .= '<ul class="dropdown-menu" role="menu">';
 					foreach ( $page['childs'] as $child ) {
 						$html .= '<li><a href="' . $child['url'] . '">' . $child['title'] . '</a></li>';
@@ -240,10 +240,10 @@ class AUS_theme_elements {
 					'id' => $child->ID, 
 					'title' => $child->title, 
 					'url' => $child->url, 
-					'classes' => implode( ' ', $item->classes ),
-					'target' => $item->target,
-					'attr_title' => $item->attr_title,
-					'description' => $item->description,
+					'classes' => implode( ' ', $child->classes ),
+					'target' => $child->target,
+					'attr_title' => $child->attr_title,
+					'description' => $child->description,
 					'childs' => $this->get_page_childs( $child->ID, $childs )
 				 );
 			}
@@ -255,7 +255,35 @@ class AUS_theme_elements {
 	/**
 	 * @param $query
 	 */
-	public function pager( $query = null ) {
+	public function pager() {
+		global $wp_query, $wp_rewrite;
+		$wp_query->query_vars['paged'] > 1 ? $current = $wp_query->query_vars['paged'] : $current = 1;
+		$pagination = array(
+			'base' => @add_query_arg('paged','%#%'),
+			'format' => '',
+			'prev_text' => __( '&laquo;', 'aus-basic' ),
+			'next_text' => __( '&raquo;', 'aus-basic' ),
+			'mid_size' => 3,
+			'total' => $wp_query->max_num_pages,
+			'current' => $current,
+			//'show_all' => true,
+			'type' => 'array'
+		);
+	   // if ( $wp_rewrite->using_permalinks() ) $pagination['base'] = user_trailingslashit( trailingslashit( remove_query_arg( 's', get_pagenum_link( 1 ) ) ) . 'page/%#%/', 'paged' );
+		//if ( !empty($wp_query->query_vars['s']) ) $pagination['add_args'] = array( 's' => get_query_var( 's' ) );
+		$pages = paginate_links( $pagination );
+		$pager  = '<ul class="pagination">';
+		if(isset($pages) and !empty($pages)) {
+			foreach ($pages as $page) {
+				$current = strpos( $page, 'current' );
+				$pager .= '<li' . ( $current ? ' class="active"' : '' ) . '>'.$page.'</li>';
+			}
+		}
+		$pager .= '</ul>';
+		echo $pager;
+	}
+
+	public function pager_old( $query = null ) {
 
 		global $wp_query;
 		if ( $query == null ) {
@@ -272,7 +300,7 @@ class AUS_theme_elements {
 			'type' => 'array',
 			'current' => max( 1, get_query_var( 'paged' ) ),
 			'total' => $query->max_num_pages,
-		 ) );
+		) );
 		$pager = '<ul class="pagination">';
 		if ( isset( $pages ) and !empty( $pages ) ) {
 			foreach ( $pages as $page ) {
@@ -355,6 +383,8 @@ class AUS_theme_elements {
 		if ( $post_id === null ) {
 			$post_id = $post->ID;
 		}
+		$before = '';
+		$after = '';
 		$link = true;
 		$target = '_self';
 		$class = '';
@@ -364,21 +394,26 @@ class AUS_theme_elements {
 
 		$post_categories = get_the_terms( $post_id, $taxonomy );
 		$cats = array();
-		$last_cat = end( $post_categories );
+		
 		$html = '';
-		foreach ( $post_categories as $c ) {
-			$cat = get_category( $c );
-			if ( $cat->term_id != $this->settings( 'featured_cat' ) ) {
-				if ( $link )
-					$html .= '<a class="' . $class . '" target="' . $target . '" title="' . $title . '" href="' . get_category_link( $cat->term_id ) . '">';
-				$html .= $cat->name;
-				if ( $link )
-					$html .= '</a>';
+		if ( ! empty( $post_categories ) & ! is_page() ) {
+			$last_cat = end( $post_categories );
+			foreach ( $post_categories as $c ) {
+				$cat = get_category( $c );
+				if ( $cat->term_id != $this->settings( 'featured_cat' ) ) {
+					if ( $link )
+						$html .= '<a class="' . $class . '" target="' . $target . '" title="' . $title . '" href="' . get_category_link( $cat->term_id ) . '">';
+					$html .= $cat->name;
+					if ( $link )
+						$html .= '</a>';
+				}
+				if ( count( $post_categories ) > 1 and $cat->term_id != $last_cat and $cat->term_id != $this->settings( 'featured_cat' ) ) {
+					$html .= ', ';
+				}
+				echo $before . $html . $after;
 			}
-			if ( count( $post_categories ) > 1 and $cat->term_id != $last_cat and $cat->term_id != $this->settings( 'featured_cat' ) ) {
-				$html .= ', ';
-			}
-			echo $html;
+		} else {
+			return false;
 		}
 	}
 
@@ -615,7 +650,7 @@ class AUS_theme_elements {
 	 * @return [type] [description]
 	 */
 	function comment_button() {
-		 echo '<button class="btn btn-default" type="submit">' . __( 'Submit', 'aus-basic' ) . '</button>';
+		 echo '<button class="btn btn-primary" type="submit">' . __( 'Submit', 'aus-basic' ) . '</button>';
 	}
 	
 	/**

@@ -57,6 +57,24 @@ function aus_register_required_plugins() {
 			'force_activation'   => false,
 			'force_deactivation' => false,
 		),
+
+		array(
+			'name'               => 'Easy Bootstrap Shortcode',
+			'slug'               => 'easy-bootstrap-shortcodes',
+			'required'           => true,
+			'version'            => '4.3.8',
+			'force_activation'   => false,
+			'force_deactivation' => false,
+		),
+
+		array(
+			'name'               => 'Bootstrap Widget Styling',
+			'slug'               => 'bootstrap-widget-styling',
+			'required'           => true,
+			'version'            => '1.0.3',
+			'force_activation'   => false,
+			'force_deactivation' => false,
+		),
  
 	 );
 
@@ -91,4 +109,24 @@ function aus_register_required_plugins() {
 	);
 
 	tgmpa( $plugins, $config );
+}
+
+
+/**
+ * Adding default widgets markup Bootstrap classes
+ */
+add_filter( 'get_search_form' , 'aus_search_form' , 2 ) ;
+function aus_search_form( $markup ) {
+	$markup = str_replace( 'class="search-form"' , 'class="search-form row"' , $markup ) ;
+	$markup = str_replace( '<label' , '<label class="col-xs-12"' , $markup ) ;
+	$markup = str_replace( '<input type="search"' , '<input type="search" class="form-control"' , $markup ) ;
+	$markup = preg_replace( '/(<span class="screen-reader-text">.*?>)/' , '' , $markup ) ;
+	$markup = preg_replace( '/(<input type="submit".*?>)/' , '' , $markup ) ;
+	return $markup;
+}
+
+add_filter( 'get_calendar' , 'aus_calendar' , 2 ) ;
+function aus_calendar( $markup ) {
+	$markup = str_replace( '<table id="wp-calendar"' , '<table id="wp-calendar" class="table table-stripped"' , $markup ) ;
+	return $markup;
 }

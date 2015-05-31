@@ -1,6 +1,6 @@
-<?php if ( is_active_sidebar( 'left' ) ) : ?>
+<?php if ( is_active_sidebar( 'left_mobile' ) ) : ?>
 <div <?php sidebar_class('visible-sm visible-xs'); ?>>
-	<?php dynamic_sidebar( 'left' ); ?>
+	<?php dynamic_sidebar( 'left_mobile' ); ?>
 </div>
 <?php endif; ?>
 <?php if ( is_active_sidebar( 'right' ) ) : ?>

@@ -3,7 +3,7 @@ if ( post_password_required() ) {
 	return;
 }
 
-global $elements;
+global $aus_elements;
 ?>
 <div id="comments">
 <?php comment_form(); ?>
@@ -22,7 +22,7 @@ global $elements;
 			'type'=>'comment',
 			'short_ping' => true,
 			'avatar_size'=> 34,
-			'callback'=>array( $elements, 'comment_template' ) 
+			'callback'=>array( $aus_elements, 'comment_template' ) 
 		) ); ?>
 	</section><!-- .comment-list -->
 

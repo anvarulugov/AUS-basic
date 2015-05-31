@@ -20,12 +20,14 @@ class AUS_theme_options {
 	private $theme_slug;
 	private $menutype;
 	private $options;
+	private $tabs;
 
-	function __construct( $theme_name = 'API', $theme_slug = 'api', $menutype = 'sublevel' ) {
+	function __construct( $config ) {
 
-		$this->theme_name = $theme_name;
-		$this->theme_slug = $theme_slug;
-		$this->menutype = $menutype;
+		$this->theme_name = $config['theme_name'];
+		$this->theme_slug = $config['theme_slug'];
+		$this->menutype = $config['menutype'];
+		$this->tabs = $config['tabs'];
 
 		$this->init();
 		add_action( 'admin_menu', array( $this, 'create_menu_page' ) );
@@ -35,10 +37,8 @@ class AUS_theme_options {
 	}
 
 	function init() {
-
 		$this->options = get_option( $this->theme_slug . '_theme_options' );
 		$this->developer_mode = false;
-
 	}
 
 	/**
@@ -101,7 +101,9 @@ class AUS_theme_options {
 	public function scripts() {
 		if ( isset( $_GET['page'] ) && $_GET['page'] == $this->theme_slug . '_theme_options' ) {
 			wp_enqueue_media();
-			wp_register_script( 'aus-admin', get_template_directory_uri() . '/media/js/admin.js', array( 'jquery' ) );
+			wp_enqueue_style( 'wp-color-picker' );
+			wp_enqueue_style( 'aus-admin', get_template_directory_uri() . '/media/css/admin.css' );
+			wp_register_script( 'aus-admin', get_template_directory_uri() . '/media/js/admin.js', array( 'jquery', 'wp-color-picker' ) );
 			wp_enqueue_script( 'aus-admin' );
 		}
 	}
@@ -112,16 +114,37 @@ class AUS_theme_options {
 
 	public function theme_options_display() {
 		?>
+		<script type="text/javascript">
+			jQuery(function() {
+				jQuery('body').on('click','.nav-tab-wrapper a',function(e) {
+					e.preventDefault();
+					var tab = jQuery(this).attr('href')
+					jQuery('.nav-tab-wrapper a').removeClass('nav-tab-active');
+					jQuery(this).addClass('nav-tab-active');
+					// jQuery('.tab-content').fadeOut();
+					jQuery('.tab-content').removeClass('active');
+					// jQuery(tab).fadeIn();
+					jQuery(tab).addClass('active');
+				});
+			});
+		</script>
 		<div class="wrap">
-			<h2><?php echo sprintf(__('%s Theme', 'aus-basic'), $this->theme_name ); ?></h2>
-			<?php if ( $this->developer_mode ) : ?>
 			<pre>
-			<?php print_r( $this->options ); ?>
-			</per>
-			<?php endif; ?>
+				<?php print_r($this->options); ?>
+			</pre>
+			<h2><?php echo sprintf(__('%s Theme', 'aus-basic'), $this->theme_name ); ?></h2>
+			<h2 class="aus-tabs nav-tab-wrapper">
+				<?php $i = 0; foreach ( $this->tabs as $tab ) : $i++; ?>
+					<a href="#<?php echo $tab['id']; ?>" class="nav-tab <?php echo ( $i == 1 ? 'nav-tab-active' : '' ); ?>"><?php echo $tab['title']; ?></a>
+				<?php endforeach; ?>
+			</h2>
 			<form method="post" action="options.php">
-			<?php settings_fields( $this->theme_slug . '_theme_options_group' ); ?>
-			<?php do_settings_sections( $this->theme_slug . '_theme_options' ); ?>
+				<?php settings_fields( $this->theme_slug . '_theme_options_group' ); ?>
+				<?php $c = 0; foreach ( $this->tabs as $tab ) : $c++; ?>
+					<div class="tab-content <?php echo ( $c == 1 ? 'active' : '' ); ?>" id="<?php echo $tab['id']; ?>">
+						<?php do_settings_sections( $this->theme_slug . '_theme_options_' . $tab['id'] ); ?>
+					</div>
+				<?php endforeach; ?>
 			<?php submit_button(); ?>
 			</form>
 		</div>
@@ -134,94 +157,39 @@ class AUS_theme_options {
 
 	public function initialize_theme_options() {
 
-		// First, we register a section. This is necessary since all 
-		// future options must belong a section.
-		add_settings_section(
-			$this->theme_slug . '_theme_settings_section', // ID that used to identify this section and whith wich to register options
-			sprintf(__('%s theme options', 'aus-basic'),$this->theme_name), // Title to be displayed on the administration page
-			array( $this, 'theme_general_options_ballback'), // Call back used to render the description of the section
-			$this->theme_slug . '_theme_options' // Page on which to add this section of options
-		);
+		foreach ( $this->tabs as $tab ) {
+			add_settings_section(
+				$this->theme_slug . '_theme_settings_section_' . $tab['id'],
+				sprintf( __( '%s settings', 'aus-basic' ), $tab['title'] ),
+				'',
+				$this->theme_slug . '_theme_options_' . $tab['id']
+			);
 
-		add_settings_field(
-			'logo_img',
-			'<label for="logo_img">' . __( 'Logo Image', 'aus-basic' ) . '</label>',
-			array( $this, 'input'),
-			$this->theme_slug . '_theme_options',
-			$this->theme_slug . '_theme_settings_section',
-			array(
-				'id' => 'logo_img',
-				'type' => 'image',
-				'description' => __( 'Insert image url or upload', 'aus-basic' ),
-			)
-		);
-
-		add_settings_field(
-			'featured_cat',
-			'<label for="featured_cat">' . __( 'Featured category', 'aus-basic' ) . '</label>',
-			array( $this, 'input'),
-			$this->theme_slug . '_theme_options',
-			$this->theme_slug . '_theme_settings_section',
-			array(
-				'id' => 'featured_cat',
-				'type' => 'categories',
-				'description' => __( 'Select featured category', 'aus-basic' ),
-			)
-		);
-
-		add_settings_field(
-			'show_home_menu', // ID to identify the field throughout the theme 
-			'<label for="show_home_menu">' . __( 'Show home menu', 'aus-basic' ) . '</label>', // The label to the left of the option interface
-			array( $this, 'input'), // The name of the function responsible for rendering the option interface
-			$this->theme_slug . '_theme_options', // The page on which this option will be displayed
-			$this->theme_slug . '_theme_settings_section', // The name of the section to which this field belongs
-			array(
-				'id' => 'show_home_menu',
-				'type' => 'checkbox',
-				'title' => __( 'Show home menu', 'aus-basic' ),
-				'description' => __( 'Show home menu on primary navigation', 'aus-basic' ),
-			) // The array of arguments to pass to the callback function.
-		);
-
-		add_settings_field(
-			'home_menu_text', // ID to identify the field throughout the theme 
-			'<label for="home_menu_text">' . __( 'Home menu text', 'aus-basic' ) . '</label>', // The label to the left of the option interface
-			array( $this, 'input'), // The name of the function responsible for rendering the option interface
-			$this->theme_slug . '_theme_options', // The page on which this option will be displayed
-			$this->theme_slug . '_theme_settings_section', // The name of the section to which this field belongs
-			array(
-				'id' => 'home_menu_text',
-				'type' => 'text',
-				'description' => __( 'Leave it blank to show home menu as home icon', 'aus-basic' ),
-				'atts' => array( 'style' => 'width:auto;')
-			) // The array of arguments to pass to the callback function.
-		);
-
-		add_settings_field(
-			'thumbnail_img',
-			'<label for="thumbnail_img">' . __( 'Default thumbnail', 'aus-basic' ) . '</label>',
-			array( $this, 'input'),
-			$this->theme_slug . '_theme_options',
-			$this->theme_slug . '_theme_settings_section',
-			array(
-				'id' => 'thumbnail_img',
-				'type' => 'image',
-				'description' => __( 'Insert image url or upload', 'aus-basic' ),
-			)
-		);
-
-		add_settings_field(
-			'thumbnail_size', // ID to identify the field throughout the theme 
-			'<label for="thumbnail_size">' . __( 'Default thumbnail size', 'aus-basic' ) . '</label>', // The label to the left of the option interface
-			array( $this, 'input'), // The name of the function responsible for rendering the option interface
-			$this->theme_slug . '_theme_options', // The page on which this option will be displayed
-			$this->theme_slug . '_theme_settings_section', // The name of the section to which this field belongs
-			array(
-				'id' => 'thumbnail_size',
-				'type' => 'thumbnails',
-				'description' => __( 'Select default thumbnail size', 'aus-basic' ),
-			) // The array of arguments to pass to the callback function.
-		);
+			foreach ( $tab['fields'] as $tab_field ) {
+				$default = array(
+					'id'			=> '',
+					'type'			=> '',
+					'description'	=> '',
+					'options'		=> '',
+					'atts'			=> '',
+				);
+				$field = array_merge( $default, $tab_field );
+				add_settings_field(
+					$field['id'],
+					'<label for="' . $field['id'] . '">' . $field['title'] . '</label>',
+					array( $this, 'input'),
+					$this->theme_slug . '_theme_options_' . $tab['id'],
+					$this->theme_slug . '_theme_settings_section_' . $tab['id'],
+					array(
+						'id' => $field['id'],
+						'type' => $field['type'],
+						'description' => $field['description'],
+						'options' => $field['options'],
+						'atts' => $field['atts'],
+					)
+				);
+			}
+		}
 
 		register_setting(
 			$this->theme_slug . '_theme_options_group',
@@ -232,12 +200,11 @@ class AUS_theme_options {
 	}
 
 	public function senitize( $input ) {
-
 		$output = array();
 
 		foreach ($input as $key => $value) {
 			if ( isset( $input[ $key ] ) ) {
-				$output[ $key ] = $input[ $key ];
+				$output[ $key ] = strip_tags( stripslashes( $input[ $key ] ) );
 			}
 		}
 
@@ -301,6 +268,21 @@ class AUS_theme_options {
 				}
 				$input .= '</fieldset>';
 				break;
+			case 'radioimage':
+				$input = '<fieldset>';
+				$input .= '<ul class="radioimage">';
+				foreach ($options as $key => $option) {
+					$input .= "<li>";
+					$input .= '<label title="' . $option . '">';
+					$input .= '<input style="display:none" type="radio" name="' . $this->theme_slug . '_theme_options'. '[' .$id . ']" value="' . $key . '" ' . ( $value == $key ? 'checked="checked"' : '' ) . ' />';
+					$input .= '<img' . ( $value == $key ? ' class="checked"' : '' ) . '  src="' . $option . '"';
+					//$input .= '<span>' . $option . '</span>';
+					$input .= '</label>';
+					$input .= "</li>";
+				}
+				$input .= '</ul>';
+				$input .= '</fieldset>';
+				break;
 			case 'textarea':
 				ob_start();
 				wp_editor($value, $id, $editor);
@@ -349,6 +331,7 @@ class AUS_theme_options {
 				$input .= '</fieldset>';
 				break;
 
+			default:
 			case 'email':
 			case 'text':
 				$input = '<input name="' . $this->theme_slug . '_theme_options'. '[' .$id . ']" id="' .$id . '" type="' .$type . '" value="' . $value . '"' . $attributes . ' />';

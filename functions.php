@@ -9,11 +9,10 @@ $theme_name = 'AUS Basic';
 $theme_slug = 'aus-basic';
 
 /* Activate Theme Options Class */
-new AUS_theme_options($theme_name,$theme_slug);
+new AUS_theme_options( $aus_config );
 
 /* Activate Theme Elements Class */
-$elements = new AUS_theme_elements($theme_name,$theme_slug);
-global $elements;
+$aus_elements = new AUS_theme_elements( $aus_config );
 
 if ( ! isset( $content_width ) ) $content_width = 850;
 
@@ -57,9 +56,20 @@ function aus_widgets_init() {
 	register_sidebar( array(
 		'name'			=> __( 'Left sidebar', 'aus-basic' ),
 		'id'				=> 'left',
-		'description'	=> 'Left column of the theme.',
+		'description'	=> 'Mobile hidden Left column of the theme.',
 		'class'			=> '',
-		'before_widget'=> '<aside id="%1$s" class="widget panel panel-default %2$s">',
+		'before_widget'=> '<aside id="%1$s" class="widget panel panel-primary %2$s">',
+		'after_widget' => '</aside>',
+		'before_title' => '<div class="panel-heading"><h3 class="panel-title">',
+		'after_title'	=> '</h3></div>'
+	) );
+
+	register_sidebar( array(
+		'name'			=> __( 'Left sidebar mobile', 'aus-basic' ),
+		'id'				=> 'left_mobile',
+		'description'	=> 'Mobile visible Left column of the theme.',
+		'class'			=> '',
+		'before_widget'=> '<aside id="%1$s" class="widget panel panel-primary %2$s">',
 		'after_widget' => '</aside>',
 		'before_title' => '<div class="panel-heading"><h3 class="panel-title">',
 		'after_title'	=> '</h3></div>'
@@ -70,7 +80,7 @@ function aus_widgets_init() {
 		'id'				=> 'right',
 		'description'	=> 'Right column of the theme.',
 		'class'			=> '',
-		'before_widget'=> '<aside id="%1$s" class="widget panel panel-default %2$s">',
+		'before_widget'=> '<aside id="%1$s" class="widget panel panel-primary %2$s">',
 		'after_widget' => '</aside>',
 		'before_title' => '<div class="panel-heading"><h3 class="panel-title">',
 		'after_title'	=> '</h3></div>'
@@ -103,15 +113,15 @@ add_action( 'wp_enqueue_scripts', 'aus_google_fonts' );
 
 function aus_scripts() {
 
-	wp_enqueue_style( 'bootstrap-min', get_template_directory_uri() . '/media/css/bootstrap.min.css', array(), '3.3.0' );
+	wp_enqueue_style( 'bootstrap', get_template_directory_uri() . '/media/css/yeti.min.css', array(), '3.3.0' );
 
-	wp_enqueue_style( 'fontawesome-min', get_template_directory_uri() . '/media/css/font-awesome.min.css', array(), '4.3.0' );
+	wp_enqueue_style( 'bootstrap-fa-icon', get_template_directory_uri() . '/media/css/font-awesome.min.css', array(), '4.3.0' );
 
 	wp_enqueue_style( 'lightbox', get_template_directory_uri() . '/media/css/lightbox.css', array(), '4.3.0' );
 
 	wp_enqueue_style( 'style', get_stylesheet_uri() );
 
-	wp_enqueue_script( 'bootstrap-min', get_template_directory_uri() . '/media/js/bootstrap.min.js', array( 'jquery' ), '3.3.0', true );
+	wp_enqueue_script( 'bootstrap', get_template_directory_uri() . '/media/js/bootstrap.min.js', array( 'jquery' ), '3.3.0', true );
 
 	if ( is_singular() ) wp_enqueue_script( 'comment-reply' );
 
@@ -120,6 +130,7 @@ function aus_scripts() {
 	wp_enqueue_script( 'aus-basic-script', get_template_directory_uri() . '/media/js/functions.js', array( 'jquery' ), '3.3.0', true );
 
 }
+remove_action('wp_enqueue_scripts', 'osc_add_frontend_ebs_scripts',-100);
 add_action( 'wp_enqueue_scripts', 'aus_scripts' );
 
 function aus_settings($option) {
@@ -164,7 +175,13 @@ add_action( 'aus_before_footer', 'page_bottom_widget' );
 function page_bottom_widget() {
 	if ( is_active_sidebar( 'page_bottom' ) ) : ?>
 	<div class="page-bottom">
-		<?php dynamic_sidebar( 'page_bottom' ); ?>
+		<div class="container">
+			<div class="row">
+				<div class="col-sm-12">
+					<?php dynamic_sidebar( 'page_bottom' ); ?>
+				</div>
+			</div>
+		</div>
 	</div>
 	<?php endif;
 }

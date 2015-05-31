@@ -1,23 +1,23 @@
 <div <?php content_class(); ?>>
 <?php if ( have_posts() ) : ?>
-<?php while ( have_posts() ) : the_post(); global $elements; ?>
+<?php while ( have_posts() ) : the_post(); global $aus_elements; ?>
 <?php do_action( 'aus_before_post' ); ?>
 <article id="post-<?php the_ID(); ?>" <?php post_class( 'article clearfix' ); ?>>
 	<header class="entry-header">
-		<h1 class="entry-title"><?php the_title(); ?> <?php $elements->edit_button( array( 'class'=>'btn btn-xs btn-default' ) ); ?></h1>
+		<h1 class="entry-title"><?php the_title(); ?> <?php $aus_elements->edit_button( array( 'class'=>'btn btn-xs btn-default' ) ); ?></h1>
 		<div class="entry-meta">
-			<time pubdate="pubdate" datetime="<?php the_time('Y-m-d') ?>"><i class="fa fa-calendar"></i> <?php $elements->date() ?></time> | <i class="fa fa-user"></i> <?php the_author_posts_link(); ?>
+			<time pubdate="pubdate" datetime="<?php the_time('Y-m-d') ?>"><i class="fa fa-calendar"></i> <?php $aus_elements->date() ?></time> | <i class="fa fa-user"></i> <?php the_author_posts_link(); ?>
 			<?php if( has_category() ) : ?>
-				| <i class="fa fa-folder"></i> <?php $elements->categories(); ?>
+				| <i class="fa fa-folder-open"></i> <?php $aus_elements->categories(); ?>
 			<?php endif; ?>
-			 | <i class="fa fa-eye"></i> <?php $elements->views(); ?>
+			 | <i class="fa fa-eye"></i> <?php $aus_elements->views(); ?>
 		</div>
 	</header>
 	<div class="entry-content">
 		<?php the_content(); ?>
 	</div>
 	<footer class="entry-footer">
-		<?php $elements->tags( array( 'class'=>'red-tags' ), false ); ?>
+		<?php $aus_elements->tags( array( 'class'=>'red-tags' ), false ); ?>
 		<?php 
 		wp_link_pages( array( 
 			'before'=>'<ul class="pagination"><li><span>' . __( 'Pages:', 'aus-basic' )  . '</span></li>', 

@@ -14,15 +14,15 @@
 	<?php wp_head(); ?>
 </head>
 <body <?php body_class(); ?>>
-<?php global $elements; ?>
+<?php global $aus_elements; ?>
 <?php do_action( 'aus_before_page' ); ?>
-<?php $elements->navbar( 'top-menu', array( 'navbar_class' => 'navbar-inverse' ) ); ?>
+<?php $aus_elements->navbar( 'top-menu', array( 'navbar_class' => 'navbar-inverse' ) ); ?>
 <div class="header">
 	<div class="container">
 		<div class="row">
 			<div class="col-md-5">
-				<h1><?php $elements->logo(); ?></h1>
-				<small><?php $elements->site_description(); ?></small>
+				<h1><?php $aus_elements->logo(); ?></h1>
+				<small><?php $aus_elements->site_description(); ?></small>
 			</div>
 			<div class="col-md-7">
 				<?php do_action( 'aus_in_header' ); ?>
@@ -30,7 +30,7 @@
 		</div>
 	</div>
 </div>
-<?php $elements->navbar( 'primary' ); ?>
+<?php $aus_elements->navbar( 'primary' ); ?>
 <?php do_action( 'aus_after_header' ); ?>
 <div class="container">
 	<div class="row">

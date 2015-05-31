@@ -4,3 +4,14 @@ Elements - todo
 2. Thumbnailda sizeni olib tashlash kerak
 3. Elements categoryda cat id bn ham ko'rsatadigan qilish kerak
 4. Galleryni sozlash kerak
+
+
+Admin Options
+
+1. Input typelar kiritish:
+	a. Fonts type
+	b. Color picker - bo'ldi
+	c. Imaged radio buttons - bo'ldi
+
+Post/Page Settings
+1. Layout settings

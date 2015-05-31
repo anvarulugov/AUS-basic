@@ -1,10 +1,11 @@
-<?php global $elements; ?>
+<?php global $aus_elements; ?>
 	</div><!--row-->
 </div><!--container-->
 <?php do_action( 'aus_before_footer' ); ?>
 <div class="footer">
+	<hr />
 	<div class="container">
-		<div class="text-center">&copy; <?php echo date('Y'); ?> <?php $elements->site_name(); ?></div>
+		<div class="text-center">&copy; <?php echo date('Y'); ?> <?php $aus_elements->site_name(); ?></div>
 	</div>
 </div>
 <?php do_action( 'aus_after_footer' ); ?>
