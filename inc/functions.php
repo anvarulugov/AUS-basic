@@ -1,5 +1,12 @@
 <?php 
 
+function container_class( $class = '' ) {
+	if ( ! empty( $class ) )
+		$class = ' '.$class;
+
+	echo 'class="' . aus_settings( 'container_width' ) . $class . '"';
+}
+
 function content_class( $class = '' ) {
 	if ( ! empty( $class ) )
 		$class = ' '.$class;
@@ -76,7 +83,7 @@ function aus_register_required_plugins() {
 			'force_deactivation' => false,
 		),
  
-	 );
+	);
 
 	$config = array(
 		'default_path' => get_stylesheet_directory() . '/plugins/', // Default absolute path to pre-packaged plugins.

@@ -18,7 +18,7 @@
 <?php do_action( 'aus_before_page' ); ?>
 <?php $aus_elements->navbar( 'top-menu', array( 'navbar_class' => 'navbar-inverse' ) ); ?>
 <div class="header">
-	<div class="container">
+	<div <?php container_class(); ?>>
 		<div class="row">
 			<div class="col-md-5">
 				<h1><?php $aus_elements->logo(); ?></h1>
@@ -32,5 +32,5 @@
 </div>
 <?php $aus_elements->navbar( 'primary' ); ?>
 <?php do_action( 'aus_after_header' ); ?>
-<div class="container">
+<div <?php container_class(); ?>>
 	<div class="row">

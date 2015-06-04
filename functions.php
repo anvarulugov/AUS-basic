@@ -5,9 +5,6 @@ require_once(TEMPLATEPATH.'/inc/class-tgm.php');
 require_once(TEMPLATEPATH.'/inc/class-options.php');
 require_once(TEMPLATEPATH.'/inc/class-elements.php');
 
-$theme_name = 'AUS Basic';
-$theme_slug = 'aus-basic';
-
 /* Activate Theme Options Class */
 new AUS_theme_options( $aus_config );
 
@@ -96,6 +93,50 @@ function aus_widgets_init() {
 		'before_title' => '',
 		'after_title'	=> ''
 	) );
+
+	register_sidebar( array(
+		'name'			=> __( 'Home Primary', 'aus-basic' ),
+		'id'				=> 'home_primary',
+		'description'	=> __( 'Top of the home page', 'aus-basic' ),
+		'class'			=> '',
+		'before_widget'=> '',
+		'after_widget' => '',
+		'before_title' => '',
+		'after_title'	=> ''
+	) );
+
+	register_sidebar( array(
+		'name'			=> __( 'Home Content left', 'aus-basic' ),
+		'id'				=> 'home_half1',
+		'description'	=> __( 'Half left content width', 'aus-basic' ),
+		'class'			=> '',
+		'before_widget'=> '',
+		'after_widget' => '',
+		'before_title' => '',
+		'after_title'	=> ''
+	) );
+
+	register_sidebar( array(
+		'name'			=> __( 'Home Content right', 'aus-basic' ),
+		'id'				=> 'home_half2',
+		'description'	=> __( 'Half right content width', 'aus-basic' ),
+		'class'			=> '',
+		'before_widget'=> '',
+		'after_widget' => '',
+		'before_title' => '',
+		'after_title'	=> ''
+	) );
+
+	register_sidebar( array(
+		'name'			=> __( 'Home Bottom', 'aus-basic' ),
+		'id'				=> 'home_bottom_full',
+		'description'	=> __( 'Full content width', 'aus-basic' ),
+		'class'			=> '',
+		'before_widget'=> '',
+		'after_widget' => '',
+		'before_title' => '',
+		'after_title'	=> ''
+	) );
 }
 add_action( 'widgets_init', 'aus_widgets_init');
 
@@ -135,10 +176,11 @@ add_action( 'wp_enqueue_scripts', 'aus_scripts' );
 
 function aus_settings($option) {
 
-	global $aus_options;
-	$options = get_option('aus_options',$aus_options);
-	if(isset($options[$option]))
-		return $options[$option];
+	global $aus_options, $aus_config;
+	$options = get_option( $aus_config['theme_slug'] . '_theme_options', $aus_options );
+	
+	if( isset( $options[ $option ] ) )
+		return $options[ $option ];
 	else
 		return false;
 

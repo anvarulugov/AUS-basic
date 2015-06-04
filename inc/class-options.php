@@ -21,6 +21,7 @@ class AUS_theme_options {
 	private $menutype;
 	private $options;
 	private $tabs;
+	private $metaboxes;
 
 	function __construct( $config ) {
 
@@ -28,12 +29,14 @@ class AUS_theme_options {
 		$this->theme_slug = $config['theme_slug'];
 		$this->menutype = $config['menutype'];
 		$this->tabs = $config['tabs'];
+		$this->metaboxes = $config['metaboxes'];
 
 		$this->init();
 		add_action( 'admin_menu', array( $this, 'create_menu_page' ) );
 		add_action( 'admin_init', array( $this, 'initialize_theme_options' ) );
 		add_action( 'admin_enqueue_scripts', array( $this, 'scripts' ) );
-	
+		add_action( 'add_meta_boxes', array( $this, 'reg_metabox' ) );
+		add_action( 'save_post', array( $this, 'save_metabox' ) );
 	}
 
 	function init() {
@@ -99,7 +102,8 @@ class AUS_theme_options {
 	}
 
 	public function scripts() {
-		if ( isset( $_GET['page'] ) && $_GET['page'] == $this->theme_slug . '_theme_options' ) {
+		//isset( $_GET['page'] ) && $_GET['page'] == $this->theme_slug . '_theme_options'
+		if ( is_admin() ) {
 			wp_enqueue_media();
 			wp_enqueue_style( 'wp-color-picker' );
 			wp_enqueue_style( 'aus-admin', get_template_directory_uri() . '/media/css/admin.css' );
@@ -114,24 +118,7 @@ class AUS_theme_options {
 
 	public function theme_options_display() {
 		?>
-		<script type="text/javascript">
-			jQuery(function() {
-				jQuery('body').on('click','.nav-tab-wrapper a',function(e) {
-					e.preventDefault();
-					var tab = jQuery(this).attr('href')
-					jQuery('.nav-tab-wrapper a').removeClass('nav-tab-active');
-					jQuery(this).addClass('nav-tab-active');
-					// jQuery('.tab-content').fadeOut();
-					jQuery('.tab-content').removeClass('active');
-					// jQuery(tab).fadeIn();
-					jQuery(tab).addClass('active');
-				});
-			});
-		</script>
 		<div class="wrap">
-			<pre>
-				<?php print_r($this->options); ?>
-			</pre>
 			<h2><?php echo sprintf(__('%s Theme', 'aus-basic'), $this->theme_name ); ?></h2>
 			<h2 class="aus-tabs nav-tab-wrapper">
 				<?php $i = 0; foreach ( $this->tabs as $tab ) : $i++; ?>
@@ -229,7 +216,97 @@ class AUS_theme_options {
 
 	}
 
-	public function input( $args ) {
+	/**
+	 * Adds the meta box container.
+	 */
+	public function reg_metabox() {
+		global $post;
+		if ( isset( $this->metaboxes[$post->post_type] ) && ! empty( $this->metaboxes[$post->post_type] ) ) {
+			foreach ($this->metaboxes as $type => $metabox) {
+				add_meta_box( $metabox['id'], $metabox['title'], array( $this, 'render_metaboxes' ), $type, $metabox['context'], $metabox['priority']);
+			}
+		}
+	}
+
+	/**
+	 * Render Meta Box content.
+	 *
+	 */
+	public function render_metaboxes( $post ) {
+
+		wp_nonce_field( 'aus_metabox_nonce', 'aus_metabox' );
+
+		echo '<table class="form-table">';
+		echo '<tbody>';
+		if ( isset( $this->metaboxes[$post->post_type]['fields'] ) && ! empty( $this->metaboxes[$post->post_type]['fields'] ) ) {
+			foreach ($this->metaboxes[$post->post_type]['fields'] as $field) {
+				echo '<tr>';
+				echo '<th scope="row">';
+				echo '<label for="' . $field['id'] . '">' . $field['title'] . '</label>';
+				echo '</th>';
+				echo '<td>';
+				$this->input( $field, 'metabox', $post->ID );
+				echo '</td>';
+				echo '</tr>';
+			}
+		}
+		echo '</tboxy>';
+		echo '</table>';
+	}
+
+	/**
+	 * Save the meta when the post is saved.
+	 *
+	 * @param int $post_id The ID of the post being saved.
+	 */
+	public function save_metabox( $post_id ) {
+		global $post;
+		/*
+		 * We need to verify this came from the our screen and with proper authorization,
+		 * because save_post can be triggered at other times.
+		 */
+
+		// Check if our nonce is set.
+		if ( ! isset( $_POST['aus_metabox'] ) )
+			return $post_id;
+
+		$nonce = $_POST['aus_metabox'];
+
+		// Verify that the nonce is valid.
+		if ( ! wp_verify_nonce( $nonce, 'aus_metabox_nonce' ) )
+			return $post_id;
+
+		// If this is an autosave, our form has not been submitted,
+				//     so we don't want to do anything.
+		if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) 
+			return $post_id;
+
+		// Check the user's permissions.
+		if ( 'page' == $_POST['post_type'] ) {
+
+			if ( ! current_user_can( 'edit_page', $post_id ) )
+				return $post_id;
+	
+		} else {
+
+			if ( ! current_user_can( 'edit_post', $post_id ) )
+				return $post_id;
+		}
+
+		/* OK, its safe for us to save the data now. */
+		foreach ( $this->metaboxes[$post->post_type]['fields'] as $field ) {
+			$old_data = get_post_meta( $post_id, $field['id'], true );
+			$new_data = sanitize_text_field( $_POST[ $field['id'] ] );
+
+			if ( $new_data && $new_data != $old_data ) {
+				update_post_meta( $post_id, $field['id'], $new_data );
+			} elseif ( '' == $new_data && $old_data ) {
+				delete_post_meta( $post_id, $field['id'], $old_data );
+			}
+		}
+	}
+
+	public function input( $args, $name_type = 'option', $post_id = false ) {
 
 		$defaults = array(
 			'id' => '',
@@ -245,7 +322,17 @@ class AUS_theme_options {
 		);
 		extract( $defaults, EXTR_OVERWRITE );
 		extract( $args, EXTR_OVERWRITE );
-		$editor['textarea_name'] = $this->theme_slug . '_theme_options' . '[' . $id . ']';
+
+		if ( $name_type == 'option' ) {
+			$file_name = $this->theme_slug . '_theme_options' . '[' . $id . ']';
+			$value = $this->_esc_attr( $id, $type );
+		} elseif ( $name_type == 'metabox' && $post_id ) {
+			$file_name = $id;
+			$value = get_post_meta( $post_id, $id, true );
+		}
+		
+
+		$editor['textarea_name'] = $file_name;
 
 		$attributes = '';
 		if( isset( $atts ) and ! empty( $atts ) ) {
@@ -254,7 +341,7 @@ class AUS_theme_options {
 			}
 		}
 
-		$value = $this->_esc_attr( $id, $type );
+		
 
 		switch ( $type ) {
 
@@ -262,7 +349,7 @@ class AUS_theme_options {
 				$input = '<fieldset>';
 				foreach ($options as $key => $option) {
 					$input .= '<label title="' . $option . '">';
-					$input .= '<input type="radio" name="' . $this->theme_slug . '_theme_options'. '[' .$id . ']" value="' . $key . '" ' . ( $value == $key ? 'checked="checked"' : '' ) . ' />';
+					$input .= '<input type="radio" name="' . $file_name . '" value="' . $key . '" ' . ( $value == $key ? 'checked="checked"' : '' ) . ' />';
 					$input .= '<span>' . $option . '</span>';
 					$input .= '</label><br />';
 				}
@@ -274,7 +361,7 @@ class AUS_theme_options {
 				foreach ($options as $key => $option) {
 					$input .= "<li>";
 					$input .= '<label title="' . $option . '">';
-					$input .= '<input style="display:none" type="radio" name="' . $this->theme_slug . '_theme_options'. '[' .$id . ']" value="' . $key . '" ' . ( $value == $key ? 'checked="checked"' : '' ) . ' />';
+					$input .= '<input style="display:none" type="radio" name="' . $file_name . '" value="' . $key . '" ' . ( $value == $key ? 'checked="checked"' : '' ) . ' />';
 					$input .= '<img' . ( $value == $key ? ' class="checked"' : '' ) . '  src="' . $option . '"';
 					//$input .= '<span>' . $option . '</span>';
 					$input .= '</label>';
@@ -290,7 +377,7 @@ class AUS_theme_options {
 				ob_end_clean();
 						break;
 			case 'select':
-				$input  = '<select name="' . $this->theme_slug . '_theme_options'. '[' .$id . ']" id="' .$id . '" ' . $attributes . '>';
+				$input  = '<select name="' . $file_name . '" id="' .$id . '" ' . $attributes . '>';
 				$input .= '<option value="0">&ndash; ' . __( 'Select', 'aus-basic' ) . ' &ndash;</option>';
 				foreach ( $options as $key => $option ) {
 					$input .= '<option ' . ( $value == $key ? 'selected="selected"' : '' ) . ' value="'. $key .'">' . $option . '</option>';
@@ -300,7 +387,7 @@ class AUS_theme_options {
 
 			case 'categories':
 			case 'cats':
-				$input = '<select name="' . $this->theme_slug . '_theme_options'. '[' .$id . ']" id="' .$id . '" ' . $attributes . '>';
+				$input = '<select name="' . $file_name . '" id="' .$id . '" ' . $attributes . '>';
 				$input .= '<option value="0">&ndash; ' . __( 'Select', 'aus-basic' ) . ' &ndash;</option>';
 				foreach ( get_categories( array( 'hide_empty' => false ) ) as $cat ) {
 					$input .= '<option ' . ( $value == $cat->cat_ID ? 'selected="selected"' : '' ) . ' value="'. $cat->cat_ID .'">' . $cat->cat_name . '</option>';
@@ -309,7 +396,7 @@ class AUS_theme_options {
 				break;
 
 			case 'thumbnails':
-				$input = '<select name="' . $this->theme_slug . '_theme_options'. '[' .$id . ']" id="' .$id . '" ' . $attributes . '>';
+				$input = '<select name="' . $file_name . '" id="' .$id . '" ' . $attributes . '>';
 				$input .= '<option value="0">&ndash; ' . __( 'Select', 'aus-basic' ) . ' &ndash;</option>';
 				foreach ( $this->get_image_sizes() as $thumbnail => $size ) {
 					$input .= '<option ' . ( $value == $thumbnail ? 'selected="selected"' : '' ) . ' value="'. $thumbnail . '">' . $thumbnail . ' - ' . $size['width'] . 'x' . $size['height'] . 'px</option>';
@@ -318,14 +405,14 @@ class AUS_theme_options {
 				break;
 
 			case 'image':
-				$input = '<input id="' .$id . '" type="text" size="36" name="' . $this->theme_slug . '_theme_options'. '[' .$id . ']" placeholder="http://..." value="' . $value . '" />';
+				$input = '<input id="' .$id . '" type="text" size="36" name="' . $file_name . '" placeholder="http://..." value="' . $value . '" />';
 				$input .= '<input class="button image-upload" data-field="#' . $id . '" type="button" value="' . __( 'Upload Image', 'aus-basic' ) . '" />';
 				break;
 
 			case 'checkbox':
 				$input = '<fieldset>';
 				$input .= '<label title="' . $id . '">';
-				$input .= '<input name="' . $this->theme_slug . '_theme_options'. '[' .$id . ']" id="' .$id . '" type="' .$type . '" value="1"' . $attributes  . ( $value ? 'checked="checked"' : '' ) . ' />';
+				$input .= '<input name="' . $file_name . '" id="' .$id . '" type="' .$type . '" value="1"' . $attributes  . ( $value ? 'checked="checked"' : '' ) . ' />';
 				$input .= $title;
 				$input .= '</label>';
 				$input .= '</fieldset>';
@@ -334,7 +421,7 @@ class AUS_theme_options {
 			default:
 			case 'email':
 			case 'text':
-				$input = '<input name="' . $this->theme_slug . '_theme_options'. '[' .$id . ']" id="' .$id . '" type="' .$type . '" value="' . $value . '"' . $attributes . ' />';
+				$input = '<input name="' . $file_name . '" id="' .$id . '" type="' .$type . '" value="' . $value . '"' . $attributes . ' />';
 				break;
 
 		}

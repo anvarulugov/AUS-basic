@@ -139,7 +139,7 @@ class AUS_theme_elements {
 	 */
 	public function navbar( $nav_location = 'primary', $args = array() ) {
 
-		$container_class = 'container';
+		$container_class = aus_settings( 'container_width' );
 		$navbar_class = 'navbar-default';
 		$html = '';
 		extract( $args, EXTR_OVERWRITE );
@@ -149,7 +149,7 @@ class AUS_theme_elements {
 			$html .= '<div class="' . $container_class . '">';
 			$html .= '<!-- Brand and toggle get grouped for better mobile display -->';
 			$html .= '<div class="navbar-header">';
-			if ( $nav_location == 'primary' && $this->settings( 'show_home_menu' ) ) {
+			if ( $nav_location == 'primary' && $this->settings( 'show_home_menu' ) == 'on' ) {
 				if ( $this->settings( 'home_menu_text' ) ) {
 					$html .= '<a class="navbar-brand" href="' . home_url() . '">' . $this->settings( 'home_menu_text' ) . '</a>';
 				} else {

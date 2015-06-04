@@ -5,7 +5,7 @@ $aus_options = array(
 	'thumbnail_size' => 'thumbnail',
 	'thumbnail_img' => '',//get_template_directory_uri() . '/media/img/thumbnail.png',
 	'logo_img' => '',//get_template_directory_uri() . '/media/img/logo.png',
-	'show_home_menu' => true,
+	'show_home_menu' => 'on',
 	'home_menu_text' => '',
 );
 
@@ -27,14 +27,23 @@ $aus_tabs = array(
 				'description'	=> __( 'Logo text description', 'aus-basic' ),
 			),
 			array(
-				'id'				=> 'layout',
+				'id'				=> 'container_width',
 				'title'			=> __( 'Layout', 'aus-basic' ),
 				'type'			=> 'radioimage',
 				'options'		=> array(
-					'box' 		=> 'http://localhost/wpdemo/wp-content/themes/jarida_2.0.0/panel/images/boxed.png',
-					'full'		=> 'http://localhost/wpdemo/wp-content/themes/jarida_2.0.0/panel/images/full.png',
+					'container' 		=> 'http://localhost/wpdemo/wp-content/themes/jarida_2.0.0/panel/images/boxed.png',
+					'container-fluid'		=> 'http://localhost/wpdemo/wp-content/themes/jarida_2.0.0/panel/images/full.png',
 				),
 				'description'	=> __( 'Logo text description', 'aus-basic' ),
+			),
+			array(
+				'id'			=> 'show_home_menu',
+				'title'			=> __( 'Home menu', 'aus-basic' ),
+				'type'			=> 'select',
+				'options'		=> array(
+					'on'		=> __( 'Show', 'aus-basic' ),
+					'off'		=> __( 'Hide', 'aus-basic' ),
+				),
 			),
 		),
 	),
@@ -61,9 +70,46 @@ $aus_tabs = array(
 	),
 );
 
+$aus_metaboxes = array(
+	'post' => array(
+		'id' 		=> 'aus_post_settings',
+		'title' 	=> __( 'Post Settings', 'aus-basic' ),
+		'context' 	=> 'normal',
+		'priority' 	=> 'high',
+		'fields' 	=> array(
+			array(
+				'id'			=> 'content_width',
+				'title'			=> __( 'Layout', 'aus-basic' ),
+				'type'			=> 'radioimage',
+				'description'	=> __( 'Logo text description', 'aus-basic' ),
+				'options'		=> array(
+					'container' 		=> 'http://localhost/wpdemo/wp-content/themes/jarida_2.0.0/panel/images/boxed.png',
+					'container-fluid'	=> 'http://localhost/wpdemo/wp-content/themes/jarida_2.0.0/panel/images/full.png',
+				),
+			),
+			array(
+				'id'				=> 'fonts',
+				'title'			=> __( 'Fonts', 'aus-basic' ),
+				'type'			=> 'select',
+				'options'		=> array( 'one' => 'One', 'two' => 'Two' ),
+				'atts'			=> array( 'class' => 'test-class' ),
+				'description'	=> __( 'Select fonts', 'aus-basic' ),
+			),
+			array(
+				'id'				=> 'font_color',
+				'title'			=> __( 'Font color', 'aus-basic' ),
+				'type'			=> 'text',
+				'atts'			=> array( 'class' => 'color-field' ),
+				'description'	=> __( 'Logo text description', 'aus-basic' ),
+			),
+		),
+	),
+);
+
 $aus_config = array(
 	'theme_name'	=> 'AUS Basic',
 	'theme_slug'	=> 'aus-basic',
 	'menutype'		=> '',
 	'tabs'			=> $aus_tabs,
+	'metaboxes'		=> $aus_metaboxes,
 );

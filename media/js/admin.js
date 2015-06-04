@@ -1,4 +1,18 @@
 jQuery(document).ready(function($){
+
+	$(function() {
+		$('body').on('click','.nav-tab-wrapper a',function(e) {
+			e.preventDefault();
+			var tab = $(this).attr('href')
+			$('.nav-tab-wrapper a').removeClass('nav-tab-active');
+			$(this).addClass('nav-tab-active');
+			// $('.tab-content').fadeOut();
+			$('.tab-content').removeClass('active');
+			// $(tab).fadeIn();
+			$(tab).addClass('active');
+		});
+	});
+
 	$('.image-upload').click(function(e) {
 		var image_field = $(this).data('field');
 		var custom_uploader;
