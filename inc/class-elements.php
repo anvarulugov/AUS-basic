@@ -28,7 +28,8 @@
  * - comment_form_textarea
  * - comment_button
  * - comment_template
- * Reserveds
+ * Utilites
+ * - limit
  */
 class AUS_theme_elements {
 
@@ -80,12 +81,24 @@ class AUS_theme_elements {
 	 * Displays site logo
 	 * @return html;
 	 */
-	public function logo() {
+	public function logo( $args = array() ) {
+
+		$image = '';
+		$before = '';
+		$after = '';
+		$link_class = '';
+		$img_class = '';
+		extract( $args, EXTR_OVERWRITE );
+
 		if ( $this->settings( 'logo_img' ) ) {
-			echo '<a href="' . home_url() . '"><img class="logo_img" src="' . $this->settings( 'logo_img' ) . '" /></a>';
+			$html = '<a class="logo_link ' . $link_class . '" href="' . home_url() . '"><img class="logo_img ' . $img_class . '" src="' . $this->settings( 'logo_img' ) . '" /></a>';
+		} elseif ( ! empty( $image ) ) {
+			$html = '<a class="logo_link ' . $link_class . '" href="' . home_url() . '"><img class="logo_img ' . $img_class . '" src="' . $image . '" /></a>';
 		} else {
-			echo '<a class="logo_text" href="' . home_url() . '">' . get_bloginfo( 'name' ) . '</a>';
+			$html = '<a class="logo_link logo_text' . $link_class . '" href="' . home_url() . '">' . get_bloginfo( 'name' ) . '</a>';
 		}
+
+		echo $before.$html.$after;
 	}
 
 	/**
@@ -340,7 +353,7 @@ class AUS_theme_elements {
 
 		$title = get_the_title();
 		if ( isset( $limit ) && is_numeric( $limit ) )
-			$title = mb_substr( $title, 0, $limit, 'UTF-8' ) . '...';
+			$title = $this->limit( $title, $limit, true );
 
 		echo $title;
 	}
@@ -354,7 +367,7 @@ class AUS_theme_elements {
 
 		global $post;
 		extract( $args, EXTR_OVERWRITE );
-		$date = get_the_date( get_option( 'date_format' ) );
+		$date = date_i18n( get_option( 'date_format' ), strtotime( get_the_date( 'Y-m-d' ) ) );
 		echo $date;
 	}
 
@@ -394,23 +407,27 @@ class AUS_theme_elements {
 
 		$post_categories = get_the_terms( $post_id, $taxonomy );
 		$cats = array();
-		
-		$html = '';
-		if ( ! empty( $post_categories ) & ! is_page() ) {
-			$last_cat = end( $post_categories );
-			foreach ( $post_categories as $c ) {
-				$cat = get_category( $c );
+
+		if ( ! empty( $post_categories ) && ! is_page() ) {
+			$i = 1;
+			$cats_count = count( $post_categories );
+			foreach ( $post_categories as $cat ) {
+
 				if ( $cat->term_id != $this->settings( 'featured_cat' ) ) {
-					if ( $link )
-						$html .= '<a class="' . $class . '" target="' . $target . '" title="' . $title . '" href="' . get_category_link( $cat->term_id ) . '">';
+					if ( $link ) {
+						$html = '<a class="' . $class . '" target="' . $target . '" title="' . $title . '" href="' . get_category_link( $cat->term_id ) . '">';
+					}
 					$html .= $cat->name;
-					if ( $link )
+					if ( $link ) {
 						$html .= '</a>';
+					}
 				}
-				if ( count( $post_categories ) > 1 and $cat->term_id != $last_cat and $cat->term_id != $this->settings( 'featured_cat' ) ) {
+				if ( $cats_count > 1 && $i < $cats_count ) {
 					$html .= ', ';
 				}
 				echo $before . $html . $after;
+				$i++;
+
 			}
 		} else {
 			return false;
@@ -499,23 +516,27 @@ class AUS_theme_elements {
 			$args .= $key . '="' . $value . '" ';
 		}
 
-		$first_img = '';
-		ob_start();
-		ob_end_clean();
+		$doc = new DOMDocument();
+		@$doc->loadHTML( $post->post_content );
+		$images = $doc->getElementsByTagName('img');
+		foreach ($images as $img) {
+			$first_img = $img->getAttribute('src');
+			break;
+		}
 
-		$output = preg_match_all( '/<img.+src=[\'"]( [^\'"]+ )[\'"].*>/i', $post->post_content, $matches );
-
-		if ( isset( $matches[1][0] ) ) {
-			$first_img = $matches[1][0];
-			$search = array( '.jpeg', '.jpg', '.png', '.gif', '.bmp' );
-			$replace = array( '-280x180.jpeg', '-280x180.jpg', '-280x180.png', '-280x180.gif', '-280x180.bmp' );
-			$first_img = str_replace( $search, $replace, $first_img );
+		if ( $first_img ) {
+			global $wpdb;
+			$attachment = $wpdb->get_col( $wpdb->prepare( "SELECT ID FROM $wpdb->posts WHERE guid='%s';", $first_img ) );
+			if ( isset( $attachment[0] ) ) {
+				$first_img = wp_get_attachment_image_src( $attachment[0], $size );
+				$first_img = $first_img[0];
+			}
 		}
 
 		if ( ! empty( $thumbnail ) ) {
-			echo '<a href="' . $post->guid . '">' . $thumbnail . '</a>';
+			echo '<a href="' . get_permalink( $post->ID, $post->name ) . '">' . $thumbnail . '</a>';
 		} elseif ( ! empty( $first_img ) ) {
-			echo '<a href="' . $post->guid . '"><img src="' . $first_img . '" ' . $args . '/></a>';
+			echo '<a href="' . get_permalink( $post->ID, $post->name ) . '"><img src="' . $first_img . '" ' . $args . '/></a>';
 		} elseif ( $this->settings( 'thumbnail_img' ) ) {
 
 			$default_thumbnail_sized = $this->get_thumbnail( $this->settings( 'thumbnail_img' ), $this->settings( 'thumbnail_size' ) );
@@ -525,7 +546,7 @@ class AUS_theme_elements {
 			} else {
 				$default_thumbnail = $this->settings( 'thumbnail_img' );
 			}
-			echo '<a href="' . $post->guid . '"><img src="' . $default_thumbnail . '" ' . $args . '/></a>';
+			echo '<a href="' . get_permalink( $post->ID, $post->name ) . '"><img src="' . $default_thumbnail . '" ' . $args . '/></a>';
 		
 		}
 	}
@@ -533,19 +554,19 @@ class AUS_theme_elements {
 	private function get_thumbnail( $image, $size ) {
 		global $wpdb;
 		$attachment = $wpdb->get_col($wpdb->prepare("SELECT ID FROM $wpdb->posts WHERE guid='%s';", $image )); 
-      $id = $attachment[0];
-      $thumbnail = wp_get_attachment_image_src( $id, $size );
-      if ( isset( $thumbnail[0] ) && ! empty( $thumbnail[0] ) )
-      	return $thumbnail[0];
-      else
-      	return false;
+	  $id = $attachment[0];
+	  $thumbnail = wp_get_attachment_image_src( $id, $size );
+	  if ( isset( $thumbnail[0] ) && ! empty( $thumbnail[0] ) )
+		return $thumbnail[0];
+	  else
+		return false;
 	}
 
 	/**
 	 * @param $limit
 	 * @param $post_id
 	 */
-	public function excerpt( $limit = 250, $post_id = '' ) {
+	public function excerpt( $limit = 250, $post_id = '', $bywords = false ) {
 		if ( empty( $post_id ) ) {
 			global $post;
 		} else {
@@ -556,9 +577,11 @@ class AUS_theme_elements {
 		$excerpt = preg_replace( " ( \[.*?\] )", '', $excerpt );
 		$excerpt = strip_shortcodes( $excerpt );
 		$excerpt = strip_tags( $excerpt );
-		$excerpt = mb_substr( $excerpt, 0, $limit, 'UTF-8' );
+		//$excerpt = mb_substr( $excerpt, 0, $limit, 'UTF-8' );
+		$excerpt = $this->limit( $excerpt, $limit, $bywords );
 		$excerpt = mb_substr( $excerpt, 0, strripos( $excerpt, " " ), 'UTF-8' );
-		$excerpt = trim( preg_replace( '/\s+/', ' ', $excerpt ) );
+		$excerpt = trim( $excerpt );
+		//$excerpt = trim( preg_replace( '/\s+/', ' ', $excerpt ) );
 		$excerpt = $excerpt . '';
 		echo $excerpt;
 	}
@@ -701,6 +724,24 @@ class AUS_theme_elements {
 			$html .= '</div>';
 			$html .= '</article>';
 		echo $html;
+	}
+
+	public function limit( $text, $limit = 300, $bywords = false ) {
+
+		$cyr_chars = 'АаБбВвГгДдЕеЁёЖжЗзИиЙйКкЛлМмНнОоПпРрСсТтУуФфХхЦцЧчШшЩщЪъЫыЬьЭэЮюЯя';
+
+		if ( $bywords ) {
+			if ( str_word_count( $text, 0, $cyr_chars ) >= $limit ) {
+				$words = str_word_count( $text, 2, $cyr_chars );
+				$pos = array_keys( $words );
+				$text = substr( $text, 0, $pos[ $limit ] );
+			}
+		} else {
+			$text = mb_substr( $text, 0, $limit, 'UTF-8' );
+		}
+
+		return $text;
+
 	}
 
 }

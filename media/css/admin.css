@@ -5,7 +5,7 @@
 .tab-content {
 	display: none;
 }
-.active {
+.tab-content.active {
 	display: block;
 }
 .nav-tab {

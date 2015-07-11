@@ -34,7 +34,7 @@ class AUS_theme_options {
 		$this->init();
 		add_action( 'admin_menu', array( $this, 'create_menu_page' ) );
 		add_action( 'admin_init', array( $this, 'initialize_theme_options' ) );
-		add_action( 'admin_enqueue_scripts', array( $this, 'scripts' ) );
+		//add_action( 'admin_enqueue_scripts', array( $this, 'scripts' ) );
 		add_action( 'add_meta_boxes', array( $this, 'reg_metabox' ) );
 		add_action( 'save_post', array( $this, 'save_metabox' ) );
 	}
@@ -49,7 +49,6 @@ class AUS_theme_options {
 	 */
 
 	public function create_menu_page() {
-
 		switch ( $this->menutype ) {
 			case 'toplevel':
 				/*
@@ -117,6 +116,8 @@ class AUS_theme_options {
 	 */
 
 	public function theme_options_display() {
+		//add_action( 'admin_enqueue_scripts', array( $this, 'scripts' ) );
+		$this->scripts();
 		?>
 		<div class="wrap">
 			<h2><?php echo sprintf(__('%s Theme', 'aus-basic'), $this->theme_name ); ?></h2>
@@ -221,7 +222,8 @@ class AUS_theme_options {
 	 */
 	public function reg_metabox() {
 		global $post;
-		if ( isset( $this->metaboxes[$post->post_type] ) && ! empty( $this->metaboxes[$post->post_type] ) ) {
+		if ( isset( $post ) && ! empty( $post ) && isset( $this->metaboxes[$post->post_type] ) && ! empty( $this->metaboxes[$post->post_type] ) ) {
+			add_action( 'admin_enqueue_scripts', array( $this, 'scripts' ) );
 			foreach ($this->metaboxes as $type => $metabox) {
 				add_meta_box( $metabox['id'], $metabox['title'], array( $this, 'render_metaboxes' ), $type, $metabox['context'], $metabox['priority']);
 			}
