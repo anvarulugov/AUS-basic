@@ -1,5 +1,32 @@
 <?php 
 
+function get_aus_uri() {
+	$url = get_template_directory_uri() . '/' . basename(__DIR__);
+	return $url;
+}
+
+function aus_settings( $option ) {
+
+	global $aus_options, $aus_config;
+	$options = get_option( $aus_config['theme_slug'] . '_theme_options', $aus_options );
+	
+	if( isset( $options[ $option ] ) ) {
+		return $options[ $option ];
+	}
+	return false;
+
+}
+
+function aus_item_settings( $option ) {
+	global $post;
+	if ( get_post_meta( $post->ID, $option, true ) ) {
+		return get_post_meta( $post->ID, $option, true );
+	} elseif ( aus_settings( $option ) ) {
+		return aus_settings( $option );
+	}
+	return false;
+}
+
 function container_class( $class = '' ) {
 	if ( ! empty( $class ) )
 		$class = ' '.$class;
@@ -8,11 +35,14 @@ function container_class( $class = '' ) {
 }
 
 function content_class( $class = '' ) {
+
+	$layout = aus_item_settings( 'item_layout_style' );
+
 	if ( ! empty( $class ) )
 		$class = ' '.$class;
-	if ( is_active_sidebar( 'left' ) && is_active_sidebar( 'right' ) ) {
+	if ( $layout == 'col3' ) {
 		$width = 'class="col-lg-6 col-md-6 col-sm-12' . $class . '"';
-	} elseif ( is_active_sidebar( 'left' ) || is_active_sidebar( 'right' ) ) {
+	} elseif ( $layout == 'col2l' || $layout == 'col2r' ) {
 		$width = 'class="col-lg-9 col-md-9 col-sm-12' . $class . '"';
 	} else {
 		$width = 'class="col-sm-12' . $class . '"';
@@ -136,4 +166,12 @@ add_filter( 'get_calendar' , 'aus_calendar' , 2 ) ;
 function aus_calendar( $markup ) {
 	$markup = str_replace( '<table id="wp-calendar"' , '<table id="wp-calendar" class="table table-stripped"' , $markup ) ;
 	return $markup;
+}
+
+function aus_isajax() {
+	if ( !empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest' ) {
+		return true;
+	} else {
+		return false;
+	}
 }

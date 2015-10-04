@@ -105,8 +105,9 @@ class AUS_theme_options {
 		if ( is_admin() ) {
 			wp_enqueue_media();
 			wp_enqueue_style( 'wp-color-picker' );
-			wp_enqueue_style( 'aus-admin', get_template_directory_uri() . '/media/css/admin.css' );
-			wp_register_script( 'aus-admin', get_template_directory_uri() . '/media/js/admin.js', array( 'jquery', 'wp-color-picker' ) );
+			wp_enqueue_style( 'fontawesome', get_template_directory_uri() . '/framework/media/css/font-awesome.min.css' );
+			wp_enqueue_style( 'aus-admin', get_template_directory_uri() . '/framework/media/css/admin.css' );
+			wp_register_script( 'aus-admin', get_template_directory_uri() . '/framework/media/js/admin.js', array( 'jquery', 'wp-color-picker' ) );
 			wp_enqueue_script( 'aus-admin' );
 		}
 	}
@@ -116,11 +117,53 @@ class AUS_theme_options {
 	 */
 
 	public function theme_options_display() {
+		$this->scripts();
+		?>
+		<div class="wrap">
+		<div class="aus-panel">
+			<div class="aus-panel-sidebar">
+				<div class="aus-panel-logo">
+					<img src="<?php echo get_aus_uri(); ?>/media/img/logo.png">
+				</div>
+				<ul class="aus-panel-nav">
+					<?php $i = 0; foreach ( $this->tabs as $tab ) : $i++; ?>
+						<?php 
+						if ( !isset(  $tab['icon'] ) || empty(  $tab['icon'] ) )
+							 $tab['icon'] = 'fa-cog';
+						?>
+						<li><a class="<?php echo ( $i == 1 ? 'active' : '' ); ?>" href="#<?php echo $tab['id']; ?>"><i class="fa <?php echo $tab['icon']; ?>"></i> <?php echo $tab['title']; ?></a></li>
+					<?php endforeach; ?>
+				</ul>
+			</div>
+			<div class="aus-panel-content">
+				<form method="post" action="options.php">
+				<ul class="aus-panel-section">
+					<?php submit_button(); ?>
+					<?php settings_fields( $this->theme_slug . '_theme_options_group' ); ?>
+					<?php $c = 0; foreach ( $this->tabs as $tab ) : $c++; ?>
+						<li id="<?php echo $tab['id']; ?>" class="<?php echo ( $c == 1 ? 'active' : '' ); ?>">
+							<?php do_settings_sections( $this->theme_slug . '_theme_options_' . $tab['id'] ); ?>
+						</li>
+					<?php endforeach; ?>
+				</ul>
+
+				</form>
+			</div>
+		</div>
+		</div>
+
+		<?php 
+	}
+
+	public function theme_options_display2() {
 		//add_action( 'admin_enqueue_scripts', array( $this, 'scripts' ) );
 		$this->scripts();
 		?>
 		<div class="wrap">
 			<h2><?php echo sprintf(__('%s Theme', 'aus-basic'), $this->theme_name ); ?></h2>
+			<pre>
+				<?php print_r($this->options); ?>
+			</pre>
 			<h2 class="aus-tabs nav-tab-wrapper">
 				<?php $i = 0; foreach ( $this->tabs as $tab ) : $i++; ?>
 					<a href="#<?php echo $tab['id']; ?>" class="nav-tab <?php echo ( $i == 1 ? 'nav-tab-active' : '' ); ?>"><?php echo $tab['title']; ?></a>
@@ -192,7 +235,13 @@ class AUS_theme_options {
 
 		foreach ($input as $key => $value) {
 			if ( isset( $input[ $key ] ) ) {
-				$output[ $key ] = strip_tags( stripslashes( $input[ $key ] ) );
+				if ( is_array( $input[ $key ] ) ) {
+					foreach ( $input[ $key ] as $sub_key => $sub_value ) {
+						$output[ $key ][ $sub_key ] = strip_tags( stripslashes( $sub_value ) );
+					}
+				} else {
+					$output[ $key ] = strip_tags( stripslashes( $input[ $key ] ) );
+				}
 			}
 		}
 
@@ -325,16 +374,22 @@ class AUS_theme_options {
 		extract( $defaults, EXTR_OVERWRITE );
 		extract( $args, EXTR_OVERWRITE );
 
+		if ( ( $type == 'select' || $type == 'cats' || $type == 'categories' ) && ! empty( $atts ) && array_key_exists( 'multiple', $atts ) ) {
+			$multiple = true;
+		} else {
+			$multiple = false;
+		}
+
 		if ( $name_type == 'option' ) {
-			$file_name = $this->theme_slug . '_theme_options' . '[' . $id . ']';
+			$field_name = $this->theme_slug . '_theme_options' . '[' . $id . ']';
 			$value = $this->_esc_attr( $id, $type );
 		} elseif ( $name_type == 'metabox' && $post_id ) {
-			$file_name = $id;
+			$field_name = $id;
 			$value = get_post_meta( $post_id, $id, true );
 		}
 		
 
-		$editor['textarea_name'] = $file_name;
+		$editor['textarea_name'] = $field_name;
 
 		$attributes = '';
 		if( isset( $atts ) and ! empty( $atts ) ) {
@@ -351,7 +406,7 @@ class AUS_theme_options {
 				$input = '<fieldset>';
 				foreach ($options as $key => $option) {
 					$input .= '<label title="' . $option . '">';
-					$input .= '<input type="radio" name="' . $file_name . '" value="' . $key . '" ' . ( $value == $key ? 'checked="checked"' : '' ) . ' />';
+					$input .= '<input type="radio" name="' . $field_name . '" value="' . $key . '" ' . ( $value == $key ? 'checked="checked"' : '' ) . ' />';
 					$input .= '<span>' . $option . '</span>';
 					$input .= '</label><br />';
 				}
@@ -363,8 +418,8 @@ class AUS_theme_options {
 				foreach ($options as $key => $option) {
 					$input .= "<li>";
 					$input .= '<label title="' . $option . '">';
-					$input .= '<input style="display:none" type="radio" name="' . $file_name . '" value="' . $key . '" ' . ( $value == $key ? 'checked="checked"' : '' ) . ' />';
-					$input .= '<img' . ( $value == $key ? ' class="checked"' : '' ) . '  src="' . $option . '"';
+					$input .= '<input style="display:none" type="radio" name="' . $field_name . '" value="' . $key . '" ' . ( $value == $key ? 'checked="checked"' : '' ) . ' />';
+					$input .= '<img' . ( $value == $key ? ' class="checked"' : '' ) . '  src="' . get_aus_uri() . '/media/img/' . $option . '"';
 					//$input .= '<span>' . $option . '</span>';
 					$input .= '</label>';
 					$input .= "</li>";
@@ -379,26 +434,36 @@ class AUS_theme_options {
 				ob_end_clean();
 						break;
 			case 'select':
-				$input  = '<select name="' . $file_name . '" id="' .$id . '" ' . $attributes . '>';
+				$input  = '<select name="' . $field_name . ( $multiple ? '[]' : '' ) . '" id="' .$id . '" ' . $attributes . '>';
 				$input .= '<option value="0">&ndash; ' . __( 'Select', 'aus-basic' ) . ' &ndash;</option>';
 				foreach ( $options as $key => $option ) {
-					$input .= '<option ' . ( $value == $key ? 'selected="selected"' : '' ) . ' value="'. $key .'">' . $option . '</option>';
+					if ( $multiple ) {
+						$selected = ( in_array( $key, $value ) ? 'selected="selected"' : '' );
+					} else {
+						$selected = ( $value == $key ? 'selected="selected"' : '' );
+					}
+					$input .= '<option ' . $selected . ' value="'. $key .'">' . $option . '</option>';
 				}
 				$input .= '</select>';
 				break;
 
 			case 'categories':
 			case 'cats':
-				$input = '<select name="' . $file_name . '" id="' .$id . '" ' . $attributes . '>';
+				$input = '<select name="' . $field_name . ( $multiple ? '[]' : '' ) . '" id="' .$id . '" ' . $attributes . '>';
 				$input .= '<option value="0">&ndash; ' . __( 'Select', 'aus-basic' ) . ' &ndash;</option>';
 				foreach ( get_categories( array( 'hide_empty' => false ) ) as $cat ) {
-					$input .= '<option ' . ( $value == $cat->cat_ID ? 'selected="selected"' : '' ) . ' value="'. $cat->cat_ID .'">' . $cat->cat_name . '</option>';
+					if ( $multiple ) {
+						$selected = ( in_array( $cat->cat_ID, $value ) ? 'selected="selected"' : '' );
+					} else {
+						$selected = ( $value == $cat->cat_ID ? 'selected="selected"' : '' );
+					}
+					$input .= '<option ' . $selected . ' value="'. $cat->cat_ID .'">' . $cat->cat_name . '</option>';
 				}
 				$input .= '</select>';
 				break;
 
 			case 'thumbnails':
-				$input = '<select name="' . $file_name . '" id="' .$id . '" ' . $attributes . '>';
+				$input = '<select name="' . $field_name . '" id="' .$id . '" ' . $attributes . '>';
 				$input .= '<option value="0">&ndash; ' . __( 'Select', 'aus-basic' ) . ' &ndash;</option>';
 				foreach ( $this->get_image_sizes() as $thumbnail => $size ) {
 					$input .= '<option ' . ( $value == $thumbnail ? 'selected="selected"' : '' ) . ' value="'. $thumbnail . '">' . $thumbnail . ' - ' . $size['width'] . 'x' . $size['height'] . 'px</option>';
@@ -407,14 +472,14 @@ class AUS_theme_options {
 				break;
 
 			case 'image':
-				$input = '<input id="' .$id . '" type="text" size="36" name="' . $file_name . '" placeholder="http://..." value="' . $value . '" />';
+				$input = '<input id="' .$id . '" type="text" size="36" name="' . $field_name . '" placeholder="http://..." value="' . $value . '" />';
 				$input .= '<input class="button image-upload" data-field="#' . $id . '" type="button" value="' . __( 'Upload Image', 'aus-basic' ) . '" />';
 				break;
 
 			case 'checkbox':
 				$input = '<fieldset>';
 				$input .= '<label title="' . $id . '">';
-				$input .= '<input name="' . $file_name . '" id="' .$id . '" type="' .$type . '" value="1"' . $attributes  . ( $value ? 'checked="checked"' : '' ) . ' />';
+				$input .= '<input name="' . $field_name . '" id="' .$id . '" type="' .$type . '" value="1"' . $attributes  . ( $value ? 'checked="checked"' : '' ) . ' />';
 				$input .= $title;
 				$input .= '</label>';
 				$input .= '</fieldset>';
@@ -423,7 +488,7 @@ class AUS_theme_options {
 			default:
 			case 'email':
 			case 'text':
-				$input = '<input name="' . $file_name . '" id="' .$id . '" type="' .$type . '" value="' . $value . '"' . $attributes . ' />';
+				$input = '<input name="' . $field_name . '" id="' .$id . '" type="' .$type . '" value="' . $value . '"' . $attributes . ' />';
 				break;
 
 		}

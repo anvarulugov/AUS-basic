@@ -1,12 +1,16 @@
 <?php 
+if ( aus_isajax() ) {
+	return;
+}
+
 if ( post_password_required() ) {
 	return;
 }
 
 global $aus_elements;
 ?>
-<div id="comments">
-<?php comment_form(); ?>
+<div id="comments" class="row">
+<?php comment_form( array( 'class_submit' => 'btn btn-primary' ) ); ?>
 <?php if ( have_comments() ) : ?>
 
 	<?php if ( get_comment_pages_count() > 1 && get_option( 'page_comments' ) ) : ?>

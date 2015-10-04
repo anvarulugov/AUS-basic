@@ -60,7 +60,7 @@ class AUS_theme_elements {
 
 		add_filter( 'comment_form_default_fields', array( $this, 'comment_form_fields' ) );
 		add_filter( 'comment_form_defaults', array( $this, 'comment_form_textarea' ) );
-		add_action( 'comment_form', array( $this, 'comment_button' ) );
+		//add_action( 'comment_form', array( $this, 'comment_button' ) );
 
 	}
 
@@ -136,7 +136,12 @@ class AUS_theme_elements {
 			$html = '<' . $container . ' class="' . $container_class . '">';
 			$html .= '<ul class="' . $menu_class . '">';
 			foreach ( $pages as $page ) {
-				$html .= '<li><a title="' . $page['attr_title'] . '" class="' . $page['classes'] . '" target="' . $page['target'] . '" href="' . $page['url'] . '">' . $page['title'] . '</a></li>';
+				if( ( ($page['object'] == 'page') && (is_page($page['object_id'])) ) || ( ($page['object'] == 'category') && (is_category($page['object_id'])) ) ) {
+					$active = 'class="active"';
+				} else {
+					$active = '';
+				}
+				$html .= '<li ' . $active . '><a title="' . $page['attr_title'] . '" class="' . $page['classes'] . '" target="' . $page['target'] . '" href="' . $page['url'] . '">' . $page['title'] . '</a></li>';
 			}
 			$html .= '</ul>';
 			$html .= '</' . $container . '>';
@@ -154,6 +159,9 @@ class AUS_theme_elements {
 
 		$container_class = aus_settings( 'container_width' );
 		$navbar_class = 'navbar-default';
+		$nav_class = '';
+		$brand_class = '';
+		$item_class = '';
 		$html = '';
 		extract( $args, EXTR_OVERWRITE );
 		$pages = $this->get_pages( $nav_location );
@@ -164,12 +172,15 @@ class AUS_theme_elements {
 			$html .= '<div class="navbar-header">';
 			if ( $nav_location == 'primary' && $this->settings( 'show_home_menu' ) == 'on' ) {
 				if ( $this->settings( 'home_menu_text' ) ) {
-					$html .= '<a class="navbar-brand" href="' . home_url() . '">' . $this->settings( 'home_menu_text' ) . '</a>';
+					$html .= '<a data-target="#page-top" class="navbar-brand ' . $brand_class . '" href="' . home_url() . '">' . $this->settings( 'home_menu_text' ) . '</a>';
 				} else {
-					$html .= '<a class="navbar-brand" href="' . home_url() . '"><i class="fa fa-home"></i></a>';
+					$html .= '<a data-target="#page-top" class="navbar-brand ' . $brand_class . '" href="' . home_url() . '"><i class="fa fa-home"></i></a>';
 				}
 			}
-			$html .= '<li class="visible-xs navbar-brand">Navigation</li>';
+			if ( ( $nav_location == 'primary' && $this->settings( 'show_home_menu' ) == 'off' ) ||  $nav_location != 'primary' ) {
+				$html .= '<li class="visible-xs navbar-brand">' . __( 'Navigation', 'aus-basic' ) . '</li>';
+			}
+			
 			$html .= '<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse-' . $nav_location . '">';
 			$html .= '<span class="sr-only">Toggle navigation</span>';
 			$html .= '<span class="icon-bar"></span>';
@@ -179,15 +190,24 @@ class AUS_theme_elements {
 			$html .= '</div>';
 			$html .= '<!-- Collect the nav links, forms, and other content for toggling -->';
 			$html .= '<div class="collapse navbar-collapse" id="navbar-collapse-' . $nav_location . '">';
-			$html .= '<ul class="nav navbar-nav">';
+			$html .= '<ul class="nav navbar-nav ' . $nav_class . '">';
 			foreach ( $pages as $page ) {
+				if( ( ($page['object'] == 'page') && (is_page($page['object_id'])) ) || ( ($page['object'] == 'category') && (is_category($page['object_id'])) ) ) {
+					$active = 'class="active"';
+				} else {
+					$active = '';
+				}
+				$page['classes'] .= ' '.$page['object'];
+				$page['classes'] .= ' '.$item_class;
 				if ( empty( $page['childs'] ) ):
-					$html .= '<li><a title="' . $page['attr_title'] . '" class="' . $page['classes'] . '" target="' . $page['target'] . '" href="' . $page['url'] . '">' . $page['title'] . '</a></li>';
+					$html .= '<li ' . $active . '><a data-target="#page-' . $page['id'] . '" title="' . $page['attr_title'] . '" class="' . $page['classes'] . '" target="' . $page['target'] . '" href="' . $page['url'] . '">' . $page['title'] . '</a></li>';
 				elseif ( !empty( $page['childs'] ) ):
-					$html .= '<li class="dropdown"><a href="' . $page['url'] . '" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">' . $page['title'] . '&nbsp;<span class="caret"></span></a>';
+					$html .= '<li class="dropdown"><a href="' . $page['url'] . '" class="' . $page['classes'] . ' dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">' . $page['title'] . '&nbsp;<span class="caret"></span></a>';
 					$html .= '<ul class="dropdown-menu" role="menu">';
 					foreach ( $page['childs'] as $child ) {
-						$html .= '<li><a href="' . $child['url'] . '">' . $child['title'] . '</a></li>';
+						$child['classes'] .= ' '.$child['object'];
+						$child['classes'] .= ' '.$item_class;
+						$html .= '<li><a data-target="#page-' . $page['id'] . '" class="' . $child['classes'] . '" href="' . $child['url'] . '">' . $child['title'] . '</a></li>';
 					}
 					$html .= '</ul></li>';
 				endif;
@@ -205,7 +225,7 @@ class AUS_theme_elements {
 	 * @param $nav_location
 	 * @return mixed
 	 */
-	private function get_pages( $nav_location = 'primary' ) {
+	public function get_pages( $nav_location = 'primary' ) {
 		$theme_locations = get_nav_menu_locations();
 		if ( isset( $theme_locations[ $nav_location ] ) ) {
 			$menu_obj = get_term( $theme_locations[ $nav_location ], 'nav_menu' );
@@ -213,7 +233,7 @@ class AUS_theme_elements {
 				$items = wp_get_nav_menu_items( $menu_obj->name );
 			} else {
 				$items = false;
-			}			
+			}
 		} else {
 			$items = false;
 		}
@@ -225,6 +245,8 @@ class AUS_theme_elements {
 					$pages[] = array( 
 						'id' => $item->ID,
 						'title' => $item->title,
+						'object' => $item->object,
+						'object_id' => $item->object_id,
 						'url' => $item->url,
 						'childs' => $this->get_page_childs( $item->ID, $items ),
 						'classes' => implode( ' ', $item->classes ),
@@ -252,6 +274,8 @@ class AUS_theme_elements {
 				$children[] = array( 
 					'id' => $child->ID, 
 					'title' => $child->title, 
+					'object' => $child->object,
+					'object_id' => $child->object_id,
 					'url' => $child->url, 
 					'classes' => implode( ' ', $child->classes ),
 					'target' => $child->target,
@@ -519,6 +543,7 @@ class AUS_theme_elements {
 		$doc = new DOMDocument();
 		@$doc->loadHTML( $post->post_content );
 		$images = $doc->getElementsByTagName('img');
+		$first_img = false;
 		foreach ($images as $img) {
 			$first_img = $img->getAttribute('src');
 			break;
@@ -529,6 +554,8 @@ class AUS_theme_elements {
 			$attachment = $wpdb->get_col( $wpdb->prepare( "SELECT ID FROM $wpdb->posts WHERE guid='%s';", $first_img ) );
 			if ( isset( $attachment[0] ) ) {
 				$first_img = wp_get_attachment_image_src( $attachment[0], $size );
+			}
+			if ( isset( $first_img[0] ) ) {
 				$first_img = $first_img[0];
 			}
 		}
@@ -613,9 +640,10 @@ class AUS_theme_elements {
 		$text = __( 'Edith this', 'aus-basic' );
 		extract( $args, EXTR_OVERWRITE );
 
-		$html = '<a class="' . $class . '" href="' . get_edit_post_link() . '"><i class="fa fa-pencil"></i> ' . $text . '</a>';
-
-		echo $html;
+		if ( isset( $post->ID ) && current_user_can( 'edit_posts' ) ) {
+			$html = '<a class="' . $class . '" href="' . get_edit_post_link() . '"><i class="fa fa-pencil"></i> ' . $text . '</a>';
+			echo $html;
+		}
 
 	}
 
@@ -642,12 +670,12 @@ class AUS_theme_elements {
 		$html5	= current_theme_supports( 'html5', 'comment-form' ) ? 1 : 0;
 		
 		$fields   =  array( 
-			'author' => '<div class="form-group comment-form-author">' . '<label for="author">' . __( 'Name', 'aus-basic' ) . ( $req ? ' <span class="required">*</span>' : '' ) . '</label> ' .
-						'<input class="form-control" id="author" name="author" type="text" value="' . esc_attr( $commenter['comment_author'] ) . '" size="30"' . $aria_req . ' /></div>',
-			'email'  => '<div class="form-group comment-form-email"><label for="email">' . __( 'Email', 'aus-basic' ) . ( $req ? ' <span class="required">*</span>' : '' ) . '</label> ' .
-						'<input class="form-control" id="email" name="email" ' . ( $html5 ? 'type="email"' : 'type="text"' ) . ' value="' . esc_attr(  $commenter['comment_author_email'] ) . '" size="30"' . $aria_req . ' /></div>',
-			'url'	=> '<div class="form-group comment-form-url"><label for="url">' . __( 'Website', 'aus-basic' ) . '</label> ' .
-						'<input class="form-control" id="url" name="url" ' . ( $html5 ? 'type="url"' : 'type="text"' ) . ' value="' . esc_attr( $commenter['comment_author_url'] ) . '" size="30" /></div>',
+			'author' => '<div class="form-group col-md-6 col-sm-6 col-xs-12 comment-form-author">' . '<label for="author">' . __( 'Name', 'aus-basic' ) . ( $req ? ' <span class="required">*</span>' : '' ) . '</label> ' .
+						'<input class="form-control col-xs-12" id="author" name="author" type="text" value="' . esc_attr( $commenter['comment_author'] ) . '" size="30"' . $aria_req . ' /></div>',
+			'email'  => '<div class="form-group col-md-6 col-sm-6 col-xs-12 comment-form-email"><label for="email">' . __( 'Email', 'aus-basic' ) . ( $req ? ' <span class="required">*</span>' : '' ) . '</label> ' .
+						'<input class="form-control col-xs-12" id="email" name="email" ' . ( $html5 ? 'type="email"' : 'type="text"' ) . ' value="' . esc_attr(  $commenter['comment_author_email'] ) . '" size="30"' . $aria_req . ' /></div>',
+			'url'	=> '<div class="form-group col-md-6 col-sm-6 col-xs-12 comment-form-url"><label for="url">' . __( 'Website', 'aus-basic' ) . '</label> ' .
+						'<input class="form-control col-xs-12" id="url" name="url" ' . ( $html5 ? 'type="url"' : 'type="text"' ) . ' value="' . esc_attr( $commenter['comment_author_url'] ) . '" size="30" /></div>',
 		 );
 		
 		return $fields;
@@ -660,7 +688,7 @@ class AUS_theme_elements {
 	 */
 	function comment_form_textarea( $args ) {
 
-		$args['comment_field'] = '<div class="form-group comment-form-comment">
+		$args['comment_field'] = '<div class="form-group col-md-7 col-sm-7 col-xs-12 comment-form-comment">
 				<label for="comment">' . __( 'Comment', 'aus-basic' ) . '</label> 
 				<textarea class="form-control" id="comment" name="comment" cols="45" rows="8" aria-required="true"></textarea>
 			</div>';
@@ -688,26 +716,26 @@ class AUS_theme_elements {
 
 		$GLOBALS['comment'] = $comment;
 		$html = '<li ' . comment_class( 'row', $comment->comment_ID, $comment->comment_post_ID, false ) . '>';
-			$html  .= '<article id="comment-' . $comment->comment_ID . '">';
+			$html .= '<div id="comment-' . $comment->comment_ID . '">';
 			$html .= '<div class="comment-user col-md-2 col-sm-2 hidden-xs text-right">';
 			$html .= '<figure class="comment-avatar">';
 			$html .= get_avatar( $comment, $size='75' );
 			$html .= '</figure>';
 			$html .= '</div>';
-			$html .= '<div class="col-md-10 col-sm-10">';
+			$html .= '<div class="col-md-10 col-sm-10 col-xs-12">';
 			$html .= '<div class="panel panel-default arrow left">';
 			$html .= '<div class="panel-body">';
-			$html .= '<header class="text-left">';
+			$html .= '<div class="text-left">';
 			$html .= '<div class="comment-user">';
 			$html .= '<i class="fa fa-user"></i> ' . get_comment_author_link( $comment->comment_ID ) . ' | <i class="fa fa-calendar"></i> <time datetime="' . get_comment_date() . '"> <a href="' . htmlspecialchars( get_comment_link( $comment->comment_ID ) ) . '">' . get_comment_date() . '</a></time>';
 			$html .= '</div>';
-			$html .= '</header>';
+			$html .= '</div>';
 			
 			if ( $comment->comment_approved == '0' ) {
 			$html .= '<div class="alert alert-success" role="alert">' . __( 'Your comment is awaiting moderation.', 'aus-basic' ) . '</div>';
 			}
 			
-			$html .= '<div class="comment-post"><p>' . apply_filters( 'comment_text', get_comment_text() ) . '</p></div>';
+			$html .= '<div class="comment-post text-left"><p>' . apply_filters( 'comment_text', get_comment_text() ) . '</p></div>';
 			$html .= '<p class="text-right">';
 			
 			if ( get_option( 'comment_registration' ) && ! is_user_logged_in() ) {
@@ -722,7 +750,7 @@ class AUS_theme_elements {
 			$html .= '</div>';
 			$html .= '</div>';
 			$html .= '</div>';
-			$html .= '</article>';
+			$html .= '</div>';
 		echo $html;
 	}
 

@@ -1,5 +1,42 @@
 jQuery(document).ready(function($){
 
+	/**
+	 * Height fix
+	 */
+	$(function() {
+		var minHeight = $('.aus-panel-sidebar').height();
+		$('.aus-panel').css('min-height', minHeight);
+	});
+
+	/**
+	 * Save settings
+	 */
+	$(function() {
+		$('body .aus-panel-section').on('click','#submit', function(e) {
+			e.preventDefault();
+			alert('Options are saved!');
+		});
+	});
+
+	/**
+	 * Magnificent theme options tabs switcher
+	 */
+	$(function() {
+		$('body').on('click','.aus-panel-nav > li > a',function(e) {
+			e.preventDefault();
+			var tab = $(this).attr('href');
+			$('.aus-panel-nav > li > a').removeClass('active');
+			$(this).addClass('active');
+			$('.aus-panel-section > li').removeClass('active');
+			$('.aus-panel-section > li').hide();
+			$(tab).fadeIn();
+			$(tab).addClass('active');
+		});
+	});
+
+	/**
+	 * Simple theme options tabs switcher
+	
 	$(function() {
 		$('body').on('click','.nav-tab-wrapper a',function(e) {
 			e.preventDefault();
@@ -12,7 +49,8 @@ jQuery(document).ready(function($){
 			$(tab).addClass('active');
 		});
 	});
-
+	 */
+	
 	$('.image-upload').click(function(e) {
 		var image_field = $(this).data('field');
 		var custom_uploader;
