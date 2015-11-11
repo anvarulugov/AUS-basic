@@ -120,6 +120,9 @@ class AUS_theme_options {
 		$this->scripts();
 		?>
 		<div class="wrap">
+		<pre>
+			<?php print_r($this->options); ?>
+		</pre>
 		<div class="aus-panel">
 			<div class="aus-panel-sidebar">
 				<div class="aus-panel-logo">
@@ -200,6 +203,7 @@ class AUS_theme_options {
 				$default = array(
 					'id'			=> '',
 					'type'			=> '',
+					'editor'		=> '',
 					'description'	=> '',
 					'options'		=> '',
 					'atts'			=> '',
@@ -214,6 +218,7 @@ class AUS_theme_options {
 					array(
 						'id' => $field['id'],
 						'type' => $field['type'],
+						'editor' => $field['editor'],
 						'description' => $field['description'],
 						'options' => $field['options'],
 						'atts' => $field['atts'],
@@ -366,13 +371,15 @@ class AUS_theme_options {
 			'description' => '',
 			'options' => array(),
 			'editor' => array(
+				'visual' => true,
 				'teeny'=>true,
 				'textarea_rows'=>4,
 			),
 			'atts' => array(),
 		);
-		extract( $defaults, EXTR_OVERWRITE );
-		extract( $args, EXTR_OVERWRITE );
+
+		$configs = array_replace_recursive( $defaults, $args );
+		extract( $configs, EXTR_OVERWRITE );
 
 		if ( ( $type == 'select' || $type == 'cats' || $type == 'categories' ) && ! empty( $atts ) && array_key_exists( 'multiple', $atts ) ) {
 			$multiple = true;
@@ -398,8 +405,6 @@ class AUS_theme_options {
 			}
 		}
 
-		
-
 		switch ( $type ) {
 
 			case 'radio':
@@ -419,7 +424,7 @@ class AUS_theme_options {
 					$input .= "<li>";
 					$input .= '<label title="' . $option . '">';
 					$input .= '<input style="display:none" type="radio" name="' . $field_name . '" value="' . $key . '" ' . ( $value == $key ? 'checked="checked"' : '' ) . ' />';
-					$input .= '<img' . ( $value == $key ? ' class="checked"' : '' ) . '  src="' . get_aus_uri() . '/media/img/' . $option . '"';
+					$input .= '<img' . ( $value == $key ? ' class="checked"' : '' ) . '  src="' . get_aus_uri() . '/media/img/' . $option . '" />';
 					//$input .= '<span>' . $option . '</span>';
 					$input .= '</label>';
 					$input .= "</li>";
@@ -428,11 +433,15 @@ class AUS_theme_options {
 				$input .= '</fieldset>';
 				break;
 			case 'textarea':
-				ob_start();
-				wp_editor($value, $id, $editor);
-				$input = ob_get_contents();
-				ob_end_clean();
-						break;
+				if ( $editor['visual'] === true ) {
+					ob_start();
+					wp_editor($value, $id, $editor);
+					$input = ob_get_contents();
+					ob_end_clean();
+				} else {
+					$input = '<textarea name="' . $field_name . '" id="' .$id . '"' . $attributes . '>' . $value . '</textarea>';
+				}
+				break;
 			case 'select':
 				$input  = '<select name="' . $field_name . ( $multiple ? '[]' : '' ) . '" id="' .$id . '" ' . $attributes . '>';
 				$input .= '<option value="0">&ndash; ' . __( 'Select', 'aus-basic' ) . ' &ndash;</option>';
@@ -477,11 +486,12 @@ class AUS_theme_options {
 				break;
 
 			case 'checkbox':
-				$input = '<fieldset>';
+				$input = '<fieldset class="checkbox-label">';
 				$input .= '<label title="' . $id . '">';
 				$input .= '<input name="' . $field_name . '" id="' .$id . '" type="' .$type . '" value="1"' . $attributes  . ( $value ? 'checked="checked"' : '' ) . ' />';
 				$input .= $title;
 				$input .= '</label>';
+				$input .= '<span class="checkbox' . ( $value ? ' checked' : '' ) . '"></span>';
 				$input .= '</fieldset>';
 				break;
 

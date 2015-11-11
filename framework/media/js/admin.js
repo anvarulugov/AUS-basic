@@ -10,14 +10,14 @@ jQuery(document).ready(function($){
 
 	/**
 	 * Save settings
-	 */
+	 
 	$(function() {
 		$('body .aus-panel-section').on('click','#submit', function(e) {
 			e.preventDefault();
 			alert('Options are saved!');
 		});
 	});
-
+	*/
 	/**
 	 * Magnificent theme options tabs switcher
 	 */
@@ -31,6 +31,14 @@ jQuery(document).ready(function($){
 			$('.aus-panel-section > li').hide();
 			$(tab).fadeIn();
 			$(tab).addClass('active');
+		});
+	});
+
+	$(function() {
+		$('.aus-panel .checkbox-label .checkbox').on('click', function() {
+			var checkbox = $(this).parent().find('input[type="checkbox"]');
+			checkbox.prop("checked", !checkbox.prop("checked"));
+			$(this).toggleClass('checked');
 		});
 	});
 

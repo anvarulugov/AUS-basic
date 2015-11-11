@@ -27,8 +27,6 @@
 	max-width: 810px;
 	width: 80%;
 	margin: auto;
-	background: #fff;
-	border: 1px solid #ddd;
 }
 .aus-panel a:focus {
 	webkit-box-shadow: none;
@@ -45,20 +43,23 @@
 	padding: 0 0;
 	float: left;
 	width: 175px;
-	background: #fff;
-	border-right: 1px solid #ddd;
+	background: #222;
+	border-top: 1px solid #ddd;
+	border-left: 1px solid #ddd;
+	border-bottom: 1px solid #ddd;
 }
 .aus-panel-content {
 	min-width: 300px;
 	margin: 0 0 0 175px;
 	padding: 0;
-	border-left: 1px solid #ddd;
 	background: #fff;
+	border-top: 1px solid #ddd;
+	border-right: 1px solid #ddd;
+	border-bottom: 1px solid #ddd;
 }
 .aus-panel-logo {
 	padding: 10px 0;
 	text-align: center;
-	border-bottom: 1px solid #ddd;
 }
 .aus-panel-nav,
 .aus-panel-section {
@@ -72,16 +73,38 @@
 	padding: 0;
 	margin: 0;
 }
-.aus-panel-nav li a{
+.aus-panel-nav li a {
+	position: relative;
+	color: #bbb;
 	text-decoration: none;
 	line-height: 35px;
 	padding: 0 10px;
 	display: block;
-	border-bottom: 1px solid #ddd;
+	border-top: 1px solid #2E2D2D;
+	border-bottom: 1px solid #0D0D0D;
+}
+.aus-panel-nav li a:hover {
+	color: #ddd;
+	background: #111;
 }
 .aus-panel-nav li a.active {
-	background: #eee;
+	color: #fff;
+	background: #0074A2;
 }
+
+.aus-panel-nav li a.active:after {
+	right: 0;
+    border: 8px solid transparent;
+    content: " ";
+    height: 0;
+    width: 0;
+    position: absolute;
+    pointer-events: none;
+    border-right-color: #fff;
+    top: 50%;
+    margin-top: -8px;
+}
+
 .aus-panel-section > li {
 	padding: 15px;
 	display: none;
@@ -90,12 +113,11 @@
 	display: block;
 }
 .aus-panel-section .form-table tr {
-	border-top: 1px solid #ddd;
+	border-top: 1px solid #EDECEC;
 }
 .aus-panel-section .form-table th {
 	width: 150px;
 }
-
 
 .radioimage li {
 	float: left;
@@ -108,4 +130,21 @@
 	border-color: #5b9dd9;
 	-webkit-box-shadow: 0 0 2px rgba(30,140,190,.8);
 	box-shadow: 0 0 2px rgba(30,140,190,.8);
+}
+.aus-panel .checkbox-label label {
+	position: absolute !important;
+    z-index: -1 !important;
+    visibility: hidden !important;
+}
+.checkbox {
+	background-position: 0px 100%;
+	cursor: pointer;
+    margin-top: 5px;
+    background-image: url(../img/checkbox.png);
+    height: 23px;
+    width: 52px;
+    display: block;
+}
+.checkbox.checked {
+    background-position: 0px 0px;
 }
