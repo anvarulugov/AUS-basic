@@ -12,7 +12,7 @@ jQuery(document).ready(function($){
 	 * Save settings
 	 
 	$(function() {
-		$('body .aus-panel-section').on('click','#submit', function(e) {
+		$('body .aus-panel-tabs').on('click','#submit', function(e) {
 			e.preventDefault();
 			alert('Options are saved!');
 		});
@@ -27,8 +27,8 @@ jQuery(document).ready(function($){
 			var tab = $(this).attr('href');
 			$('.aus-panel-nav > li > a').removeClass('active');
 			$(this).addClass('active');
-			$('.aus-panel-section > li').removeClass('active');
-			$('.aus-panel-section > li').hide();
+			$('.aus-panel-tabs > li').removeClass('active');
+			$('.aus-panel-tabs > li').hide();
 			$(tab).fadeIn();
 			$(tab).addClass('active');
 		});

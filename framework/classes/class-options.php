@@ -121,7 +121,7 @@ class AUS_theme_options {
 		?>
 		<div class="wrap">
 		<pre>
-			<?php print_r($this->options); ?>
+			<?php //print_r($this->options); ?>
 		</pre>
 		<div class="aus-panel">
 			<div class="aus-panel-sidebar">
@@ -140,12 +140,17 @@ class AUS_theme_options {
 			</div>
 			<div class="aus-panel-content">
 				<form method="post" action="options.php">
-				<ul class="aus-panel-section">
+				<ul class="aus-panel-tabs">
 					<?php submit_button(); ?>
 					<?php settings_fields( $this->theme_slug . '_theme_options_group' ); ?>
 					<?php $c = 0; foreach ( $this->tabs as $tab ) : $c++; ?>
 						<li id="<?php echo $tab['id']; ?>" class="<?php echo ( $c == 1 ? 'active' : '' ); ?>">
-							<?php do_settings_sections( $this->theme_slug . '_theme_options_' . $tab['id'] ); ?>
+							<h1><?php echo $tab['title']; ?></h1>
+							<?php foreach ( $tab['sections'] as $section ) : ?>
+								<div class="aus-panel-section">
+								<?php do_settings_sections( $this->theme_slug . '_theme_options_' . $section['id'] ); ?>
+								</div>
+							<?php endforeach; ?>
 						</li>
 					<?php endforeach; ?>
 				</ul>
@@ -158,33 +163,6 @@ class AUS_theme_options {
 		<?php 
 	}
 
-	public function theme_options_display2() {
-		//add_action( 'admin_enqueue_scripts', array( $this, 'scripts' ) );
-		$this->scripts();
-		?>
-		<div class="wrap">
-			<h2><?php echo sprintf(__('%s Theme', 'aus-basic'), $this->theme_name ); ?></h2>
-			<pre>
-				<?php print_r($this->options); ?>
-			</pre>
-			<h2 class="aus-tabs nav-tab-wrapper">
-				<?php $i = 0; foreach ( $this->tabs as $tab ) : $i++; ?>
-					<a href="#<?php echo $tab['id']; ?>" class="nav-tab <?php echo ( $i == 1 ? 'nav-tab-active' : '' ); ?>"><?php echo $tab['title']; ?></a>
-				<?php endforeach; ?>
-			</h2>
-			<form method="post" action="options.php">
-				<?php settings_fields( $this->theme_slug . '_theme_options_group' ); ?>
-				<?php $c = 0; foreach ( $this->tabs as $tab ) : $c++; ?>
-					<div class="tab-content <?php echo ( $c == 1 ? 'active' : '' ); ?>" id="<?php echo $tab['id']; ?>">
-						<?php do_settings_sections( $this->theme_slug . '_theme_options_' . $tab['id'] ); ?>
-					</div>
-				<?php endforeach; ?>
-			<?php submit_button(); ?>
-			</form>
-		</div>
-		<?php 
-	}
-
 	/**
 	 * Initialize theme options
 	 */
@@ -192,38 +170,39 @@ class AUS_theme_options {
 	public function initialize_theme_options() {
 
 		foreach ( $this->tabs as $tab ) {
-			add_settings_section(
-				$this->theme_slug . '_theme_settings_section_' . $tab['id'],
-				sprintf( __( '%s settings', 'aus-basic' ), $tab['title'] ),
-				'',
-				$this->theme_slug . '_theme_options_' . $tab['id']
-			);
-
-			foreach ( $tab['fields'] as $tab_field ) {
-				$default = array(
-					'id'			=> '',
-					'type'			=> '',
-					'editor'		=> '',
-					'description'	=> '',
-					'options'		=> '',
-					'atts'			=> '',
+			foreach ( $tab['sections'] as $section ) {
+				add_settings_section(
+					$this->theme_slug . '_theme_settings_section_' . $section['id'],
+					sprintf( __( '%s settings', 'aus-basic' ), $section['title'] ),
+					'', // there's no need for a callback function
+					$this->theme_slug . '_theme_options_' . $section['id']
 				);
-				$field = array_merge( $default, $tab_field );
-				add_settings_field(
-					$field['id'],
-					'<label for="' . $field['id'] . '">' . $field['title'] . '</label>',
-					array( $this, 'input'),
-					$this->theme_slug . '_theme_options_' . $tab['id'],
-					$this->theme_slug . '_theme_settings_section_' . $tab['id'],
-					array(
-						'id' => $field['id'],
-						'type' => $field['type'],
-						'editor' => $field['editor'],
-						'description' => $field['description'],
-						'options' => $field['options'],
-						'atts' => $field['atts'],
-					)
-				);
+				foreach ($section['fields'] as $tab_field) {
+					$default = array(
+						'id'			=> '',
+						'type'			=> '',
+						'editor'		=> '',
+						'description'	=> '',
+						'options'		=> '',
+						'atts'			=> '',
+					);
+					$field = array_merge( $default, $tab_field );
+					add_settings_field(
+						$field['id'],
+						'<label for="' . $field['id'] . '">' . $field['title'] . '</label>',
+						array( $this, 'input'),
+						$this->theme_slug . '_theme_options_' . $section['id'],
+						$this->theme_slug . '_theme_settings_section_' . $section['id'],
+						array(
+							'id' => $field['id'],
+							'type' => $field['type'],
+							'editor' => $field['editor'],
+							'description' => $field['description'],
+							'options' => $field['options'],
+							'atts' => $field['atts'],
+						)
+					);
+				}
 			}
 		}
 
