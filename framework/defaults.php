@@ -122,7 +122,7 @@ $aus_metaboxes = array(
 $aus_config = array(
 	'theme_name'	=> 'AUS Basic',
 	'theme_slug'	=> 'aus-basic',
-	'menutype'		=> '',
+	'menutype'		=> 'toplevel',
 	'tabs'			=> $aus_tabs,
 	'metaboxes'		=> $aus_metaboxes,
 );

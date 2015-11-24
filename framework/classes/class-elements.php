@@ -765,6 +765,7 @@ class AUS_theme_elements {
 				$text = substr( $text, 0, $pos[ $limit ] );
 			}
 		} else {
+			mb_internal_encoding("UTF-8");
 			$text = mb_substr( $text, 0, $limit, 'UTF-8' );
 		}
 

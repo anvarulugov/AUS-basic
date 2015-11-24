@@ -51,25 +51,25 @@ class AUS_theme_options {
 	public function create_menu_page() {
 		switch ( $this->menutype ) {
 			case 'toplevel':
-				/*
+				
 				add_menu_page(
 					sprintf(__('%s theme options', 'aus-basic'),$this->theme_name), // The Title to be displayed on corresponding page for this menu
-					sprintf(__('%s Theme', 'aus-basic'),$this->theme_name), // The Text to be displayed for this actual menu item
+					sprintf(__('%s', 'aus-basic'),$this->theme_name), // The Text to be displayed for this actual menu item
 					'administrator', // Which type of users can see this menu
 					$this->theme_slug . '_theme', // The unique ID - that is, the slug - for this menu item
-					array( $this, 'menu_page_display' ),
+					array( $this, 'theme_options_display' ),
 					''
 				);
 
 				add_submenu_page(
 					$this->theme_slug . '_theme', // Register this submenu with the menu defined above
-					$this->theme_name . ' Theme Options', // The text to the display in the browser when this menu item is active
-					sprintf(__('%s theme options', 'aus-basic'),$this->theme_name), // The text for this menu item
+					sprintf( __( '%s documentaion', 'aus-basic' ), $this->theme_name ), // The text to the display in the browser when this menu item is active
+					__( 'Documentation', 'aus-basic' ), // The text for this menu item
 					'administrator', // Which type of users can see this menu
 					$this->theme_slug . '_theme_options', // The unique ID - the slug - for this menu item
-					array( $this, 'theme_options_display' ) // The function used to render the menu for this page to the screen
+					array( $this, 'menu_page_display' ) // The function used to render the menu for this page to the screen
 				);
-				*/
+				
 				break;
 				
 			default:
@@ -92,7 +92,7 @@ class AUS_theme_options {
 	public function menu_page_display() {
 
 		$html  = '<div class="wrap">';
-		$html .= '<h2>' . sprintf(__('%s Theme', 'aus-basic'),$this->theme_name) . '</h2>';
+		$html .= '<h2>' . sprintf( __( '%s theme documentation', 'aus-basic' ), $this->theme_name ) . '</h2>';
 		$html .= '';
 		$html .= '';
 		$html .= '</div>';
