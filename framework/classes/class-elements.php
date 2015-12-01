@@ -600,7 +600,10 @@ class AUS_theme_elements {
 			$post = get_post( $post_id );
 		}
 
-		$excerpt = $post->post_content;
+		$excerpt = get_the_content();
+		if ( ! $excerpt ) {
+			$excerpt = $post->post_content;
+		}
 		$excerpt = preg_replace( " ( \[.*?\] )", '', $excerpt );
 		$excerpt = strip_shortcodes( $excerpt );
 		$excerpt = strip_tags( $excerpt );

@@ -21,13 +21,27 @@ $aus_tabs = array(
 				'fields' => array(
 					array(
 						'id'				=> 'container_width',
-						'title'			=> __( 'Layout', 'aus-basic' ),
+						'title'			=> __( 'Container', 'aus-basic' ),
 						'type'			=> 'radioimage',
 						'options'		=> array(
 							'container' 		=> 'boxed.png',
 							'container-fluid'		=> 'full.png',
 						),
 						'description'	=> __( 'Choose layout style', 'aus-basic' ),
+					),
+					array(
+						'id'			=> 'item_layout_style',
+						'title'			=> __( 'Layout', 'aus-basic' ),
+						'type'			=> 'radioimage',
+						'description'	=> __( 'Logo text description', 'aus-basic' ),
+						'value'			=> 'col3',
+						'options'		=> array(
+							'col1'	=> 'content-1c.png',
+							'col3' 	=> 'content-3c.png',
+							'col2l'	=> 'content-2c-l.png',
+							'col2r'	=> 'content-2c-r.png',
+							
+						),
 					),
 				),
 			),

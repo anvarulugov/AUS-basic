@@ -4,7 +4,7 @@
 <?php do_action( 'aus_before_post' ); ?>
 <article id="post-<?php the_ID(); ?>" <?php post_class( 'article clearfix' ); ?>>
 	<header class="entry-header">
-		<h1 class="entry-title"><?php the_title(); ?> <?php $aus_elements->edit_button( array( 'class'=>'btn btn-xs btn-default' ) ); ?></h1>
+		<h3 class="entry-title"><?php the_title(); ?></h3>
 		<div class="entry-meta">
 			<time pubdate="pubdate" datetime="<?php the_time('Y-m-d') ?>"><i class="fa fa-calendar"></i> <?php $aus_elements->date() ?></time> | <i class="fa fa-user"></i> <?php the_author_posts_link(); ?>
 			<?php if( has_category() ) : ?>

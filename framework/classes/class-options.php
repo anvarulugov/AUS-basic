@@ -265,7 +265,6 @@ class AUS_theme_options {
 
 	/**
 	 * Render Meta Box content.
-	 *
 	 */
 	public function render_metaboxes( $post ) {
 

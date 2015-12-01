@@ -58,17 +58,6 @@ function aus_widgets_init() {
 	) );
 
 	register_sidebar( array(
-		'name'			=> __( 'Left sidebar mobile', 'aus-basic' ),
-		'id'				=> 'left_mobile',
-		'description'	=> 'Mobile visible Left column of the theme.',
-		'class'			=> '',
-		'before_widget'=> '<aside id="%1$s" class="widget panel panel-primary %2$s">',
-		'after_widget' => '</aside>',
-		'before_title' => '<div class="panel-heading"><h3 class="panel-title">',
-		'after_title'	=> '</h3></div>'
-	) );
-
-	register_sidebar( array(
 		'name'			=> __( 'Right sidebar', 'aus-basic' ),
 		'id'				=> 'right',
 		'description'	=> 'Right column of the theme.',
@@ -79,60 +68,6 @@ function aus_widgets_init() {
 		'after_title'	=> '</h3></div>'
 	) );
 
-	register_sidebar( array(
-		'name'			=> __( 'Page buttom', 'aus-basic' ),
-		'id'				=> 'page_bottom',
-		'description'	=> 'Page bottom of the theme.',
-		'class'			=> '',
-		'before_widget'=> '',
-		'after_widget' => '',
-		'before_title' => '',
-		'after_title'	=> ''
-	) );
-
-	register_sidebar( array(
-		'name'			=> __( 'Home Primary', 'aus-basic' ),
-		'id'				=> 'home_primary',
-		'description'	=> __( 'Top of the home page', 'aus-basic' ),
-		'class'			=> '',
-		'before_widget'=> '',
-		'after_widget' => '',
-		'before_title' => '',
-		'after_title'	=> ''
-	) );
-
-	register_sidebar( array(
-		'name'			=> __( 'Home Content left', 'aus-basic' ),
-		'id'				=> 'home_half1',
-		'description'	=> __( 'Half left content width', 'aus-basic' ),
-		'class'			=> '',
-		'before_widget'=> '',
-		'after_widget' => '',
-		'before_title' => '',
-		'after_title'	=> ''
-	) );
-
-	register_sidebar( array(
-		'name'			=> __( 'Home Content right', 'aus-basic' ),
-		'id'				=> 'home_half2',
-		'description'	=> __( 'Half right content width', 'aus-basic' ),
-		'class'			=> '',
-		'before_widget'=> '',
-		'after_widget' => '',
-		'before_title' => '',
-		'after_title'	=> ''
-	) );
-
-	register_sidebar( array(
-		'name'			=> __( 'Home Bottom', 'aus-basic' ),
-		'id'				=> 'home_bottom_full',
-		'description'	=> __( 'Full content width', 'aus-basic' ),
-		'class'			=> '',
-		'before_widget'=> '',
-		'after_widget' => '',
-		'before_title' => '',
-		'after_title'	=> ''
-	) );
 }
 add_action( 'widgets_init', 'aus_widgets_init');
 
@@ -150,7 +85,7 @@ add_action( 'wp_enqueue_scripts', 'aus_google_fonts' );
 
 function aus_scripts() {
 
-	wp_enqueue_style( 'bootstrap', get_template_directory_uri() . '/media/css/yeti.min.css', array(), '3.3.0' );
+	wp_enqueue_style( 'bootstrap', get_template_directory_uri() . '/media/css/paper.min.css', array(), '3.3.0' );
 
 	wp_enqueue_style( 'bootstrap-fa-icon', get_template_directory_uri() . '/media/css/font-awesome.min.css', array(), '4.3.0' );
 

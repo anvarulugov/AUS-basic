@@ -1,3 +1,10 @@
+logo
+header menu
+container
+layout
+
+
+
 featured_cat
 thumbnail_size
 thumbnail_img

@@ -41,8 +41,10 @@ function content_class( $class = '' ) {
 	if ( ! empty( $class ) )
 		$class = ' '.$class;
 	if ( $layout == 'col3' ) {
-		$width = 'class="col-lg-6 col-md-6 col-sm-12' . $class . '"';
-	} elseif ( $layout == 'col2l' || $layout == 'col2r' ) {
+		$width = 'class="col-lg-6 col-md-push-3 col-md-6 col-sm-12' . $class . '"';
+	} elseif ( $layout == 'col2l' ) {
+		$width = 'class="col-lg-9 col-md-push-3 col-md-9 col-sm-12' . $class . '"';
+	} elseif ( $layout == 'col2r' ) {
 		$width = 'class="col-lg-9 col-md-9 col-sm-12' . $class . '"';
 	} else {
 		$width = 'class="col-sm-12' . $class . '"';
@@ -53,7 +55,7 @@ function content_class( $class = '' ) {
 function sidebar_class( $class = '' ) {
 	if ( ! empty( $class ) )
 		$class = ' '.$class;
-	echo 'class="sidebar col-lg-3 col-md-3 col-sm-12' . $class . '"';
+	echo 'class="sidebar col-sm-6 col-md-3' . $class . '"';
 }
 
 add_action( 'aus_after_post', 'aus_hit_count' );
