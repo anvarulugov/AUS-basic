@@ -120,7 +120,7 @@ class AUS_theme_elements {
 	public function navigation( $nav_location = 'primary', $args = array() ) {
 
 		$container = 'nav';
-		$container_class = 'container';
+		$container_class = get_container_class();
 		$menu_class = 'navbar-default';
 
 		extract( $args, EXTR_OVERWRITE );
@@ -133,7 +133,7 @@ class AUS_theme_elements {
 
 		if ( $pages ):
 
-			$html = '<' . $container . ' class="' . $container_class . '">';
+			$html = '<' . $container . ' ' . $container_class . '>';
 			$html .= '<ul class="' . $menu_class . '">';
 			foreach ( $pages as $page ) {
 				if( ( ($page['object'] == 'page') && (is_page($page['object_id'])) ) || ( ($page['object'] == 'category') && (is_category($page['object_id'])) ) ) {
@@ -157,7 +157,7 @@ class AUS_theme_elements {
 	 */
 	public function navbar( $nav_location = 'primary', $args = array() ) {
 
-		$container_class = aus_settings( 'container_width' );
+		$container_class = get_container_class();
 		$navbar_class = 'navbar-default';
 		$nav_class = '';
 		$brand_class = '';
@@ -167,7 +167,7 @@ class AUS_theme_elements {
 		$pages = $this->get_pages( $nav_location );
 		if ( $pages ):
 			$html .= '<nav class="navbar ' . $navbar_class . ( $nav_location != 'primary' ? ' not-primary' : ' primary' ) . '" role="navigation">';
-			$html .= '<div class="' . $container_class . '">';
+			$html .= '<div ' . $container_class . '>';
 			$html .= '<!-- Brand and toggle get grouped for better mobile display -->';
 			$html .= '<div class="navbar-header">';
 			if ( $nav_location == 'primary' && $this->settings( 'show_home_menu' ) == 'on' ) {

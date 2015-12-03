@@ -85,7 +85,7 @@ add_action( 'wp_enqueue_scripts', 'aus_google_fonts' );
 
 function aus_scripts() {
 
-	wp_enqueue_style( 'bootstrap', get_template_directory_uri() . '/media/css/paper.min.css', array(), '3.3.0' );
+	wp_enqueue_style( 'bootstrap', get_template_directory_uri() . '/media/css/' . aus_settings( 'css_theme' ) . '.min.css', array(), '3.3.0' );
 
 	wp_enqueue_style( 'bootstrap-fa-icon', get_template_directory_uri() . '/media/css/font-awesome.min.css', array(), '4.3.0' );
 

@@ -6,38 +6,63 @@
  */
 ( function( $ ) {
 
-	// Update the site title in real time...
-	wp.customize( 'blogname', function( value ) {
+	// Update container style
+	wp.customize( 'container_width', function( value ) {
 		value.bind( function( newval ) {
-			$( '#site-title a' ).html( newval );
-		} );
-	} );
-	
-	//Update the site description in real time...
-	wp.customize( 'blogdescription', function( value ) {
-		value.bind( function( newval ) {
-			$( '.site-description' ).html( newval );
+			$( '.container-layout' ).attr('class','container-layout');
+			$( '.container-layout' ).addClass( 'container-layout ' + newval );
 		} );
 	} );
 
-	//Update site title color in real time...
-	wp.customize( 'header_textcolor', function( value ) {
+	// Update CSS theme
+	wp.customize( 'css_theme', function( value ) {
 		value.bind( function( newval ) {
-			$('#site-title a').css('color', newval );
+			var css_theme;
+			switch( newval ) {
+				case 'yeti':
+					css_theme = 'yeti';
+					break;
+				case 'paper':
+					css_theme = 'paper';
+					break;
+				default:
+					css_theme = 'bootstrap';
+					break;
+			}
+			$( '#bootstrap-css' ).attr('href','');
+			$( '#bootstrap-css' ).attr('href', get_template_directory_uri() + '/media/css/' + css_theme + '.min.css' );
 		} );
 	} );
 
-	//Update site background color...
-	wp.customize( 'background_color', function( value ) {
+	// Update sidebars
+	wp.customize( 'item_layout_style', function( value ) {
 		value.bind( function( newval ) {
-			$('body').css('background-color', newval );
-		} );
-	} );
-	
-	//Update site link color in real time...
-	wp.customize( 'link_textcolor', function( value ) {
-		value.bind( function( newval ) {
-			$('a').css('color', newval );
+			switch( newval ) {
+				case 'col1':
+					$( '.left, .right' ).hide();
+					$( '.content ' ).attr( 'class', 'content col-sm-12' );
+					break;
+				case 'col2l':
+					$( '.right' ).hide();
+					$( '.left' ).show();
+					$( '.left' ).attr( 'class', 'sidebar left col-sm-6 col-md-3 col-md-pull-9' );
+					$( '.content ' ).attr( 'class', 'content col-lg-9 col-md-push-3 col-md-9 col-sm-12' );
+					break;
+				case 'col2r':
+					$( '.left' ).hide();
+					$( '.right' ).show();
+					$( '.right' ).attr( 'class', 'sidebar right col-sm-6 col-md-3' );
+					$( '.content ' ).attr( 'class', 'content col-lg-9 col-md-9 col-sm-12' );
+					break;
+				case 'col3':
+				default:
+					$( '.left' ).show();
+					$( '.right' ).show();
+					$( '.left' ).attr( 'class', 'sidebar left col-sm-6 col-md-3 col-md-pull-6' );
+					$( '.right' ).attr( 'class', 'sidebar right col-sm-6 col-md-3' );
+					$( '.content ' ).attr( 'class', 'content col-lg-6 col-md-push-3 col-md-6 col-sm-12' );
+					break;
+			}
 		} );
 	} );
 	

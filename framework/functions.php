@@ -8,11 +8,16 @@ function get_aus_uri() {
 function aus_settings( $option ) {
 
 	global $aus_options, $aus_config;
-	$options = get_option( $aus_config['theme_slug'] . '_theme_options', $aus_options );
-	
-	if( isset( $options[ $option ] ) ) {
-		return $options[ $option ];
+
+	if ( 'customizer' == $aus_config['options_type'] ) {
+		return get_theme_mod( $option );
+	} else {
+		$options = get_option( $aus_config['theme_slug'] . '_theme_options', $aus_options );
+		if( isset( $options[ $option ] ) ) {
+			return $options[ $option ];
+		}
 	}
+	
 	return false;
 
 }
@@ -28,10 +33,14 @@ function aus_item_settings( $option ) {
 }
 
 function container_class( $class = '' ) {
+	echo get_container_class( $class );
+}
+
+function get_container_class( $class = '' ) {
 	if ( ! empty( $class ) )
 		$class = ' '.$class;
 
-	echo 'class="' . aus_settings( 'container_width' ) . $class . '"';
+	return 'class="container-layout ' . aus_settings( 'container_width' ) . $class . '"';
 }
 
 function content_class( $class = '' ) {
@@ -158,7 +167,7 @@ add_filter( 'get_search_form' , 'aus_search_form' , 2 ) ;
 function aus_search_form( $markup ) {
 	$markup = str_replace( 'class="search-form"' , 'class="search-form row"' , $markup ) ;
 	$markup = str_replace( '<label' , '<label class="col-xs-12"' , $markup ) ;
-	$markup = str_replace( '<input type="search"' , '<input type="search" class="form-control"' , $markup ) ;
+	$markup = str_replace( '<input type="search"' , '<input type="search" class="form-control search-input"' , $markup ) ;
 	$markup = preg_replace( '/(<span class="screen-reader-text">.*?>)/' , '' , $markup ) ;
 	$markup = preg_replace( '/(<input type="submit".*?>)/' , '' , $markup ) ;
 	return $markup;

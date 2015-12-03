@@ -169,7 +169,8 @@ div.wp-caption.alignright .wp-caption-text {
 }
 
 .content {
-	padding-top: 15px;
+	margin-top: 20px;
+	background: #fff;
 }
 
 .sidebar {
@@ -184,6 +185,11 @@ div.wp-caption.alignright .wp-caption-text {
 	padding-bottom: 20px;
 	width: 100%;
 	background: url(media/img/header_bg.png) #FF0000;
+}
+
+.search-input {
+	background: #fff;
+	text-indent: 10px;
 }
 
 .footer {
