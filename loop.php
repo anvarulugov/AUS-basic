@@ -1,4 +1,4 @@
-<div <?php content_class('content'); ?>>
+<div <?php content_class( 'content' ); ?>>
 <?php do_action( 'aus_before_loop' ); ?>
 <?php if ( have_posts() ) : ?>
 <?php while ( have_posts() ) : the_post(); global $aus_elements; ?>

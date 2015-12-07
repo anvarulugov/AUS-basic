@@ -1,9 +1,11 @@
 <?php 
 
+if ( ! function_exists( 'get_aus_uri' ) ) :
 function get_aus_uri() {
 	$url = get_template_directory_uri() . '/' . basename(__DIR__);
 	return $url;
 }
+endif;
 
 function aus_settings( $option ) {
 
@@ -22,6 +24,7 @@ function aus_settings( $option ) {
 
 }
 
+if ( ! function_exists( 'aus_item_settings' ) ) :
 function aus_item_settings( $option ) {
 	global $post;
 	if ( get_post_meta( $post->ID, $option, true ) ) {
@@ -31,18 +34,24 @@ function aus_item_settings( $option ) {
 	}
 	return false;
 }
+endif;
 
+if ( ! function_exists( 'container_class' ) ) :
 function container_class( $class = '' ) {
 	echo get_container_class( $class );
 }
+endif;
 
+if ( ! function_exists( 'get_container_class' ) ) :
 function get_container_class( $class = '' ) {
 	if ( ! empty( $class ) )
 		$class = ' '.$class;
 
 	return 'class="container-layout ' . aus_settings( 'container_width' ) . $class . '"';
 }
+endif;
 
+if ( ! function_exists( 'content_class' ) ) :
 function content_class( $class = '' ) {
 
 	$layout = aus_item_settings( 'item_layout_style' );
@@ -60,12 +69,15 @@ function content_class( $class = '' ) {
 	}
 	echo $width;
 }
+endif;
 
+if ( ! function_exists( 'sidebar_class' ) ) :
 function sidebar_class( $class = '' ) {
 	if ( ! empty( $class ) )
 		$class = ' '.$class;
 	echo 'class="sidebar col-sm-6 col-md-3' . $class . '"';
 }
+endif;
 
 add_action( 'aus_after_post', 'aus_hit_count' );
 function aus_hit_count() {
@@ -76,7 +88,8 @@ function aus_hit_count() {
 	}
 }
 
-add_filter('the_content', 'aus_lightbox_post_image');
+//add_filter('the_content', 'aus_lightbox_post_image');
+if ( ! function_exists( 'aus_lightbox_post_image' ) ) :
 function aus_lightbox_post_image ( $content ) {
 	global $post;
 	$pattern = "/<a(.*?)href=('|\")(.*?).(bmp|gif|jpeg|jpg|png)('|\")(.*?)>/i";
@@ -85,14 +98,18 @@ function aus_lightbox_post_image ( $content ) {
 	//$content = str_replace("%LIGHTID%", $post->ID, $content);
 	return $content;
 }
+endif;
 
 add_filter( 'wp_link_pages_link',  'aus_link_pages_link' );
+if ( ! function_exists( 'aus_link_pages_link' ) ) :
 function aus_link_pages_link( $link ) {
 	$current = strpos( $link, 'href' );
 	return '<li ' . ( ! $current ? 'class="active"' : '' ) . '>' . $link . '</li>';
 }
+endif;
 
 add_action( 'tgmpa_register', 'aus_register_required_plugins' );
+if ( ! function_exists( 'aus_register_required_plugins' ) ) :
 function aus_register_required_plugins() {
 	$plugins = array(
  
@@ -100,26 +117,17 @@ function aus_register_required_plugins() {
 			'name'               => 'AUS Basic Utils',
 			'slug'               => 'aus-basic-utils',
 			'source'             => 'aus-basic-utils.zip',
-			'required'           => true,
+			'required'           => false,
 			'version'            => '0.0.1',
 			'force_activation'   => false,
 			'force_deactivation' => false,
 		),
 
 		array(
-			'name'               => 'Easy Bootstrap Shortcode',
-			'slug'               => 'easy-bootstrap-shortcodes',
-			'required'           => true,
-			'version'            => '4.3.8',
-			'force_activation'   => false,
-			'force_deactivation' => false,
-		),
-
-		array(
-			'name'               => 'Bootstrap Widget Styling',
-			'slug'               => 'bootstrap-widget-styling',
-			'required'           => true,
-			'version'            => '1.0.3',
+			'name'               => 'Page Builder by WooRockets.com',
+			'slug'               => 'wr-pagebuilder',
+			'required'           => false,
+			'version'            => '2.5.3',
 			'force_activation'   => false,
 			'force_deactivation' => false,
 		),
@@ -158,12 +166,13 @@ function aus_register_required_plugins() {
 
 	tgmpa( $plugins, $config );
 }
-
+endif;
 
 /**
  * Adding default widgets markup Bootstrap classes
  */
 add_filter( 'get_search_form' , 'aus_search_form' , 2 ) ;
+if ( ! function_exists( 'aus_search_form' ) ) :
 function aus_search_form( $markup ) {
 	$markup = str_replace( 'class="search-form"' , 'class="search-form row"' , $markup ) ;
 	$markup = str_replace( '<label' , '<label class="col-xs-12"' , $markup ) ;
@@ -172,12 +181,15 @@ function aus_search_form( $markup ) {
 	$markup = preg_replace( '/(<input type="submit".*?>)/' , '' , $markup ) ;
 	return $markup;
 }
+endif;
 
 add_filter( 'get_calendar' , 'aus_calendar' , 2 ) ;
+if ( ! function_exists( 'aus_calendar' ) ) :
 function aus_calendar( $markup ) {
 	$markup = str_replace( '<table id="wp-calendar"' , '<table id="wp-calendar" class="table table-stripped"' , $markup ) ;
 	return $markup;
 }
+endif;
 
 function aus_isajax() {
 	if ( !empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest' ) {
@@ -186,3 +198,32 @@ function aus_isajax() {
 		return false;
 	}
 }
+
+add_action( 'wp_head', 'aus_dynamic_css' );
+if ( ! function_exists( 'aus_dynamic_css' ) ) :
+function aus_dynamic_css() {
+	$content_background = aus_settings( 'content_background' );
+	$header_bg = aus_settings( 'header_backgorund' );
+	$header_bg_repeat = aus_settings( 'header_backgorund_repeat' );
+	$header_bg_position_x = aus_settings( 'header_backgorund_position_x' );
+	$input_background = aus_settings( 'input_bg_color' );
+	?>
+	<style>
+	.header {
+		background-image: url(<?php echo esc_url( get_header_image() ); ?>);
+		background-repeat: <?php echo esc_attr( $header_bg_repeat ); ?>;
+		background-position-x: <?php echo esc_attr( $header_bg_position_x ); ?>;
+		background-size: cover;
+	}
+	.content {
+		background-color: <?php echo esc_attr( $content_background ); ?>;
+	}
+	.form-control,
+	textarea,
+	input {
+		background-color: <?php echo esc_attr( $input_background ); ?>;
+	}
+	</style>
+	<?php
+}
+endif;

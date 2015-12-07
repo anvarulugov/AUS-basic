@@ -14,6 +14,220 @@ class AUS_Customizer {
 	}
 
 	public function register( $wp_customize ) {
+	
+		/**
+		 * Add Content bg color
+		 */
+		$wp_customize->add_setting(
+			'content_background',
+			array(
+				'default'     => '#fff',
+				'transport'   => 'postMessage'
+			)
+		);
+
+		$wp_customize->add_control(
+			new WP_Customize_Color_Control(
+				$wp_customize,
+				'content_background',
+				array(
+					'label'      => __( 'Content Backgound Color', 'aus-basic' ),
+					'section'    => 'colors',
+					'settings'   => 'content_background'
+				)
+			)
+		);
+
+		/**
+		 * Add Input bg color
+		 */
+		$wp_customize->add_setting(
+			'input_bg_color',
+			array(
+				'default'     => '#fff',
+				'transport'   => 'postMessage'
+			)
+		);
+
+		$wp_customize->add_control(
+			new WP_Customize_Color_Control(
+				$wp_customize,
+				'input_bg_color',
+				array(
+					'label'      => __( 'Input Background Color', 'aus-basic' ),
+					'section'    => 'colors',
+					'settings'   => 'input_bg_color'
+				)
+			)
+		);
+
+		/**
+		 * Add Logo image setting
+		 */
+		$wp_customize->add_setting(
+			'logo_img',
+			array(
+				'default'	  => '',
+				'transport'	  => 'postMessage'
+			)
+		);
+
+		$wp_customize->add_control( 
+			new WP_Customize_Image_Control( 
+				$wp_customize, 
+				'logo_img', 
+				array(
+					'label'    => __( 'Logo', 'aus-basic' ),
+					'section'  => 'header_image',
+					'settings' => 'logo_img',
+				) 
+			) 
+		);
+
+		/**
+		 * Add site description toggle checkbox
+		 */
+		$wp_customize->add_setting(
+			'site_description',
+			array(
+				'default'	  => true,
+				'transport'	  => 'postMessage'
+			)
+		);
+
+		$wp_customize->add_control(
+			'site_description',
+			array(
+				'section'	  => 'header_image',
+				'label'		  => __( 'Site description', 'aus-basic' ),
+				'type'		  => 'checkbox',
+			)
+		);
+
+		/**
+		 * Add Home menu toggle
+		 */
+		$wp_customize->add_setting(
+			'show_home_menu',
+			array(
+				'default'	  => true,
+				'transport'	  => 'postMessage'
+			)
+		);
+
+		$wp_customize->add_control(
+			'show_home_menu',
+			array(
+				'section'	  => 'nav',
+				'label'		  => __( 'Show Home Menu', 'aus-basic' ),
+				'type'		  => 'checkbox',
+			)
+		);
+
+		/**
+		 * Add Home menu text
+		 */
+		$wp_customize->add_setting(
+			'home_menu_text',
+			array(
+				'default'	  => 'Home',
+				'transport'	  => 'postMessage'
+			)
+		);
+
+		$wp_customize->add_control(
+			'home_menu_text',
+			array(
+				'section'	  => 'nav',
+				'label'		  => __( 'Show Menu Text', 'aus-basic' ),
+				'type'		  => 'text',
+			)
+		);
+		
+
+		/**
+		 * Add header backgound image setting
+		 */
+		/*
+		$wp_customize->add_setting(
+			'header_backgorund',
+			array(
+				'default'	  => get_template_directory_uri() . '/media/img/header_bg.png',
+				'transport'	  => 'postMessage'
+			)
+		);
+
+		$wp_customize->add_control( 
+			new WP_Customize_Image_Control( 
+				$wp_customize, 
+				'header_backgorund', 
+				array(
+					'label'    => __( 'Header backgound', 'aus-basic' ),
+					'section'  => 'header_image',
+					'settings' => 'header_backgorund',
+				) 
+			) 
+		);
+		*/
+	
+		/**
+		 * Add Header Background image repeat
+		 */
+		$wp_customize->add_setting(
+			'header_backgorund_repeat',
+			array(
+				'default'	  => 'repeat',
+				'transport'	  => 'postMessage'
+			)
+		);
+
+		$wp_customize->add_control(
+			'header_backgorund_repeat',
+			array(
+				'section'	  => 'header_image',
+				'label'		  => __( 'Header backgound repeat', 'aus-basic' ),
+				'type'		  => 'radio',
+				'choices'	  => array(
+					'no-repeat'			=> __( 'No Repeat', 'aus-basic' ),
+					'repeat'			=> __( 'Title', 'aus-basic' ),
+					'repeat-x'			=> __( 'Title Horizontally', 'aus-basic' ),
+					'repeat-y'			=> __( 'Title Vertically', 'aus-basic' ),
+				)
+			)
+		);
+
+		/**
+		 * Add Header Background image position
+		 */
+		$wp_customize->add_setting(
+			'header_backgorund_position_x',
+			array(
+				'default'	  => 'center',
+				'transport'	  => 'postMessage'
+			)
+		);
+
+		$wp_customize->add_control(
+			'header_backgorund_position_x',
+			array(
+				'section'	  => 'header_image',
+				'label'		  => __( 'Header backgound horizontal position', 'aus-basic' ),
+				'type'		  => 'radio',
+				'choices'	  => array(
+					'left'			=> __( 'Left', 'aus-basic' ),
+					'center'		=> __( 'Center', 'aus-basic' ),
+					'right'			=> __( 'Right', 'aus-basic' ),
+				)
+			)
+		);
+
+		$wp_customize->add_setting(
+			'header_backgorund_position_y',
+			array(
+				'default'	  => 'top',
+				'transport'	  => 'postMessage'
+			)
+		);
 
 		/**
 		 * Register Layout Section
@@ -83,7 +297,7 @@ class AUS_Customizer {
 					'slate'				=> __( 'Slate', 'aus-basic' ),
 					'spacelab'			=> __( 'Spacelab', 'aus-basic' ),
 					'superhero'			=> __( 'Superhero', 'aus-basic' ),
-					'united'			=> __( 'United', 'aus-basic' ),
+					'unite'				=> __( 'Unite', 'aus-basic' ),
 					'yeti'				=> __( 'Yeti', 'aus-basic' ),
 				)
 			)
@@ -135,7 +349,6 @@ class AUS_Customizer {
 			'0.3.0',
 			true
 		);
-
 	}
 
 }

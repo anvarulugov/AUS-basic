@@ -2,7 +2,10 @@
 require_once(TEMPLATEPATH.'/framework/includes.php');
 
 /* Activate Theme Options Class */
-new AUS_theme_options( $aus_config );
+//new AUS_theme_options( $aus_config );
+
+/* Activate Theme Metaboxes Class */
+new AUS_metabox( $aus_config['metaboxes'] );
 
 /* Activate Theme Elements Class */
 $aus_elements = new AUS_theme_elements( $aus_config );
@@ -12,6 +15,21 @@ if ( ! isset( $content_width ) ) $content_width = 850;
 if ( ! function_exists('aus_basic_setup') ) :
 
 function aus_basic_setup() {
+
+	// Custom background
+	add_theme_support( 'custom-background', array( 'default-color' => 'eee' ) );
+	
+	/* Add support for a custom header image (logo). */
+	add_theme_support(
+		'custom-header',
+		array(
+			'width'       => 1140,
+			'height'      => 150,
+			'flex-height' => true,
+			'flex-width'  => false,
+			'header-text' => false
+		)
+	);
 
 	// Make aus-basic available for translation.
 	load_theme_textdomain( 'aus-basic', get_template_directory() . '/languages' );

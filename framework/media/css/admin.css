@@ -1,25 +1,4 @@
 /**
- * Simple theme options page styles
- */
-
-.aus-tabs a:focus {
-	webkit-box-shadow: none;
-	box-shadow: none;
-}
-.tab-content {
-	display: none;
-}
-.tab-content.active {
-	display: block;
-}
-.nav-tab {
-	border: 1px solid #ccc;
-}
-.nav-tab-active, .nav-tab-active:hover {
-	border-bottom: 1px solid #f1f1f1;
-}
-
-/**
  * Magnificent theme options page styles
  */
 

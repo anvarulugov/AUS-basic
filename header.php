@@ -21,7 +21,7 @@
 	<div <?php container_class(); ?>>
 		<div class="row">
 			<div class="col-md-5">
-				<h1><?php $aus_elements->logo(); ?></h1>
+				<h1><?php $aus_elements->logo( array( 'img_class' => 'img-responsive' ) ); ?></h1>
 				<small><?php $aus_elements->site_description(); ?></small>
 			</div>
 			<div class="col-md-7">

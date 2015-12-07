@@ -7,6 +7,7 @@
  * - logo
  * - site_name
  * Navigation
+ * Navbar
  * Archive
  * - pager
  * Page
@@ -69,12 +70,15 @@ class AUS_theme_elements {
 	 * @return mixed
 	 */
 	private function settings( $key ) {
-		if ( isset( $this->options[ $key ] ) ) {
-			return $this->options[ $key ];
+		global $aus_options, $aus_config;
+		if ( 'customizer' == $aus_config['options_type'] ) {
+			return get_theme_mod( $key );
 		} else {
-			return false;
+			if ( isset( $this->options[ $key ] ) ) {
+				return $this->options[ $key ];
+			}
 		}
-		
+		return false;
 	}
 
 	/**
@@ -110,7 +114,9 @@ class AUS_theme_elements {
 	}
 
 	public function site_description() {
-		echo get_bloginfo( 'description' );
+		if ( $this->settings( 'site_description' ) ) {
+			echo get_bloginfo( 'description' );
+		}
 	}
 
 	/**
@@ -171,9 +177,7 @@ class AUS_theme_elements {
 			$html .= '<!-- Brand and toggle get grouped for better mobile display -->';
 			$html .= '<div class="navbar-header">';
 			if ( $nav_location == 'primary' && $this->settings( 'show_home_menu' ) == 'on' ) {
-				if ( $this->settings( 'home_menu_text' ) ) {
-					$html .= '<a data-target="#page-top" class="navbar-brand ' . $brand_class . '" href="' . home_url() . '">' . $this->settings( 'home_menu_text' ) . '</a>';
-				} else {
+				if ( ! $this->settings( 'home_menu_text' ) ) {
 					$html .= '<a data-target="#page-top" class="navbar-brand ' . $brand_class . '" href="' . home_url() . '"><i class="fa fa-home"></i></a>';
 				}
 			}
@@ -191,6 +195,11 @@ class AUS_theme_elements {
 			$html .= '<!-- Collect the nav links, forms, and other content for toggling -->';
 			$html .= '<div class="collapse navbar-collapse" id="navbar-collapse-' . $nav_location . '">';
 			$html .= '<ul class="nav navbar-nav ' . $nav_class . '">';
+			if ( $nav_location == 'primary' && $this->settings( 'show_home_menu' ) == 'on' ) {
+				if ( $this->settings( 'home_menu_text' ) ) {
+					$html .= '<li><a data-target="#page-top" class="page home-menu" href="' . home_url() . '">' . $this->settings( 'home_menu_text' ) . '</a></li>';
+				}
+			}
 			foreach ( $pages as $page ) {
 				if( ( ($page['object'] == 'page') && (is_page($page['object_id'])) ) || ( ($page['object'] == 'category') && (is_category($page['object_id'])) ) ) {
 					$active = 'class="active"';

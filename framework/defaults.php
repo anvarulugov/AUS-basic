@@ -129,9 +129,18 @@ $aus_metaboxes = array(
 					
 				),
 			),
+			array(
+				'id'			=> 'post_date_future',
+				'title'			=> __( 'Layout', 'aus-basic' ),
+				'type'			=> 'date',
+				'description'	=> __( 'Logo text description', 'aus-basic' ),
+				'value'			=> date('Y-m-d'),
+				'atts'			=> array( 'class' => 'aus-datepicker' ),
+			),
 		),
 	),
 );
+//$aus_metaboxes = '';
 
 $aus_config = array(
 	'theme_name'	=> 'AUS Basic',

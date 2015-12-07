@@ -1,11 +1,10 @@
 jQuery(document).ready(function($){
 
 	/**
-	 * Height fix
+	 * Date Picker init
 	 */
-	$(function() {
-		var minHeight = $('.aus-panel-sidebar').height();
-		$('.aus-panel').css('min-height', minHeight);
+	jQuery('.aus-datepicker').datepicker({
+		dateFormat : 'yy-mm-dd'
 	});
 
 	/**

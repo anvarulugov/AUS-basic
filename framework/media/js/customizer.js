@@ -6,6 +6,20 @@
  */
 ( function( $ ) {
 
+	// Update content background color
+	wp.customize( 'content_background', function( value ) {
+		value.bind( function( newval ) {
+			$( '.content' ).css( 'background-color', newval );
+		} );
+	} );
+
+	// Update input background color
+	wp.customize( 'input_bg_color', function( value ) {
+		value.bind( function( newval ) {
+			$( '.form-control, textarea, input' ).css( 'background-color', newval );
+		} );
+	} );
+
 	// Update container style
 	wp.customize( 'container_width', function( value ) {
 		value.bind( function( newval ) {
@@ -17,20 +31,61 @@
 	// Update CSS theme
 	wp.customize( 'css_theme', function( value ) {
 		value.bind( function( newval ) {
-			var css_theme;
+			var new_css;
 			switch( newval ) {
-				case 'yeti':
-					css_theme = 'yeti';
+				case 'cerulean':
+					new_css = 'cerulean';
+					break;
+				case 'cosmo':
+					new_css = 'cosmo';
+					break;
+				case 'cyborg':
+					new_css = 'cyborg';
+					break;
+				case 'darkly':
+					new_css = 'darkly';
+					break;
+				case 'flatly':
+					new_css = 'flatly';
+					break;
+				case 'journal':
+					new_css = 'journal';
+					break;
+				case 'lumen':
+					new_css = 'lumen';
 					break;
 				case 'paper':
-					css_theme = 'paper';
+					new_css = 'paper';
+					break;
+				case 'readable':
+					new_css = 'readable';
+					break;
+				case 'sandstone':
+					new_css = 'sandstone';
+					break;
+				case 'simplex':
+					new_css = 'simplex';
+					break;
+				case 'slate':
+					new_css = 'slate';
+					break;
+				case 'spacelab':
+					new_css = 'spacelab';
+					break;
+				case 'yeti':
+					new_css = 'yeti';
+					break;
+				case 'unite':
+					new_css = 'unite';
+					break;
+				case 'yeti':
+					new_css = 'yeti';
 					break;
 				default:
-					css_theme = 'bootstrap';
+					new_css = 'bootstrap';
 					break;
 			}
-			$( '#bootstrap-css' ).attr('href','');
-			$( '#bootstrap-css' ).attr('href', get_template_directory_uri() + '/media/css/' + css_theme + '.min.css' );
+			$( '#bootstrap-css' ).attr( 'href', get_template_directory_uri() + '/media/css/' + new_css + '.min.css' );
 		} );
 	} );
 
