@@ -118,7 +118,7 @@ class AUS_Customizer {
 		$wp_customize->add_control(
 			'show_home_menu',
 			array(
-				'section'	  => 'nav',
+				'section'	  => 'nav_menus',
 				'label'		  => __( 'Show Home Menu', 'aus-basic' ),
 				'type'		  => 'checkbox',
 			)
@@ -138,7 +138,7 @@ class AUS_Customizer {
 		$wp_customize->add_control(
 			'home_menu_text',
 			array(
-				'section'	  => 'nav',
+				'section'	  => 'nav_menus',
 				'label'		  => __( 'Show Menu Text', 'aus-basic' ),
 				'type'		  => 'text',
 			)

@@ -102,8 +102,7 @@ function aus_google_fonts() {
 add_action( 'wp_enqueue_scripts', 'aus_google_fonts' );
 
 function aus_scripts() {
-
-	wp_enqueue_style( 'bootstrap', get_template_directory_uri() . '/media/css/' . aus_settings( 'css_theme' ) . '.min.css', array(), '3.3.0' );
+	wp_enqueue_style( 'bootstrap', get_template_directory_uri() . '/media/css/' . aus_settings( 'css_theme', 'bootstrap' ) . '.min.css', array(), '3.3.0' );
 
 	wp_enqueue_style( 'bootstrap-fa-icon', get_template_directory_uri() . '/media/css/font-awesome.min.css', array(), '4.3.0' );
 
@@ -123,7 +122,6 @@ function aus_scripts() {
 	wp_enqueue_script( 'aus-basic-script', get_template_directory_uri() . '/media/js/functions.js', array( 'jquery' ), '3.3.0', true );
 
 }
-remove_action('wp_enqueue_scripts', 'osc_add_frontend_ebs_scripts',-100);
 add_action( 'wp_enqueue_scripts', 'aus_scripts' );
 
 function aus_wp_title( $title, $sep ) {

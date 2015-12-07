@@ -7,12 +7,12 @@ function get_aus_uri() {
 }
 endif;
 
-function aus_settings( $option ) {
+function aus_settings( $option, $default = false ) {
 
 	global $aus_options, $aus_config;
 
 	if ( 'customizer' == $aus_config['options_type'] ) {
-		return get_theme_mod( $option );
+		return get_theme_mod( $option, $default );
 	} else {
 		$options = get_option( $aus_config['theme_slug'] . '_theme_options', $aus_options );
 		if( isset( $options[ $option ] ) ) {
@@ -20,19 +20,19 @@ function aus_settings( $option ) {
 		}
 	}
 	
-	return false;
+	return $default;
 
 }
 
 if ( ! function_exists( 'aus_item_settings' ) ) :
-function aus_item_settings( $option ) {
+function aus_item_settings( $option, $default = false ) {
 	global $post;
 	if ( get_post_meta( $post->ID, $option, true ) ) {
 		return get_post_meta( $post->ID, $option, true );
-	} elseif ( aus_settings( $option ) ) {
-		return aus_settings( $option );
+	} elseif ( aus_settings( $option, $default ) ) {
+		return aus_settings( $option, $default );
 	}
-	return false;
+	return $default;
 }
 endif;
 
@@ -47,14 +47,14 @@ function get_container_class( $class = '' ) {
 	if ( ! empty( $class ) )
 		$class = ' '.$class;
 
-	return 'class="container-layout ' . aus_settings( 'container_width' ) . $class . '"';
+	return 'class="container-layout ' . aus_settings( 'container_width', 'container' ) . $class . '"';
 }
 endif;
 
 if ( ! function_exists( 'content_class' ) ) :
 function content_class( $class = '' ) {
 
-	$layout = aus_item_settings( 'item_layout_style' );
+	$layout = aus_item_settings( 'item_layout_style', 'col3' );
 
 	if ( ! empty( $class ) )
 		$class = ' '.$class;
@@ -202,11 +202,11 @@ function aus_isajax() {
 add_action( 'wp_head', 'aus_dynamic_css' );
 if ( ! function_exists( 'aus_dynamic_css' ) ) :
 function aus_dynamic_css() {
-	$content_background = aus_settings( 'content_background' );
+	$content_background = aus_settings( 'content_background', '#fff' );
 	$header_bg = aus_settings( 'header_backgorund' );
-	$header_bg_repeat = aus_settings( 'header_backgorund_repeat' );
-	$header_bg_position_x = aus_settings( 'header_backgorund_position_x' );
-	$input_background = aus_settings( 'input_bg_color' );
+	$header_bg_repeat = aus_settings( 'header_backgorund_repeat', 'repeat' );
+	$header_bg_position_x = aus_settings( 'header_backgorund_position_x', 'center' );
+	$input_background = aus_settings( 'input_bg_color', '#fff' );
 	?>
 	<style>
 	.header {

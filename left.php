@@ -1,4 +1,4 @@
-<?php $layout = aus_item_settings( 'item_layout_style' ); ?>
+<?php $layout = aus_item_settings( 'item_layout_style', 'col3' ); ?>
 <?php if ( is_active_sidebar( 'left' ) && ( $layout == 'col3' || $layout == 'col2l' ) ) : ?>
 <?php 
 if ( $layout == 'col3' ) {
