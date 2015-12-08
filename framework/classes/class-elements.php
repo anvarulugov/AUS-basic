@@ -401,7 +401,7 @@ class AUS_theme_elements {
 		global $post;
 		extract( $args, EXTR_OVERWRITE );
 		$date = date_i18n( get_option( 'date_format' ), strtotime( get_the_date( 'Y-m-d' ) ) );
-		echo $date;
+		return $date;
 	}
 
 	public function author() {

@@ -243,3 +243,5 @@ class AUS_theme_options {
 	}
 
 }
+/* Activate Theme Options Class */
+new AUS_theme_options( aus_configs() );

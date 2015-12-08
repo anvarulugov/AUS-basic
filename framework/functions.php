@@ -7,9 +7,32 @@ function get_aus_uri() {
 }
 endif;
 
-function aus_settings( $option, $default = false ) {
+function aus_configs( $key = false ) {
+	$aus_config = '';
+	if ( has_filter( 'aus_register_configs' ) ) {
+		$aus_config = apply_filters( 'aus_register_configs', $aus_config );
+	}
+	if ( $aus_config[ $key ] ) {
+		return $aus_config[ $key ];
+	}
+	return $aus_config;
+}
 
-	global $aus_options, $aus_config;
+function aus_options( $key = false ) {
+	$aus_options = '';
+	if ( has_filter( 'aus_register_options' ) ) {
+		$aus_options = apply_filters( 'aus_register_options', $aus_options );
+	}
+	if ( $aus_options[ $key ] ) {
+		return $aus_options[ $key ];
+	}
+	return $aus_options;
+}
+
+function aus_settings( $option, $default = false ) {
+	
+	$aus_config = aus_configs();
+	$aus_options = aus_options();
 
 	if ( 'customizer' == $aus_config['options_type'] ) {
 		return get_theme_mod( $option, $default );

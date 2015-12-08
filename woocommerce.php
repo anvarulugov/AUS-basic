@@ -1,9 +1,8 @@
 <?php get_header(); ?>
 <div <?php content_class( 'content' ); ?>>
-	<div class="text-center">
-		<h2>Error 404</h2>
-		<img src="<?php echo get_template_directory_uri(); ?>/media/img/404.jpg">
-	</div>
+<?php do_action( 'aus_before_loop' ); ?>
+<?php woocommerce_content(); ?>
+<?php do_action( 'aus_after_loop' ); ?>
 </div>
 <?php get_template_part( 'left' ); ?>
 <?php get_template_part( 'right' ); ?>

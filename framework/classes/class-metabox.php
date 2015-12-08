@@ -12,7 +12,7 @@
  * @author Anvar Ulugov
  * @license GPL2
  */
-
+if ( ! class_exists( 'AUS_metabox' ) ) :
 class AUS_metabox {
 
 	private $metaboxes;
@@ -126,3 +126,6 @@ class AUS_metabox {
 	}
 
 }
+/* Activate Theme Metaboxes Class */
+new AUS_metabox( aus_configs('metaboxes') );
+endif;

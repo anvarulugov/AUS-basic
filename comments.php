@@ -7,7 +7,6 @@ if ( post_password_required() ) {
 	return;
 }
 
-global $aus_elements;
 ?>
 <div id="comments" class="row">
 <?php comment_form( array( 'class_submit' => 'btn btn-primary' ) ); ?>
@@ -26,7 +25,7 @@ global $aus_elements;
 			'type'=>'comment',
 			'short_ping' => true,
 			'avatar_size'=> 34,
-			'callback'=>array( $aus_elements, 'comment_template' ) 
+			'callback'=>'aus_comment_template'
 		) ); ?>
 	</section><!-- .comment-list -->
 
