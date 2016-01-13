@@ -45,24 +45,21 @@ class AUS_Elements {
 		/* Sets the path to the core framework functions directory. */
 		define( 'AUS_FUNCTIONS', trailingslashit( AUS_DIR ) . 'functions' );
 
-		/* Sets the path to the core framework functions directory. */
+		/* Sets the path to the core framework widgets directory. */
 		define( 'AUS_WIDGETS', trailingslashit( AUS_DIR ) . 'widgets' );
+
+		/* Sets the path to the core framework shortcodes directory. */
+		define( 'AUS_SHORTCODES', trailingslashit( AUS_DIR ) . 'shortcodes' );
 
 	}
 
 	public function core() {
-
-		// Load default configs
-		require_once( trailingslashit( AUS_DIR ) . 'defaults.php' );
 
 		// Load framework functions
 		require_once( trailingslashit( AUS_DIR ) . 'functions.php' );
 
 		// Load input field render class
 		require_once( trailingslashit( AUS_CLASSES ) . 'class-input.php' );
-
-		// Load theme elements generator class
-		require_once( trailingslashit( AUS_CLASSES ) . 'class-elements.php' );
 
 		// Load theme elements generator class
 		require_once( trailingslashit( AUS_FUNCTIONS ) . 'elements.php' );
@@ -72,6 +69,9 @@ class AUS_Elements {
 
 		/* Load the TGM if supported. */
 		require_if_theme_supports( 'tgm', trailingslashit( AUS_CLASSES ) . 'class-tgm.php' );
+
+		/* Load the theme options default configs if supported. */
+		require_if_theme_supports( 'theme-options', trailingslashit( AUS_DIR ) . 'defaults.php' );
 
 		/* Load the theme options if supported. */
 		require_if_theme_supports( 'theme-options', trailingslashit( AUS_CLASSES ) . 'class-options.php' );
@@ -84,6 +84,13 @@ class AUS_Elements {
 
 		/* Load the widgets if supported. */
 		require_if_theme_supports( 'aus-core-widgets', trailingslashit( AUS_FUNCTIONS ) . 'core-widgets.php' );
+
+		/* Load the widgets if supported. */
+		require_if_theme_supports( 'aus-shortcodes', trailingslashit( AUS_FUNCTIONS ) . 'shortcodes.php' );
+
+	}
+
+	public function shortcodes() {
 
 	}
 

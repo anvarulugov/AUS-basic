@@ -115,7 +115,6 @@ function aus_navbar( $nav_location = 'primary', $args = array() ) {
  * @return mixed
  */
 function aus_get_navbar( $nav_location = 'primary', $args = array() ) {
-
 	$container_class = get_container_class();
 	$navbar_class = 'navbar-default';
 	$nav_class = '';
@@ -123,9 +122,9 @@ function aus_get_navbar( $nav_location = 'primary', $args = array() ) {
 	$item_class = '';
 	$html = '';
 	extract( $args, EXTR_OVERWRITE );
-	$pages = aus_get_pages( $nav_location );
-	if ( $pages ):
-		$html .= '<nav class="navbar ' . $navbar_class . ( $nav_location != 'primary' ? ' not-primary' : ' primary' ) . '" role="navigation">';
+	$items = aus_get_pages( $nav_location );
+	if ( $items ):
+	$html .= '<nav class="navbar ' . $navbar_class . ( $nav_location != 'primary' ? ' not-primary' : ' primary' ) . '" role="navigation">';
 		$html .= '<div ' . $container_class . '>';
 		$html .= '<!-- Brand and toggle get grouped for better mobile display -->';
 		$html .= '<div class="navbar-header">';
@@ -153,26 +152,31 @@ function aus_get_navbar( $nav_location = 'primary', $args = array() ) {
 				$html .= '<li><a data-target="#page-top" class="page home-menu" href="' . home_url() . '">' . aus_settings( 'home_menu_text' ) . '</a></li>';
 			}
 		}
-		foreach ( $pages as $page ) {
-			if( ( ($page['object'] == 'page') && (is_page($page['object_id'])) ) || ( ($page['object'] == 'category') && (is_category($page['object_id'])) ) ) {
-				$active = 'class="active"';
-			} else {
-				$active = '';
-			}
-			$page['classes'] .= ' '.$page['object'];
-			$page['classes'] .= ' '.$item_class;
-			if ( empty( $page['childs'] ) ):
-				$html .= '<li ' . $active . '><a data-target="#page-' . $page['id'] . '" title="' . $page['attr_title'] . '" class="' . $page['classes'] . '" target="' . $page['target'] . '" href="' . $page['url'] . '">' . $page['title'] . '</a></li>';
-			elseif ( !empty( $page['childs'] ) ):
-				$html .= '<li class="dropdown"><a href="' . $page['url'] . '" class="' . $page['classes'] . ' dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">' . $page['title'] . '&nbsp;<span class="caret"></span></a>';
-				$html .= '<ul class="dropdown-menu" role="menu">';
-				foreach ( $page['childs'] as $child ) {
-					$child['classes'] .= ' '.$child['object'];
-					$child['classes'] .= ' '.$item_class;
-					$html .= '<li><a data-target="#page-' . $page['id'] . '" class="' . $child['classes'] . '" href="' . $child['url'] . '">' . $child['title'] . '</a></li>';
+		foreach ( $items as $item ) {
+			$html .= '<li id="menu-item-' . esc_attr( $item->ID ) . '" class="' . ( $item->children ? 'dropdown ' : '' ) . 'menu-item menu-item-type-' . esc_attr( $item->type ) . ' menu-item-object-' . $item->object . ' menu-item-' . esc_attr( $item->ID ) . ' ' . implode( ' ', $item->classes ) . ( aus_is_active_menu( $item->object, $item->object_id ) ? ' active' : '' ) . '"><a ' . ( $item->children ? 'class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"' : '' ) . ' href="' . esc_url( $item->url ) . '" title="' . esc_attr( $item->attr_title ) . '" target="' . esc_attr( $item->target ) . '" rel="' . esc_attr( $item->xfn ) . '">' . esc_attr( $item->title ) . ' ' . ( $item->children ? '<span class="caret"></span>' : '' ) . '</a>';
+			if ( $item->children ) {
+				$html .= '<ul class="dropdown-menu">';
+				foreach ( $item->children as $child ) {
+					if ( $child->children && $child->left ) {
+						$caret_left = '<span class="caret"></span> ';
+					} else {
+						$caret_left = '';
+					}
+					if ( $child->children && ! $child->left ) {
+						$caret_right = ' <span class="caret"></span>';
+					} else {
+						$caret_right = '';
+					}
+					$html .= '<li id="menu-item-' . esc_attr( $child->ID ) . '" class="' . ( $child->children ? 'dropdown ' : '' ) . 'menu-item menu-item-type-' . esc_attr( $child->type ) . ' menu-item-object-' . $child->object . ' menu-item-' . esc_attr( $child->ID ) . ' ' . implode( ' ', $child->classes ) . ( aus_is_active_menu( $child->object, $child->object_id ) ? ' active' : '' ) . '"><a ' . ( $child->children ? 'class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"' : '' ) . ' href="' . esc_url( $child->url ) . '" title="' . esc_attr( $child->attr_title ) . '" target="' . esc_attr( $child->target ) . '" rel="' . esc_attr( $child->xfn ) . '">' . $caret_left . esc_attr( $child->title ) . $caret_right . '</a>';
+					if ( $child->children ) {
+						$html .= aus_render_grand_children( $child->children );
+					}
+					$html .= '</li>';
 				}
-				$html .= '</ul></li>';
-			endif;
+				$html .= '</ul>';
+			}
+			$html .= '</li>';
+			$html .= '';
 		}
 		$html .= '</ul>';
 		$html .= '</div><!-- /.navbar-collapse -->';
@@ -181,6 +185,29 @@ function aus_get_navbar( $nav_location = 'primary', $args = array() ) {
 
 		return $html;
 	endif;
+}
+
+function aus_render_grand_children( $items ) {
+	$html  = '<ul class="dropdown-menu dropdown-sub-menu">';
+	foreach ( $items as $item ) {
+		if ( $item->children && $item->left ) {
+			$caret_left = '<span class="caret"></span> ';
+		} else {
+			$caret_left = '';
+		}
+		if ( $item->children && ! $item->left ) {
+			$caret_right = ' <span class="caret"></span>';
+		} else {
+			$caret_right = '';
+		}
+		$html .= '<li id="menu-item-' . esc_attr( $item->ID ) . '" class="' . ( $item->children ? 'dropdown ' : '' ) . 'menu-item menu-item-type-' . esc_attr( $item->type ) . ' menu-item-object-' . $item->object . ' menu-item-' . esc_attr( $item->ID ) . ' ' . implode( ' ', $item->classes ) . ( aus_is_active_menu( $item->object, $item->object_id ) ? ' active' : '' ) . '"><a ' . ( $item->children ? 'class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"' : '' ) . ' href="' . esc_url( $item->url ) . '" title="' . esc_attr( $item->attr_title ) . '" target="' . esc_attr( $item->target ) . '" rel="' . esc_attr( $item->xfn ) . '">' . $caret_left . esc_attr( $item->title ) . $caret_right . '</a>';
+		if ( $item->children ) {
+			$html .= aus_render_grand_children( $item->children );
+		}
+		$html .= '</li>';
+	}
+	$html .= '</ul>';
+	return $html;
 }
 
 /**
@@ -201,53 +228,30 @@ function aus_get_pages( $nav_location = 'primary' ) {
 	}
 	
 	if ( $items ):
-		foreach ( $items as $item ) {
-			if ( $item->menu_item_parent == 0 ) {
-				$pages[] = array( 
-					'id' => $item->ID,
-					'title' => $item->title,
-					'object' => $item->object,
-					'object_id' => $item->object_id,
-					'url' => $item->url,
-					'childs' => aus_get_page_childs( $item->ID, $items ),
-					'classes' => implode( ' ', $item->classes ),
-					'target' => $item->target,
-					'attr_title' => $item->attr_title,
-					'description' => $item->description,
-				 );
-			}
-		}
+		$pages = aus_build_tree( $items );
 		return $pages;
 	else:
 		return false;
 	endif;
 }
 
-/**
- * @param $parent
- * @param $childs
- * @return mixed
- */
-function aus_get_page_childs( $parent, $childs ) {
-	$children = array();
-	foreach ( $childs as $child ) {
-		if ( $child->menu_item_parent == $parent ) {
-			$children[] = array( 
-				'id' => $child->ID, 
-				'title' => $child->title, 
-				'object' => $child->object,
-				'object_id' => $child->object_id,
-				'url' => $child->url, 
-				'classes' => implode( ' ', $child->classes ),
-				'target' => $child->target,
-				'attr_title' => $child->attr_title,
-				'description' => $child->description,
-				'childs' => aus_get_page_childs( $child->ID, $childs )
-			 );
-		}
+function aus_build_tree( array $items, $parent = 0, $left = false ) {
+	$branch = array();
 
+	foreach ( $items as $key => $item ) {
+		if ( in_array( 'drop-left', $item->classes ) || $left ) {
+			$item->left = true;
+		}
+		if ( $item->menu_item_parent == $parent ) {
+			$children = aus_build_tree( $items, $item->ID, $item->left );
+			if ( $children ) {
+				$item->children = $children;
+			}
+			array_push( $branch, $item );
+		}
 	}
-	return $children;
+
+	return $branch;
 }
 
 function aus_page_title() {
@@ -356,11 +360,12 @@ function aus_get_categories( $post_id = null, $args = array() ) {
 	if ( ! empty( $post_categories ) && ! is_page() ) {
 		$i = 1;
 		$cats_count = count( $post_categories );
+		$html = '';
 		foreach ( $post_categories as $cat ) {
 
 			if ( $cat->term_id != aus_settings( 'featured_cat' ) ) {
 				if ( $link ) {
-					$html = '<a class="' . $class . '" target="' . $target . '" title="' . $title . '" href="' . get_category_link( $cat->term_id ) . '">';
+					$html .= '<a class="' . $class . '" target="' . $target . '" title="' . $title . '" href="' . get_category_link( $cat->term_id ) . '">';
 				}
 				$html .= $cat->name;
 				if ( $link ) {
@@ -370,10 +375,9 @@ function aus_get_categories( $post_id = null, $args = array() ) {
 			if ( $cats_count > 1 && $i < $cats_count ) {
 				$html .= ', ';
 			}
-			return $before . $html . $after;
 			$i++;
-
 		}
+		return $before . $html . $after;
 	} else {
 		return false;
 	}

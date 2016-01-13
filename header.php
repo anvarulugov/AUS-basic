@@ -16,7 +16,7 @@
 <body <?php body_class(); ?>>
 <?php do_action( 'aus_before_page' ); ?>
 <?php aus_navbar( 'top-menu', array( 'navbar_class' => 'navbar-inverse' ) ); ?>
-<div class="header">
+<div class="header" role="banner">
 	<div <?php container_class(); ?>>
 		<div class="row">
 			<div class="col-md-5">

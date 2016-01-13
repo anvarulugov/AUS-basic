@@ -6,6 +6,13 @@
  */
 ( function( $ ) {
 
+	// Update header background color
+	wp.customize( 'header_background', function( value ) {
+		value.bind( function( newval ) {
+			$( '.header' ).css( 'background-color', newval );
+		} );
+	} );
+
 	// Update content background color
 	wp.customize( 'content_background', function( value ) {
 		value.bind( function( newval ) {
@@ -20,6 +27,43 @@
 		} );
 	} );
 
+	// Toggle home menu
+	wp.customize( 'show_home_menu', function( value ) {
+		value.bind( function( newval ) {
+			if ( newval != '' || newval != false ) {
+				$( '.navbar-brand' ).parent().show();
+			} else {
+				$( '.navbar-brand' ).parent().hide();
+			}
+			
+		} );
+	} );
+	/*
+	// Toggle home menu
+	wp.customize( 'home_menu_text', function( value ) {
+		value.bind( function( newval ) {
+			if ( newval != '' || newval != false ) {
+				$( 'nav.primary .navbar-brand' ).hide();
+				if ( $( '#navbar-collapse-primary ul.navbar-nav .home-menu' )[0] ) {
+					$( '#navbar-collapse-primary ul.navbar-nav .home-menu' ).show();
+					$( '#navbar-collapse-primary ul.navbar-nav .home-menu' ).text( newval );
+				} else {
+					$( '#navbar-collapse-primary ul.navbar-nav' ).prepend('<li><a data-target="#page-top" class="page home-menu" href="' + home_url() + '">' + newval + '</a></li>');
+				}
+			} else {
+				if ( $( 'nav.primary .navbar-brand' )[0] ) {
+					$( '#navbar-collapse-primary ul.navbar-nav .home-menu' ).hide();
+					$( 'nav.primary .navbar-brand' ).show();
+					$( 'nav.primary .navbar-brand' ).html('<i class="fa fa-home"></i>');
+				} else {
+					$( '#navbar-collapse-primary ul.navbar-nav .home-menu' ).hide();
+					$( 'nav.primary .navbar-header' ).prepend('<a data-target="#page-top" class="navbar-brand " href="' + home_url() + '"><i class="fa fa-home"></i></a>');
+				}
+			}
+			
+		} );
+	} );
+	*/
 	// Update container style
 	wp.customize( 'container_width', function( value ) {
 		value.bind( function( newval ) {
@@ -29,6 +73,7 @@
 	} );
 
 	// Update CSS theme
+	/*
 	wp.customize( 'css_theme', function( value ) {
 		value.bind( function( newval ) {
 			var new_css;
@@ -120,5 +165,5 @@
 			}
 		} );
 	} );
-	
+	*/
 } )( jQuery );

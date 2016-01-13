@@ -1,5 +1,5 @@
 <?php get_header(); ?>
-<div <?php content_class( 'content' ); ?>>
+<div <?php content_class( 'content' ); ?> role="main">
 <?php do_action( 'aus_before_loop' ); ?>
 <?php woocommerce_content(); ?>
 <?php do_action( 'aus_after_loop' ); ?>

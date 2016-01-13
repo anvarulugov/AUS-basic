@@ -1,11 +1,11 @@
 <?php 
 
-require_once( TEMPLATEPATH . '/framework/aus-elements.php' );
+require_once( get_template_directory() . '/framework/aus-elements.php' );
 new AUS_Elements();
 
 if ( ! isset( $content_width ) ) $content_width = 850;
 
-if ( ! function_exists('aus_basic_basic_setup') ) :
+if ( ! function_exists( 'aus_basic_basic_setup' ) ) :
 
 function aus_basic_basic_setup() {
 
@@ -15,7 +15,7 @@ function aus_basic_basic_setup() {
 
 	// Add Customizer Support
 	add_theme_support( 'theme-customizer' );
-	add_theme_support( 'theme-options' );
+	//add_theme_support( 'theme-options' );
 
 	// Add Metabox Support
 	add_theme_support( 'custom-metabox' );
@@ -24,7 +24,10 @@ function aus_basic_basic_setup() {
 	add_theme_support( 'aus-core-widgets' );
 
 	// Custom background
-	add_theme_support( 'custom-background', array( 'default-color' => 'eee' ) );
+	add_theme_support( 'custom-background', array( 'default-color' => 'fff' ) );
+
+	// AUS Premium Shortcodes
+	add_theme_support( 'aus-shortcodes' );
 	
 	/* Add support for a custom header image (logo). */
 	add_theme_support(
@@ -33,7 +36,7 @@ function aus_basic_basic_setup() {
 			'width'       => 1140,
 			'height'      => 150,
 			'flex-height' => true,
-			'flex-width'  => false,
+			'flex-width'  => true,
 			'header-text' => false
 		)
 	);
@@ -49,12 +52,12 @@ function aus_basic_basic_setup() {
 	add_image_size( 'gallery-thumbnail', 400, 300, true );
 
 	// Enable post formats
-	add_theme_support( 'post-formats', array( 'image', 'gallery', 'video', 'audio' ) );
+	// add_theme_support( 'post-formats', array( 'image', 'gallery', 'video', 'audio' ) );
 
 	// Register wp_nav_menu() positions
 	register_nav_menus(array(
-		'primary'=>'Themeslug Primary horizontal menu',
-		'top-menu'=>'Themeslug top horizontal menu',
+		'primary'=>'Primary Navbar',
+		'top-menu'=>'Top Navbar',
 	));
 
 	/**
@@ -91,12 +94,27 @@ function aus_basic_configs() {
 					),
 				),
 				array(
-					'id'			=> 'post_date_future',
-					'title'			=> __( 'Layout', 'aus-basic' ),
-					'type'			=> 'date',
-					'description'	=> __( 'Logo text description', 'aus-basic' ),
-					'value'			=> date('Y-m-d'),
-					'atts'			=> array( 'class' => 'aus-datepicker' ),
+					'id'			=> 'item_show_title',
+					'title'			=> __( 'Show Item Title', 'aus-basic' ),
+					'type'			=> 'radio',
+					'description'	=> __( 'Show or Hide Entry Title', 'aus-basic' ),
+					'options'		=> array( 'yes' => __( 'Show', 'aus-basic' ), 'no' => __( 'Hide', 'aus-basic' ) ),
+					'value'			=> 'yes',
+				),
+				array(
+					'id'			=> 'item_show_meta',
+					'title'			=> __( 'Show Item Meta', 'aus-basic' ),
+					'type'			=> 'radio',
+					'description'	=> __( 'Show or Hide Entry Meta', 'aus-basic' ),
+					'options'		=> array( 'yes' => __( 'Show', 'aus-basic' ), 'no' => __( 'Hide', 'aus-basic' ) ),
+					'value'			=> 'yes',
+				),
+				array(
+					'id'			=> 'item_content_class',
+					'title'			=> __( 'Content Class', 'aus-basic' ),
+					'type'			=> 'text',
+					'description'	=> __( 'Item body wrapper class', 'aus-basic' ),
+					'value'			=> 'content',
 				),
 			),
 		),
@@ -202,21 +220,6 @@ function aus_basic_wp_title( $title, $sep ) {
 
 }
 add_action( 'wp_title', 'aus_basic_wp_title', 10, 2 );
-
-add_action( 'aus_basic_before_footer', 'page_bottom_widget' );
-function page_bottom_widget() {
-	if ( is_active_sidebar( 'page_bottom' ) ) : ?>
-	<div class="page-bottom">
-		<div class="container">
-			<div class="row">
-				<div class="col-sm-12">
-					<?php dynamic_sidebar( 'page_bottom' ); ?>
-				</div>
-			</div>
-		</div>
-	</div>
-	<?php endif;
-}
 
 add_action( 'after_setup_theme', 'aus_woocommerce_support' );
 function aus_woocommerce_support() {

@@ -47,6 +47,21 @@ function aus_settings( $option, $default = false ) {
 
 }
 
+function aus_is_active_menu( $type, $id ) {
+	switch ($type) {
+		case 'page':
+		default:
+			if( is_page( $id ) )
+				return true;
+			break;
+		case 'category':
+			if( is_category( $id ) )
+				return true;
+			break;
+	}
+	return false;
+}
+
 if ( ! function_exists( 'aus_item_settings' ) ) :
 function aus_item_settings( $option, $default = false ) {
 	global $post;
@@ -115,8 +130,8 @@ function aus_hit_count() {
 if ( ! function_exists( 'aus_lightbox_post_image' ) ) :
 function aus_lightbox_post_image ( $content ) {
 	global $post;
-	$pattern = "/<a(.*?)href=('|\")(.*?).(bmp|gif|jpeg|jpg|png)('|\")(.*?)>/i";
-	$replacement = '<a$1 data-lightbox="post-image" href=$2$3.$4$5$6</a>';
+	$pattern = "/<a(.*)href=('|\")(.*?).(jpg|jpeg|gif|png|bmp)('|\")(.*?)><img/i";
+	$replacement = '<a$1data-lightbox="post-image" href=$2$3.$4$5$6><img';
 	$content = preg_replace($pattern, $replacement, $content);
 	//$content = str_replace("%LIGHTID%", $post->ID, $content);
 	return $content;
@@ -225,6 +240,7 @@ function aus_isajax() {
 add_action( 'wp_head', 'aus_dynamic_css' );
 if ( ! function_exists( 'aus_dynamic_css' ) ) :
 function aus_dynamic_css() {
+	$header_background = aus_settings( 'header_background', '#fff' );
 	$content_background = aus_settings( 'content_background', '#fff' );
 	$header_bg = aus_settings( 'header_backgorund' );
 	$header_bg_repeat = aus_settings( 'header_backgorund_repeat', 'repeat' );
@@ -233,6 +249,7 @@ function aus_dynamic_css() {
 	?>
 	<style>
 	.header {
+		background-color: <?php echo esc_attr($header_background); ?>;
 		background-image: url(<?php echo esc_url( get_header_image() ); ?>);
 		background-repeat: <?php echo esc_attr( $header_bg_repeat ); ?>;
 		background-position-x: <?php echo esc_attr( $header_bg_position_x ); ?>;

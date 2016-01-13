@@ -1,5 +1,5 @@
 <?php global $aus_elements; ?>
-<div <?php content_class('content'); ?>>
+<div <?php content_class('content'); ?> role="main">
 <div class="bs-callout bs-callout-info">
 	<h4><?php echo $aus_elements->page_title(); ?></h4>
 	<p><?php echo category_description(); ?></p>

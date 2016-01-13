@@ -59,7 +59,8 @@ class AUS_input {
 			$value = $this->_esc_attr( $id, $type );
 		} elseif ( $name_type == 'metabox' && $post_id ) {
 			$field_name = $id;
-			$value = get_post_meta( $post_id, $id, true );
+			if ( get_post_meta( $post_id, $id, true ) )
+				$value = get_post_meta( $post_id, $id, true );
 		}
 		
 

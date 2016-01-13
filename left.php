@@ -8,7 +8,7 @@ if ( $layout == 'col3' ) {
 }
 ?>
 <?php do_action( 'aus_before_left' ); ?>
-<div <?php sidebar_class( $pull_class . ' left' ); ?>>
+<div <?php sidebar_class( $pull_class . ' left' ); ?> role="complementary">
 	<?php dynamic_sidebar( 'left' ); ?>
 </div>
 <?php do_action( 'aus_after_left' ); ?>

@@ -14,6 +14,10 @@
 	padding-right: 15px !important;
 	padding-left: 15px !important;
 }
+.form-submit {
+	display: block;
+	clear: both;
+}
 .comment-form-author,
 .comment-form-email,
 .comment-form-url,

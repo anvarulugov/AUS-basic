@@ -14,13 +14,40 @@ class AUS_Customizer {
 	}
 
 	public function register( $wp_customize ) {
-	
+		
+		/**
+		 * Add Content bg color
+		 */
+		$wp_customize->add_setting(
+			'header_background',
+			array(
+				'capability'  => 'edit_theme_options',
+				'sanitize_callback'	=> 'sanitize_hex_color',
+				'default'     => '#fff',
+				'transport'   => 'postMessage'
+			)
+		);
+
+		$wp_customize->add_control(
+			new WP_Customize_Color_Control(
+				$wp_customize,
+				'header_background',
+				array(
+					'label'      => __( 'Header Backgound Color', 'aus-basic' ),
+					'section'    => 'colors',
+					'settings'   => 'header_background'
+				)
+			)
+		);
+
 		/**
 		 * Add Content bg color
 		 */
 		$wp_customize->add_setting(
 			'content_background',
 			array(
+				'capability'  => 'edit_theme_options',
+				'sanitize_callback'	=> 'sanitize_hex_color',
 				'default'     => '#fff',
 				'transport'   => 'postMessage'
 			)
@@ -44,6 +71,8 @@ class AUS_Customizer {
 		$wp_customize->add_setting(
 			'input_bg_color',
 			array(
+				'capability'  => 'edit_theme_options',
+				'sanitize_callback'	=> 'sanitize_hex_color',
 				'default'     => '#fff',
 				'transport'   => 'postMessage'
 			)
@@ -67,6 +96,8 @@ class AUS_Customizer {
 		$wp_customize->add_setting(
 			'logo_img',
 			array(
+				'capability'  => 'edit_theme_options',
+				'sanitize_callback'	=> 'esc_url_raw',
 				'default'	  => '',
 				'transport'	  => 'postMessage'
 			)
@@ -90,6 +121,8 @@ class AUS_Customizer {
 		$wp_customize->add_setting(
 			'site_description',
 			array(
+				'capability'  => 'edit_theme_options',
+				'sanitize_callback'	=> array( $this, 'customize_sanitize' ),
 				'default'	  => true,
 				'transport'	  => 'postMessage'
 			)
@@ -110,8 +143,11 @@ class AUS_Customizer {
 		$wp_customize->add_setting(
 			'show_home_menu',
 			array(
+				'capability'  => 'edit_theme_options',
+				'sanitize_callback'	=> array( $this, 'customize_sanitize' ),
 				'default'	  => true,
-				'transport'	  => 'postMessage'
+				//'transport'	  => 'postMessage'
+				'transport'	  => 'refresh'
 			)
 		);
 
@@ -130,8 +166,11 @@ class AUS_Customizer {
 		$wp_customize->add_setting(
 			'home_menu_text',
 			array(
-				'default'	  => 'Home',
-				'transport'	  => 'postMessage'
+				'capability'  => 'edit_theme_options',
+				'sanitize_callback'	=> array( $this, 'customize_sanitize' ),
+				'default'	  => '',
+				//'transport'	  => 'postMessage'
+				'transport'	  => 'refresh'
 			)
 		);
 
@@ -143,32 +182,6 @@ class AUS_Customizer {
 				'type'		  => 'text',
 			)
 		);
-		
-
-		/**
-		 * Add header backgound image setting
-		 */
-		/*
-		$wp_customize->add_setting(
-			'header_backgorund',
-			array(
-				'default'	  => get_template_directory_uri() . '/media/img/header_bg.png',
-				'transport'	  => 'postMessage'
-			)
-		);
-
-		$wp_customize->add_control( 
-			new WP_Customize_Image_Control( 
-				$wp_customize, 
-				'header_backgorund', 
-				array(
-					'label'    => __( 'Header backgound', 'aus-basic' ),
-					'section'  => 'header_image',
-					'settings' => 'header_backgorund',
-				) 
-			) 
-		);
-		*/
 	
 		/**
 		 * Add Header Background image repeat
@@ -176,6 +189,8 @@ class AUS_Customizer {
 		$wp_customize->add_setting(
 			'header_backgorund_repeat',
 			array(
+				'capability'  => 'edit_theme_options',
+				'sanitize_callback'	=> array( $this, 'customize_sanitize' ),
 				'default'	  => 'repeat',
 				'transport'	  => 'postMessage'
 			)
@@ -202,6 +217,8 @@ class AUS_Customizer {
 		$wp_customize->add_setting(
 			'header_backgorund_position_x',
 			array(
+				'capability'  => 'edit_theme_options',
+				'sanitize_callback'	=> array( $this, 'customize_sanitize' ),
 				'default'	  => 'center',
 				'transport'	  => 'postMessage'
 			)
@@ -224,6 +241,8 @@ class AUS_Customizer {
 		$wp_customize->add_setting(
 			'header_backgorund_position_y',
 			array(
+				'capability'  => 'edit_theme_options',
+				'sanitize_callback'	=> array( $this, 'customize_sanitize' ),
 				'default'	  => 'top',
 				'transport'	  => 'postMessage'
 			)
@@ -246,6 +265,8 @@ class AUS_Customizer {
 		$wp_customize->add_setting(
 			'container_width',
 			array(
+				'capability'  => 'edit_theme_options',
+				'sanitize_callback'	=> array( $this, 'customize_sanitize' ),
 				'default'	  => 'container',
 				'transport'	  => 'postMessage'
 			)
@@ -270,8 +291,11 @@ class AUS_Customizer {
 		$wp_customize->add_setting(
 			'css_theme',
 			array(
+				'capability'  => 'edit_theme_options',
+				'sanitize_callback'	=> array( $this, 'customize_sanitize' ),
 				'default'	  => 'bootstrap',
-				'transport'	  => 'postMessage'
+				//'transport'	  => 'postMessage'
+				'transport'	  => 'refresh'
 			)
 		);
 
@@ -309,8 +333,11 @@ class AUS_Customizer {
 		$wp_customize->add_setting(
 			'item_layout_style',
 			array(
+				'capability'  => 'edit_theme_options',
+				'sanitize_callback'	=> array( $this, 'customize_sanitize' ),
 				'default'	  => 'col3',
-				'transport'	  => 'postMessage'
+				//'transport'	  => 'postMessage'
+				'transport'	  => 'refresh'
 			)
 		);
 
@@ -337,6 +364,9 @@ class AUS_Customizer {
 			function get_template_directory_uri() {
 				return '" . get_template_directory_uri() . "';
 			}
+			function home_url() {
+				return '" . home_url() . "';
+			}
 			</script>
 		";
 	}
@@ -349,6 +379,10 @@ class AUS_Customizer {
 			'0.3.0',
 			true
 		);
+	}
+
+	public function customize_sanitize( $value ) {
+		return $value;
 	}
 
 }

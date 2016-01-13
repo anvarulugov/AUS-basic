@@ -1,10 +1,13 @@
-<div <?php content_class( 'content' ); ?>>
+<div <?php content_class( aus_item_settings( 'item_content_class', 'content' ) ); ?> role="main">
 <?php if ( have_posts() ) : ?>
 <?php while ( have_posts() ) : the_post(); ?>
 <?php do_action( 'aus_before_post' ); ?>
 <article id="post-<?php the_ID(); ?>" <?php post_class( 'article clearfix' ); ?>>
 	<header class="entry-header">
+		<?php if ( aus_item_settings( 'item_show_title', 'yes' ) == 'yes' ) : ?>
 		<h3 class="entry-title"><?php the_title(); ?></h3>
+		<?php endif; ?>
+		<?php if ( aus_item_settings( 'item_show_meta', 'yes' ) == 'yes' ) : ?>
 		<div class="entry-meta">
 			<time pubdate="pubdate" datetime="<?php the_time('Y-m-d') ?>"><i class="fa fa-calendar"></i> <?php aus_date() ?></time> | <i class="fa fa-user"></i> <?php the_author_posts_link(); ?>
 			<?php if( has_category() ) : ?>
@@ -12,6 +15,7 @@
 			<?php endif; ?>
 			 | <i class="fa fa-eye"></i> <?php aus_views(); ?>
 		</div>
+		<?php endif; ?>
 	</header>
 	<div class="entry-content">
 		<?php the_content(); ?>
