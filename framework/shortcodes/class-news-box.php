@@ -8,6 +8,42 @@ class AUS_NewsBox {
 
 	public function newbox() {
 	?>
+
+	<div id="carousel" class="carousel slide carousel-fade" data-ride="carousel" style="height: 450px; margin-bottom:15px;">
+		<ol class="carousel-indicators">
+			<li data-target="#carousel" data-slide-to="0" class="active"></li>
+			<li data-target="#carousel" data-slide-to="1"></li>
+			<li data-target="#carousel" data-slide-to="2"></li>
+		</ol>
+		<!-- Carousel items -->
+		<div class="carousel-inner">
+			<div class="active item">
+				<div class="carousel-caption animated fadeInUp"> <h3>First slide label</h3> <p>Nulla vitae elit libero, a pharetra augue mollis interdum.</p> </div>
+			</div>
+			<div class="item">
+				<div class="carousel-caption animated fadeInUp"> <h3>Second slide label</h3> <p>Nulla vitae elit libero, a pharetra augue mollis interdum.</p> </div>
+			</div>
+			<div class="item">
+				<div class="carousel-caption animated fadeInUp"> <h3>Third slide label</h3> <p>Nulla vitae elit libero, a pharetra augue mollis interdum.</p> </div>
+			</div>
+		</div>
+		<!-- Carousel nav -->
+		<a class="carousel-control left" href="#carousel" data-slide="prev"><span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span><span class="sr-only">Previous</span></a>
+		<a class="carousel-control right" href="#carousel" data-slide="next"><span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span> <span class="sr-only">Next</span></a>
+	</div>
+
+	<script type="text/javascript">
+	jQuery(function($) {
+		// $('.carousel').carousel();
+		$('.aus-recent-comments a').on('mouseover',function() { 
+			$(this).addClass('animated flipInX').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend',
+				function() {
+					$(this).removeClass('animated flipInX');
+				}
+		)});
+	});
+	</script>
+	
 	<div class="panel panel-primary aus-news-box aus-nb-style1">
 		<div class="panel-heading aus-news-box-heading">
 			<h3 class="panel-title">Panel title</h3>

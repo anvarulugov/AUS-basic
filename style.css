@@ -221,12 +221,13 @@ div.wp-caption.alignright .wp-caption-text {
     top: 0;
 }
 
-.drop-left > .dropdown-menu {
+.pull-right > .dropdown-menu {
 	right: 0;
 	left: inherit;
 }
-.drop-left .dropdown-menu.dropdown-sub-menu {
+.pull-right .dropdown-menu.dropdown-sub-menu {
     left: -100%;
+    right: 100%;
 }
 
 .dropdown-menu .caret {
@@ -237,7 +238,7 @@ div.wp-caption.alignright .wp-caption-text {
 	transform: rotate(-90deg);
 }
 
-.drop-left .dropdown-menu .caret {
+.pull-right .dropdown-menu .caret {
 	-moz-transform: rotate(90deg);
 	-webkit-transform: rotate(90deg);
 	-o-transform: rotate(90deg);
@@ -691,4 +692,55 @@ ul.wpmlerror li {
 .aus-nb-big-post-content {
 	padding-top: 10px;
     padding-left: 0px;
+}
+
+
+
+.carousel-fade .carousel-inner .item {
+  -webkit-transition-property: opacity;
+  transition-property: opacity;
+}
+.carousel-fade .carousel-inner .item,
+.carousel-fade .carousel-inner .active.left,
+.carousel-fade .carousel-inner .active.right {
+  opacity: 0;
+}
+.carousel-fade .carousel-inner .active,
+.carousel-fade .carousel-inner .next.left,
+.carousel-fade .carousel-inner .prev.right {
+  opacity: 1;
+}
+.carousel-fade .carousel-inner .next,
+.carousel-fade .carousel-inner .prev,
+.carousel-fade .carousel-inner .active.left,
+.carousel-fade .carousel-inner .active.right {
+  left: 0;
+  -webkit-transform: translate3d(0, 0, 0);
+          transform: translate3d(0, 0, 0);
+}
+.carousel-fade .carousel-control {
+  z-index: 2;
+}
+html,
+body,
+.carousel,
+.carousel-inner,
+.carousel-inner .item {
+  height: 100%;
+}
+.item:nth-child(1) {
+  background: #74C390;
+}
+.item:nth-child(2) {
+  background: #51BCE8;
+}
+.item:nth-child(3) {
+  background: #E46653;
+}
+
+.carousel-caption {
+	width: 100%;
+	background: rgba(0, 0, 0, 0.35);
+	left: 0;
+	right: 0;
 }

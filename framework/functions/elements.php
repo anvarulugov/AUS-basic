@@ -157,12 +157,12 @@ function aus_get_navbar( $nav_location = 'primary', $args = array() ) {
 			if ( $item->children ) {
 				$html .= '<ul class="dropdown-menu">';
 				foreach ( $item->children as $child ) {
-					if ( $child->children && $child->left ) {
+					if ( $child->children && ! $child->left ) {
 						$caret_left = '<span class="caret"></span> ';
 					} else {
 						$caret_left = '';
 					}
-					if ( $child->children && ! $child->left ) {
+					if ( $child->children && $child->left ) {
 						$caret_right = ' <span class="caret"></span>';
 					} else {
 						$caret_right = '';
@@ -190,12 +190,12 @@ function aus_get_navbar( $nav_location = 'primary', $args = array() ) {
 function aus_render_grand_children( $items ) {
 	$html  = '<ul class="dropdown-menu dropdown-sub-menu">';
 	foreach ( $items as $item ) {
-		if ( $item->children && $item->left ) {
+		if ( $item->children && ! $item->left ) {
 			$caret_left = '<span class="caret"></span> ';
 		} else {
 			$caret_left = '';
 		}
-		if ( $item->children && ! $item->left ) {
+		if ( $item->children && $item->left ) {
 			$caret_right = ' <span class="caret"></span>';
 		} else {
 			$caret_right = '';
@@ -239,8 +239,10 @@ function aus_build_tree( array $items, $parent = 0, $left = false ) {
 	$branch = array();
 
 	foreach ( $items as $key => $item ) {
-		if ( in_array( 'drop-left', $item->classes ) || $left ) {
+		if ( in_array( 'pull-right', $item->classes ) || $left ) {
 			$item->left = true;
+		} else {
+			$item->left = false;
 		}
 		if ( $item->menu_item_parent == $parent ) {
 			$children = aus_build_tree( $items, $item->ID, $item->left );

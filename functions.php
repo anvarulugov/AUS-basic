@@ -178,6 +178,8 @@ function aus_basic_scripts() {
 
 	wp_enqueue_style( 'lightbox', get_template_directory_uri() . '/media/css/lightbox.css', array(), '4.3.0' );
 
+	wp_enqueue_style( 'animate', get_template_directory_uri() . '/media/css/animate.css', array(), '3.5.0' );
+
 	wp_enqueue_style( 'style', get_stylesheet_uri() );
 
 	wp_enqueue_script( 'bootstrap', get_template_directory_uri() . '/media/js/bootstrap.min.js', array( 'jquery' ), '3.3.0', true );
