@@ -1,206 +1,745 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: AUS Basic Theme Uzbek Language v 0.1\n"
-"POT-Creation-Date: 2015-04-16 00:05+0500\n"
-"PO-Revision-Date: 2015-04-16 00:06+0500\n"
+"POT-Creation-Date: 2016-02-14 12:45+0500\n"
+"PO-Revision-Date: 2016-02-14 12:48+0500\n"
 "Last-Translator: Anvar Ulugov <wasatiyatm@gmail.com>\n"
 "Language-Team: \n"
 "Language: uz_UZ\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 1.7.5\n"
-"X-Poedit-Basepath: d:\\wserver\\htdocs\\blog\\wp-content\\themes\\\n"
+"X-Generator: Poedit 1.8.7\n"
+"X-Poedit-Basepath: d:/wserver/htdocs/blog/wp-content/themes\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 "X-Poedit-KeywordsList: __;_e\n"
 "X-Poedit-SourceCharset: UTF-8\n"
 "X-Poedit-SearchPath-0: aus-basic\n"
 
-#: aus-basic/comments.php:14 aus-basic/comments.php:31
+#: aus-basic/404.php:4
+msgid "Error 404"
+msgstr ""
+
+#: aus-basic/comments.php:17 aus-basic/comments.php:34
 msgid "&larr; Older Comments"
 msgstr ""
 
-#: aus-basic/comments.php:15 aus-basic/comments.php:32
+#: aus-basic/comments.php:18 aus-basic/comments.php:35
 msgid "Newer Comments &rarr;"
 msgstr ""
 
-#: aus-basic/comments.php:37
-#, fuzzy
+#: aus-basic/comments.php:40
 msgid "Comments are closed."
-msgstr "Обсуждение закрыто."
+msgstr "Fikr bildirish yopilgan."
 
-#: aus-basic/functions.php:57
+#: aus-basic/framework/classes/class-customizer.php:36
+msgid "Header Backgound Color"
+msgstr ""
+
+#: aus-basic/framework/classes/class-customizer.php:61
+msgid "Content Backgound Color"
+msgstr ""
+
+#: aus-basic/framework/classes/class-customizer.php:86
+msgid "Input Background Color"
+msgstr ""
+
+#: aus-basic/framework/classes/class-customizer.php:111
+msgid "Logo"
+msgstr "Logoni ko'rsatish"
+
+#: aus-basic/framework/classes/class-customizer.php:135
+msgid "Site description"
+msgstr "Sayt izohi"
+
+#: aus-basic/framework/classes/class-customizer.php:158
+msgid "Show Home Menu"
+msgstr ""
+
+#: aus-basic/framework/classes/class-customizer.php:181
+msgid "Show Menu Text"
+msgstr ""
+
+#: aus-basic/framework/classes/class-customizer.php:203
+msgid "Header backgound repeat"
+msgstr ""
+
+#: aus-basic/framework/classes/class-customizer.php:206
+msgid "No Repeat"
+msgstr "Qaytarilmaydi"
+
+#: aus-basic/framework/classes/class-customizer.php:207
+#: aus-basic/framework/widgets/widget-archives.php:29
+#: aus-basic/framework/widgets/widget-categories.php:30
+#: aus-basic/framework/widgets/widget-nav-menu.php:28
+#: aus-basic/framework/widgets/widget-recent-comments.php:28
+#: aus-basic/framework/widgets/widget-recent-posts.php:31
+msgid "Title"
+msgstr "Sarlavha"
+
+#: aus-basic/framework/classes/class-customizer.php:208
+msgid "Title Horizontally"
+msgstr ""
+
+#: aus-basic/framework/classes/class-customizer.php:209
+msgid "Title Vertically"
+msgstr ""
+
+#: aus-basic/framework/classes/class-customizer.php:231
+msgid "Header backgound horizontal position"
+msgstr ""
+
+#: aus-basic/framework/classes/class-customizer.php:234
+msgid "Left"
+msgstr "Chap"
+
+#: aus-basic/framework/classes/class-customizer.php:235
+msgid "Center"
+msgstr "Markaz bo`ylab"
+
+#: aus-basic/framework/classes/class-customizer.php:236
+msgid "Right"
+msgstr "O`ng"
+
+#: aus-basic/framework/classes/class-customizer.php:257
+#: aus-basic/framework/defaults.php:25 aus-basic/framework/defaults.php:111
+#: aus-basic/framework/defaults.php:125 aus-basic/functions.php:87
+msgid "Layout"
+msgstr ""
+
+#: aus-basic/framework/classes/class-customizer.php:279
+msgid "Container type"
+msgstr ""
+
+#: aus-basic/framework/classes/class-customizer.php:282
+msgid "Boxed"
+msgstr ""
+
+#: aus-basic/framework/classes/class-customizer.php:283
+msgid "Full"
+msgstr "Butun tekst"
+
+#: aus-basic/framework/classes/class-customizer.php:306
+msgid "CSS Theme"
+msgstr ""
+
+#: aus-basic/framework/classes/class-customizer.php:309
+msgid "Bootstrap"
+msgstr ""
+
+#: aus-basic/framework/classes/class-customizer.php:310
+msgid "Cerulean"
+msgstr ""
+
+#: aus-basic/framework/classes/class-customizer.php:311
+msgid "Cosmo"
+msgstr ""
+
+#: aus-basic/framework/classes/class-customizer.php:312
+msgid "Cyborg"
+msgstr ""
+
+#: aus-basic/framework/classes/class-customizer.php:313
+msgid "Darkly"
+msgstr ""
+
+#: aus-basic/framework/classes/class-customizer.php:314
+msgid "Flatly"
+msgstr ""
+
+#: aus-basic/framework/classes/class-customizer.php:315
+msgid "Journal"
+msgstr ""
+
+#: aus-basic/framework/classes/class-customizer.php:316
+msgid "Lumen"
+msgstr ""
+
+#: aus-basic/framework/classes/class-customizer.php:317
+msgid "Paper"
+msgstr ""
+
+#: aus-basic/framework/classes/class-customizer.php:318
+msgid "Readable"
+msgstr "O'qishga yaroqli"
+
+#: aus-basic/framework/classes/class-customizer.php:319
+msgid "Sandstone"
+msgstr ""
+
+#: aus-basic/framework/classes/class-customizer.php:320
+msgid "Simplex"
+msgstr ""
+
+#: aus-basic/framework/classes/class-customizer.php:321
+msgid "Slate"
+msgstr ""
+
+#: aus-basic/framework/classes/class-customizer.php:322
+msgid "Spacelab"
+msgstr ""
+
+#: aus-basic/framework/classes/class-customizer.php:323
+msgid "Superhero"
+msgstr ""
+
+#: aus-basic/framework/classes/class-customizer.php:324
+msgid "Unite"
+msgstr ""
+
+#: aus-basic/framework/classes/class-customizer.php:325
+msgid "Yeti"
+msgstr ""
+
+#: aus-basic/framework/classes/class-customizer.php:348
+msgid "Sidebars"
+msgstr ""
+
+#: aus-basic/framework/classes/class-customizer.php:351
+msgid "Content Only"
+msgstr ""
+
+#: aus-basic/framework/classes/class-customizer.php:352
+msgid "Three column"
+msgstr ""
+
+#: aus-basic/framework/classes/class-customizer.php:353
+msgid "Left & Content"
+msgstr ""
+
+#: aus-basic/framework/classes/class-customizer.php:354
+msgid "Right & Content"
+msgstr ""
+
+#: aus-basic/framework/classes/class-input.php:115
+#: aus-basic/framework/classes/class-input.php:130
+#: aus-basic/framework/classes/class-input.php:144
+msgid "Select"
+msgstr "Tanlash"
+
+#: aus-basic/framework/classes/class-input.php:153
+msgid "Upload Image"
+msgstr ""
+
+#: aus-basic/framework/classes/class-options.php:54
+#: aus-basic/framework/classes/class-options.php:76
+#, php-format
+msgid "%s theme options"
+msgstr ""
+
+#: aus-basic/framework/classes/class-options.php:55
+#, php-format
+msgid "%s"
+msgstr "%s"
+
+#: aus-basic/framework/classes/class-options.php:64
+#, php-format
+msgid "%s documentaion"
+msgstr ""
+
+#: aus-basic/framework/classes/class-options.php:65
+msgid "Documentation"
+msgstr "Qo&lsquo;llanma"
+
+#: aus-basic/framework/classes/class-options.php:93
+#, php-format
+msgid "%s theme documentation"
+msgstr ""
+
+#: aus-basic/framework/classes/class-options.php:174
+#, php-format
+msgid "%s settings"
+msgstr ""
+
+#: aus-basic/framework/classes/class-options.php:240
+msgid "General Options"
+msgstr "Moslamalar"
+
+#: aus-basic/framework/classes/class-tgm.php:161
+#: aus-basic/framework/functions.php:184
+msgid "Install Required Plugins"
+msgstr ""
+
+#: aus-basic/framework/classes/class-tgm.php:162
+#: aus-basic/framework/functions.php:185
+msgid "Install Plugins"
+msgstr ""
+
+#: aus-basic/framework/classes/class-tgm.php:163
+#: aus-basic/framework/functions.php:186
+#, php-format
+msgid "Installing Plugin: %s"
+msgstr ""
+
+#: aus-basic/framework/classes/class-tgm.php:164
+msgid "Something went wrong."
+msgstr ""
+
+#: aus-basic/framework/classes/class-tgm.php:175
+#: aus-basic/framework/functions.php:198
+msgid "Return to Required Plugins Installer"
+msgstr ""
+
+#: aus-basic/framework/classes/class-tgm.php:176
+msgid "Return to the dashboard"
+msgstr ""
+
+#: aus-basic/framework/classes/class-tgm.php:177
+#: aus-basic/framework/classes/class-tgm.php:1939
+#: aus-basic/framework/functions.php:199
+msgid "Plugin activated successfully."
+msgstr ""
+
+#: aus-basic/framework/classes/class-tgm.php:178
+msgid "The following plugin was activated successfully:"
+msgstr ""
+
+#: aus-basic/framework/classes/class-tgm.php:179
+#, php-format
+msgid "All plugins installed and activated successfully. %1$s"
+msgstr ""
+
+#: aus-basic/framework/classes/class-tgm.php:180
+msgid "Dismiss this notice"
+msgstr "Ushbu xabarnomani o'tkazib yuborish."
+
+#: aus-basic/framework/classes/class-tgm.php:531
+#: aus-basic/framework/classes/class-tgm.php:2156
+msgid "Return to the Dashboard"
+msgstr ""
+
+#: aus-basic/framework/classes/class-tgm.php:1166
+msgid "Private Repository"
+msgstr ""
+
+#: aus-basic/framework/classes/class-tgm.php:1169
+msgid "Pre-Packaged"
+msgstr ""
+
+#: aus-basic/framework/classes/class-tgm.php:1174
+msgid "WordPress Repository"
+msgstr ""
+
+#: aus-basic/framework/classes/class-tgm.php:1177
+msgid "Required"
+msgstr "(shart)"
+
+#: aus-basic/framework/classes/class-tgm.php:1177
+msgid "Recommended"
+msgstr ""
+
+#: aus-basic/framework/classes/class-tgm.php:1180
+msgid "Not Installed"
+msgstr "O'rnatilmagan"
+
+#: aus-basic/framework/classes/class-tgm.php:1182
+msgid "Installed But Not Activated"
+msgstr ""
+
+#: aus-basic/framework/classes/class-tgm.php:1287
+#: aus-basic/framework/classes/class-tgm.php:1395
+msgid "Install"
+msgstr ""
+
+#: aus-basic/framework/classes/class-tgm.php:1309
+#: aus-basic/framework/classes/class-tgm.php:1396
+msgid "Activate"
+msgstr "Faollashtirish"
+
+#: aus-basic/framework/classes/class-tgm.php:1358
+#, php-format
+msgid ""
+"No plugins to install or activate. <a href=\"%1$s\" title=\"Return to the "
+"Dashboard\">Return to the Dashboard</a>"
+msgstr ""
+
+#: aus-basic/framework/classes/class-tgm.php:1374
+msgid "Plugin"
+msgstr "Plagin"
+
+#: aus-basic/framework/classes/class-tgm.php:1375
+msgid "Source"
+msgstr "Manba"
+
+#: aus-basic/framework/classes/class-tgm.php:1376
+msgid "Type"
+msgstr "Turi"
+
+#: aus-basic/framework/classes/class-tgm.php:1377
+msgid "Status"
+msgstr "Status"
+
+#: aus-basic/framework/classes/class-tgm.php:1922
+msgid "Install package not available."
+msgstr ""
+
+#: aus-basic/framework/classes/class-tgm.php:1923
+#, php-format
+msgid "Downloading install package from <span class=\"code\">%s</span>&#8230;"
+msgstr ""
+
+#: aus-basic/framework/classes/class-tgm.php:1924
+msgid "Unpacking the package&#8230;"
+msgstr ""
+
+#: aus-basic/framework/classes/class-tgm.php:1925
+msgid "Installing the plugin&#8230;"
+msgstr ""
+
+#: aus-basic/framework/classes/class-tgm.php:1926
+msgid "Plugin install failed."
+msgstr ""
+
+#: aus-basic/framework/classes/class-tgm.php:1927
+msgid "Plugin installed successfully."
+msgstr ""
+
+#: aus-basic/framework/classes/class-tgm.php:1938
+msgid "Plugin activation failed."
+msgstr ""
+
+#: aus-basic/framework/classes/class-tgm.php:2052
+msgid ""
+"The installation and activation process is starting. This process may take a "
+"while on some hosts, so please be patient."
+msgstr ""
+
+#: aus-basic/framework/classes/class-tgm.php:2053
+#, php-format
+msgid "%1$s installed and activated successfully."
+msgstr ""
+
+#: aus-basic/framework/classes/class-tgm.php:2053
+#: aus-basic/framework/classes/class-tgm.php:2062
+msgid "Show Details"
+msgstr "Yuqori qism"
+
+#: aus-basic/framework/classes/class-tgm.php:2053
+#: aus-basic/framework/classes/class-tgm.php:2062
+msgid "Hide Details"
+msgstr ""
+
+#: aus-basic/framework/classes/class-tgm.php:2054
+msgid "All installations and activations have been completed."
+msgstr ""
+
+#: aus-basic/framework/classes/class-tgm.php:2055
+#, php-format
+msgid "Installing and Activating Plugin %1$s (%2$d/%3$d)"
+msgstr ""
+
+#: aus-basic/framework/classes/class-tgm.php:2059
+msgid ""
+"The installation process is starting. This process may take a while on some "
+"hosts, so please be patient."
+msgstr ""
+
+#: aus-basic/framework/classes/class-tgm.php:2060
+#, php-format
+msgid "An error occurred while installing %1$s: <strong>%2$s</strong>."
+msgstr ""
+
+#: aus-basic/framework/classes/class-tgm.php:2061
+#, php-format
+msgid "The installation of %1$s failed."
+msgstr ""
+
+#: aus-basic/framework/classes/class-tgm.php:2062
+#, php-format
+msgid "%1$s installed successfully."
+msgstr ""
+
+#: aus-basic/framework/classes/class-tgm.php:2063
+msgid "All installations have been completed."
+msgstr ""
+
+#: aus-basic/framework/classes/class-tgm.php:2064
+#, php-format
+msgid "Installing Plugin %1$s (%2$d/%3$d)"
+msgstr ""
+
+#: aus-basic/framework/defaults.php:15
+msgid "Container"
+msgstr ""
+
+#: aus-basic/framework/defaults.php:21
+msgid "Choose layout style"
+msgstr ""
+
+#: aus-basic/framework/defaults.php:27 aus-basic/framework/defaults.php:113
+#: aus-basic/framework/defaults.php:127 aus-basic/functions.php:89
+msgid "Logo text description"
+msgstr "Logo izohi"
+
+#: aus-basic/framework/defaults.php:88
+msgid "Home page displays"
+msgstr ""
+
+#: aus-basic/framework/defaults.php:91
+msgid "Latest posts - Blog Layout"
+msgstr ""
+
+#: aus-basic/framework/defaults.php:92
+msgid "News Boxes - use Home Builder"
+msgstr ""
+
+#: aus-basic/framework/defaults.php:105 aus-basic/functions.php:81
+msgid "Post Settings"
+msgstr ""
+
+#: aus-basic/framework/functions.php:187
+msgid "Something went wrong with the plugin API."
+msgstr ""
+
+#: aus-basic/framework/functions.php:200
+#, php-format
+msgid "All plugins installed and activated successfully. %s"
+msgstr ""
+
+#: aus-basic/framework/functions/elements.php:137
+msgid "Navigation"
+msgstr "Navigatsiya"
+
+#: aus-basic/framework/functions/elements.php:404
+msgid "No Comments"
+msgstr "Sharhlar mavjud emas"
+
+#: aus-basic/framework/functions/elements.php:406
+msgid " Comments"
+msgstr "Muhokama (%)"
+
+#: aus-basic/framework/functions/elements.php:408
+msgid "1 Comment"
+msgstr "1 ta fikr"
+
+#: aus-basic/framework/functions/elements.php:411
+msgid "Comments are off for this post."
+msgstr ""
+
+#: aus-basic/framework/functions/elements.php:574
+msgid "Read more <i class=\"fa fa-angle-double-right\"></i>"
+msgstr "Davomini o'qish <i class=\"fa fa-angle-double-right\"></i>"
+
+#: aus-basic/framework/functions/elements.php:600
+#: aus-basic/framework/functions/elements.php:609
+msgid "Tags:"
+msgstr "Kalit so'zlar:"
+
+#: aus-basic/framework/functions/elements.php:638
+msgid "&laquo;"
+msgstr "&laquo;"
+
+#: aus-basic/framework/functions/elements.php:639
+msgid "&raquo;"
+msgstr "&raquo;"
+
+#: aus-basic/framework/functions/elements.php:675
+msgid "Name"
+msgstr "Ism"
+
+#: aus-basic/framework/functions/elements.php:677
+msgid "Email"
+msgstr "Email"
+
+#: aus-basic/framework/functions/elements.php:679
+msgid "Website"
+msgstr "Sayt"
+
+#: aus-basic/framework/functions/elements.php:695
+msgid "Comment"
+msgstr "Fikr"
+
+#: aus-basic/framework/functions/elements.php:708
+msgid "Submit"
+msgstr "Yuborish"
+
+#: aus-basic/framework/functions/elements.php:739
+msgid "Your comment is awaiting moderation."
+msgstr "Sharhingiz moderator nazoratida."
+
+#: aus-basic/framework/functions/elements.php:746
+msgid "Log in to Reply"
+msgstr "Javob berish uchun a'zo sifatida kiring"
+
+#: aus-basic/framework/functions/elements.php:749
+msgid "Reply"
+msgstr "Javob berish"
+
+#: aus-basic/framework/shortcodes/class-carousel.php:73
+msgid "Previous"
+msgstr "Avvalgi"
+
+#: aus-basic/framework/shortcodes/class-carousel.php:74
+msgid "Next"
+msgstr "Keyingi"
+
+#: aus-basic/framework/widgets/widget-archives.php:10
+msgid "A monthly archive of your site's Posts. Integrated to Bootstrap"
+msgstr ""
+
+#: aus-basic/framework/widgets/widget-archives.php:14
+msgid "Archives"
+msgstr "Arxivlar"
+
+#: aus-basic/framework/widgets/widget-archives.php:36
+#: aus-basic/framework/widgets/widget-categories.php:37
+msgid "Display as dropdown"
+msgstr "Tushib keluvchi ro'yxat sifatida ko'rsatish"
+
+#: aus-basic/framework/widgets/widget-archives.php:41
+#: aus-basic/framework/widgets/widget-categories.php:42
+msgid "Show post counts"
+msgstr "Maqolalar sanog'ini ko'rsatish"
+
+#: aus-basic/framework/widgets/widget-archives.php:68
+msgid "Select Month"
+msgstr "Oyni tanlash"
+
+#: aus-basic/framework/widgets/widget-categories.php:10
+msgid "A list or dropdown of categories. Integrated to Bootstrap"
+msgstr ""
+
+#: aus-basic/framework/widgets/widget-categories.php:14
+msgid "Categories"
+msgstr "Bo'limlar"
+
+#: aus-basic/framework/widgets/widget-categories.php:47
+msgid "Show hierarchy"
+msgstr "Shajarani ko'rsatish"
+
+#: aus-basic/framework/widgets/widget-categories.php:79
+msgid "Select Category"
+msgstr "Bo'limni tanlash"
+
+#: aus-basic/framework/widgets/widget-nav-menu.php:10
+msgid "Add a custom menu to your sidebar. Integrated to Bootstrap"
+msgstr ""
+
+#: aus-basic/framework/widgets/widget-nav-menu.php:14
+msgid "Custom Menu"
+msgstr "Qo'shimcha Menyu"
+
+#: aus-basic/framework/widgets/widget-nav-menu.php:33
+msgid "Select Menu"
+msgstr "Menyu tanlash:"
+
+#: aus-basic/framework/widgets/widget-nav-menu.php:35
+msgid "&ndash; Select &ndash;"
+msgstr ""
+
+#: aus-basic/framework/widgets/widget-recent-comments.php:10
+msgid "Your site's most recent comments. Integrated to Bootstrap"
+msgstr ""
+
+#: aus-basic/framework/widgets/widget-recent-comments.php:14
+msgid "Recent Comments"
+msgstr "Yangi sharhlar"
+
+#: aus-basic/framework/widgets/widget-recent-comments.php:34
+msgid "Number of comments to show"
+msgstr "Ko&lsquo;rsatiladigan izohlar soni:"
+
+#: aus-basic/framework/widgets/widget-recent-posts.php:10
+msgid "Your site's most recent Posts. Integrated to Bootstrap"
+msgstr ""
+
+#: aus-basic/framework/widgets/widget-recent-posts.php:14
+msgid "Recent Posts"
+msgstr "Yangi maqolalar"
+
+#: aus-basic/framework/widgets/widget-recent-posts.php:37
+msgid "Category"
+msgstr "Bo'lim"
+
+#: aus-basic/framework/widgets/widget-recent-posts.php:39
+msgid "Any Category"
+msgstr ""
+
+#: aus-basic/framework/widgets/widget-recent-posts.php:48
+msgid "Number of posts to show"
+msgstr "Ko&lsquo;satiladigan postlar soni:"
+
+#: aus-basic/framework/widgets/widget-recent-posts.php:54
+msgid "Display post date?"
+msgstr "Yozuv sanasini ko'rsatish kerakmi?"
+
+#: aus-basic/functions.php:101
+msgid "Show Item Title"
+msgstr ""
+
+#: aus-basic/functions.php:103
+msgid "Show or Hide Entry Title"
+msgstr ""
+
+#: aus-basic/functions.php:104 aus-basic/functions.php:112
+msgid "Show"
+msgstr "Ko'rsat"
+
+#: aus-basic/functions.php:104 aus-basic/functions.php:112
+msgid "Hide"
+msgstr "Yashirish"
+
+#: aus-basic/functions.php:109
+msgid "Show Item Meta"
+msgstr ""
+
+#: aus-basic/functions.php:111
+msgid "Show or Hide Entry Meta"
+msgstr ""
+
+#: aus-basic/functions.php:117
+msgid "Content Class"
+msgstr ""
+
+#: aus-basic/functions.php:119
+msgid "Item body wrapper class"
+msgstr ""
+
+#: aus-basic/functions.php:141
 msgid "Left sidebar"
 msgstr ""
 
-#: aus-basic/functions.php:68
+#: aus-basic/functions.php:152
 msgid "Right sidebar"
 msgstr "O&lsquo;ng ustun"
 
-#: aus-basic/functions.php:79
-msgid "Page buttom"
-msgstr ""
-
-#: aus-basic/functions.php:154
+#: aus-basic/functions.php:221
 #, php-format
 msgid "Page %s"
 msgstr "Sahifa: %s"
 
-#: aus-basic/functions.php:179
-msgid "Our contributors"
-msgstr ""
-
-#: aus-basic/inc/elements.php:268
-msgid "&laquo;"
-msgstr "&laquo;"
-
-#: aus-basic/inc/elements.php:269
-msgid "&raquo;"
-msgstr "&raquo;"
-
-#: aus-basic/inc/elements.php:396 aus-basic/inc/elements.php:405
-msgid "Tags:"
-msgstr "Kalit so'zlar:"
-
-#: aus-basic/inc/elements.php:424
-#, fuzzy
-msgid "No Comments"
-msgstr "Комментариев нет"
-
-#: aus-basic/inc/elements.php:426
-#, fuzzy
-msgid " Comments"
-msgstr "Muhokama (%)"
-
-#: aus-basic/inc/elements.php:428
-msgid "1 Comment"
-msgstr "1 ta fikr"
-
-#: aus-basic/inc/elements.php:431
-msgid "Comments are off for this post."
-msgstr ""
-
-#: aus-basic/inc/elements.php:524
-msgid "Read more <i class=\"fa fa-angle-double-right\"></i>"
-msgstr "Davomini o'qish <i class=\"fa fa-angle-double-right\"></i>"
-
-#: aus-basic/inc/elements.php:532 aus-basic/post.php:31
-msgid "Pages:"
-msgstr "Sahifalar:"
-
-#: aus-basic/inc/elements.php:570
-msgid "Edith this"
-msgstr "Tahrirlash"
-
-#: aus-basic/inc/elements.php:602
-msgid "Name"
-msgstr "Ism"
-
-#: aus-basic/inc/elements.php:604
-msgid "Email"
-msgstr "Email"
-
-#: aus-basic/inc/elements.php:606
-msgid "Website"
-msgstr "Sayt"
-
-#: aus-basic/inc/elements.php:621
-msgid "Comment"
-msgstr "Fikr"
-
-#: aus-basic/inc/elements.php:633
-msgid "Submit"
-msgstr "Yuborish"
-
-#: aus-basic/inc/elements.php:664
-#, fuzzy
-msgid "Your comment is awaiting moderation."
-msgstr "Ваш комментарий ожидает проверки."
-
-#: aus-basic/inc/elements.php:671 aus-basic/inc/elements.php:747
-msgid "Log in to Reply"
-msgstr "Javob berish uchun a'zo sifatida kiring"
-
-#: aus-basic/inc/elements.php:674 aus-basic/inc/elements.php:750
-msgid "Reply"
-msgstr "Javob berish"
-
-#: aus-basic/inc/options-slim.php:75 aus-basic/inc/options-slim.php:132
-#, fuzzy, php-format
-msgid "%s theme options"
-msgstr "Тема без %1$s"
-
-#: aus-basic/inc/options-slim.php:92 aus-basic/inc/options-slim.php:107
-#, php-format
-msgid "%s Theme"
-msgstr ""
-
-#: aus-basic/inc/options-slim.php:140
-msgid "Show header"
-msgstr "Yuqori qism"
-
-#: aus-basic/inc/options-slim.php:147
-msgid "Show header description"
-msgstr ""
-
-#: aus-basic/inc/options-slim.php:154
-msgid "Show footer"
-msgstr ""
-
-#: aus-basic/inc/options-slim.php:162
-#, fuzzy
-msgid "Show footer description"
-msgstr "Барча маколалар"
-
-#: aus-basic/inc/options-slim.php:168
-msgid "Show sidebar"
-msgstr ""
-
-#: aus-basic/inc/options-slim.php:175
-#, fuzzy
-msgid "Show sidebar description"
-msgstr "Барча маколалар"
-
-#: aus-basic/inc/options-slim.php:182
-msgid "Show logo"
-msgstr ""
-
-#: aus-basic/inc/options-slim.php:189
-msgid "Show logo description"
-msgstr "Logoni ko'rsatish"
-
-#: aus-basic/inc/options-slim.php:196
-msgid "Show featured category"
-msgstr ""
-
-#: aus-basic/inc/options-slim.php:203
-msgid "Show featured_cat description"
-msgstr ""
-
-#: aus-basic/inc/options-slim.php:209
-msgid "Rich text editor"
-msgstr "Vizual tahrirlovchi yordamchisi"
-
-#: aus-basic/inc/options-slim.php:216
-msgid "Rich text editor description"
-msgstr ""
-
-#: aus-basic/inc/options-slim.php:254
-#, fuzzy
-msgid "General Options"
-msgstr "Moslamalar"
-
-#: aus-basic/loop-series.php:18 aus-basic/loop.php:27
+#: aus-basic/loop-series.php:18 aus-basic/loop.php:30
 msgid "Sorry, no posts matched your criteria."
 msgstr "Kechirasiz, siz so'ragan ma'lumot topilmadi"
 
-#: aus-basic/post.php:44
+#: aus-basic/loop.php:11
+msgid "Sticky"
+msgstr ""
+
+#: aus-basic/post.php:27
+msgid "Pages:"
+msgstr "Sahifalar:"
+
+#: aus-basic/post.php:39
 msgid "&laquo; previous article"
 msgstr "&laquo; oldingi maqola "
 
-#: aus-basic/post.php:45
+#: aus-basic/post.php:40
 msgid "next article &raquo;"
 msgstr "keyingi maqola &raquo;"
+
+#~ msgid "Edith this"
+#~ msgstr "Tahrirlash"
+
+#, fuzzy
+#~ msgid "Show sidebar description"
+#~ msgstr "Барча маколалар"
+
+#~ msgid "Show logo description"
+#~ msgstr "Logoni ko'rsatish"
+
+#~ msgid "Rich text editor"
+#~ msgstr "Vizual tahrirlovchi yordamchisi"
 
 #~ msgid "General"
 #~ msgstr "Umumiy"

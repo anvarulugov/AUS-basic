@@ -126,7 +126,7 @@
 	-webkit-box-shadow: 0 0 2px rgba(30,140,190,.8);
 	box-shadow: 0 0 2px rgba(30,140,190,.8);
 }
-.aus-panel .checkbox-label label {
+.aus-label label {
 	position: absolute !important;
     z-index: -1 !important;
     visibility: hidden !important;

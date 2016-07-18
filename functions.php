@@ -51,6 +51,9 @@ function aus_basic_basic_setup() {
 	add_theme_support( 'post-thumbnails' );
 	add_image_size( 'gallery-thumbnail', 400, 300, true );
 
+	add_image_size( 'nb-intro-thumb', 394, 210, true );
+	add_image_size( 'nb-thumb', 90, 60, true );
+
 	// Enable post formats
 	// add_theme_support( 'post-formats', array( 'image', 'gallery', 'video', 'audio' ) );
 

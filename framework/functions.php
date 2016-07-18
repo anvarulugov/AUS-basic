@@ -8,22 +8,22 @@ function get_aus_uri() {
 endif;
 
 function aus_configs( $key = false ) {
-	$aus_config = '';
+	$aus_config = array();
 	if ( has_filter( 'aus_register_configs' ) ) {
 		$aus_config = apply_filters( 'aus_register_configs', $aus_config );
 	}
-	if ( $aus_config[ $key ] ) {
+	if ( $key && $aus_config[ $key ] ) {
 		return $aus_config[ $key ];
 	}
 	return $aus_config;
 }
 
 function aus_options( $key = false ) {
-	$aus_options = '';
+	$aus_options = array();
 	if ( has_filter( 'aus_register_options' ) ) {
 		$aus_options = apply_filters( 'aus_register_options', $aus_options );
 	}
-	if ( $aus_options[ $key ] ) {
+	if ( $key && $aus_options[ $key ] ) {
 		return $aus_options[ $key ];
 	}
 	return $aus_options;
@@ -126,12 +126,12 @@ function aus_hit_count() {
 	}
 }
 
-//add_filter('the_content', 'aus_lightbox_post_image');
+add_filter('the_content', 'aus_lightbox_post_image');
 if ( ! function_exists( 'aus_lightbox_post_image' ) ) :
 function aus_lightbox_post_image ( $content ) {
 	global $post;
 	$pattern = "/<a(.*)href=('|\")(.*?).(jpg|jpeg|gif|png|bmp)('|\")(.*?)><img/i";
-	$replacement = '<a$1data-lightbox="post-image" href=$2$3.$4$5$6><img';
+	$replacement = '<a$1data-lightbox="post-image" data-title="' . get_the_title( $post->ID ) . '" title="' . get_the_title( $post->ID ) . '" href=$2$3.$4$5$6><img';
 	$content = preg_replace($pattern, $replacement, $content);
 	//$content = str_replace("%LIGHTID%", $post->ID, $content);
 	return $content;

@@ -343,7 +343,7 @@ section figure {
 }
 
 /* Widget Calendar */
-.widget_calendar table caption {
+#wp-calendar caption {
 	text-align: center;
 	font-weight: bold;
 }
@@ -630,6 +630,9 @@ ul.wpmlerror li {
 .aus-nb-style1 .aus-news-box-body ul > li {
 	clear: both;
 }
+.aus-nb-style1 .aus-nb-posts-list {
+	margin-top: -1px;
+}
 .aus-nb-style2 .aus-news-box-body .aus-nb-post {
 	border-left: 1px solid #ddd;
 }
@@ -691,11 +694,36 @@ ul.wpmlerror li {
 /* Style 2 */
 .aus-nb-big-post-content {
 	padding-top: 10px;
-    padding-left: 0px;
 }
 
+@media(min-width: 970px) {
+	.aus-nb-big-post-content {
+		 padding-left: 0px;
+	}
+}
+/* Newsbox thumbs */
+/*@media(min-width: 750px) {
+	.aus-nb-style1 .nb-thumb {
+		max-width: 90px !important;
+		max-height: 60px !important;
+	}
+	.nb-intro-thumb {
+		max-width: 394px !important;
+		max-height: 210px !important;
+	}
+}*/
 
-
+/**
+ * Carousel styles
+ */
+.carousel h1, 
+.carousel h2, 
+.carousel h3, 
+.carousel h4 {
+	margin-top: 0;
+	color: #fff;
+	font-size: 150%;
+}
 .carousel-fade .carousel-inner .item {
   -webkit-transition-property: opacity;
   transition-property: opacity;

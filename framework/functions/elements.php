@@ -153,7 +153,7 @@ function aus_get_navbar( $nav_location = 'primary', $args = array() ) {
 			}
 		}
 		foreach ( $items as $item ) {
-			$html .= '<li id="menu-item-' . esc_attr( $item->ID ) . '" class="' . ( $item->children ? 'dropdown ' : '' ) . 'menu-item menu-item-type-' . esc_attr( $item->type ) . ' menu-item-object-' . $item->object . ' menu-item-' . esc_attr( $item->ID ) . ' ' . implode( ' ', $item->classes ) . ( aus_is_active_menu( $item->object, $item->object_id ) ? ' active' : '' ) . '"><a ' . ( $item->children ? 'class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"' : '' ) . ' href="' . esc_url( $item->url ) . '" title="' . esc_attr( $item->attr_title ) . '" target="' . esc_attr( $item->target ) . '" rel="' . esc_attr( $item->xfn ) . '">' . esc_attr( $item->title ) . ' ' . ( $item->children ? '<span class="caret"></span>' : '' ) . '</a>';
+			$html .= '<li id="menu-item-' . esc_attr( $item->ID ) . '" class="' . ( $item->children ? 'dropdown ' : '' ) . 'menu-item menu-item-type-' . esc_attr( $item->type ) . ' menu-item-object-' . $item->object . ' menu-item-' . esc_attr( $item->ID ) . ' ' . implode( ' ', $item->classes ) . ( aus_is_active_menu( $item->object, $item->object_id ) ? ' active' : '' ) . '"><a ' . ( $item->children ? 'class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"' : '' ) . ' href="' . esc_url( $item->url ) . '" title="' . esc_attr( $item->attr_title ) . '" target="' . esc_attr( $item->target ) . '" rel="' . esc_attr( $item->xfn ) . '">' . $item->title . ' ' . ( $item->children ? '<span class="caret"></span>' : '' ) . '</a>';
 			if ( $item->children ) {
 				$html .= '<ul class="dropdown-menu">';
 				foreach ( $item->children as $child ) {
@@ -167,7 +167,7 @@ function aus_get_navbar( $nav_location = 'primary', $args = array() ) {
 					} else {
 						$caret_right = '';
 					}
-					$html .= '<li id="menu-item-' . esc_attr( $child->ID ) . '" class="' . ( $child->children ? 'dropdown ' : '' ) . 'menu-item menu-item-type-' . esc_attr( $child->type ) . ' menu-item-object-' . $child->object . ' menu-item-' . esc_attr( $child->ID ) . ' ' . implode( ' ', $child->classes ) . ( aus_is_active_menu( $child->object, $child->object_id ) ? ' active' : '' ) . '"><a ' . ( $child->children ? 'class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"' : '' ) . ' href="' . esc_url( $child->url ) . '" title="' . esc_attr( $child->attr_title ) . '" target="' . esc_attr( $child->target ) . '" rel="' . esc_attr( $child->xfn ) . '">' . $caret_left . esc_attr( $child->title ) . $caret_right . '</a>';
+					$html .= '<li id="menu-item-' . esc_attr( $child->ID ) . '" class="' . ( $child->children ? 'dropdown ' : '' ) . 'menu-item menu-item-type-' . esc_attr( $child->type ) . ' menu-item-object-' . $child->object . ' menu-item-' . esc_attr( $child->ID ) . ' ' . implode( ' ', $child->classes ) . ( aus_is_active_menu( $child->object, $child->object_id ) ? ' active' : '' ) . '"><a ' . ( $child->children ? 'class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"' : '' ) . ' href="' . esc_url( $child->url ) . '" title="' . esc_attr( $child->attr_title ) . '" target="' . esc_attr( $child->target ) . '" rel="' . esc_attr( $child->xfn ) . '">' . $caret_left . $child->title . $caret_right . '</a>';
 					if ( $child->children ) {
 						$html .= aus_render_grand_children( $child->children );
 					}
@@ -200,7 +200,7 @@ function aus_render_grand_children( $items ) {
 		} else {
 			$caret_right = '';
 		}
-		$html .= '<li id="menu-item-' . esc_attr( $item->ID ) . '" class="' . ( $item->children ? 'dropdown ' : '' ) . 'menu-item menu-item-type-' . esc_attr( $item->type ) . ' menu-item-object-' . $item->object . ' menu-item-' . esc_attr( $item->ID ) . ' ' . implode( ' ', $item->classes ) . ( aus_is_active_menu( $item->object, $item->object_id ) ? ' active' : '' ) . '"><a ' . ( $item->children ? 'class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"' : '' ) . ' href="' . esc_url( $item->url ) . '" title="' . esc_attr( $item->attr_title ) . '" target="' . esc_attr( $item->target ) . '" rel="' . esc_attr( $item->xfn ) . '">' . $caret_left . esc_attr( $item->title ) . $caret_right . '</a>';
+		$html .= '<li id="menu-item-' . esc_attr( $item->ID ) . '" class="' . ( $item->children ? 'dropdown ' : '' ) . 'menu-item menu-item-type-' . esc_attr( $item->type ) . ' menu-item-object-' . $item->object . ' menu-item-' . esc_attr( $item->ID ) . ' ' . implode( ' ', $item->classes ) . ( aus_is_active_menu( $item->object, $item->object_id ) ? ' active' : '' ) . '"><a ' . ( $item->children ? 'class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"' : '' ) . ' href="' . esc_url( $item->url ) . '" title="' . esc_attr( $item->attr_title ) . '" target="' . esc_attr( $item->target ) . '" rel="' . esc_attr( $item->xfn ) . '">' . $caret_left . $item->title . $caret_right . '</a>';
 		if ( $item->children ) {
 			$html .= aus_render_grand_children( $item->children );
 		}
@@ -239,7 +239,7 @@ function aus_build_tree( array $items, $parent = 0, $left = false ) {
 	$branch = array();
 
 	foreach ( $items as $key => $item ) {
-		if ( in_array( 'pull-right', $item->classes ) || $left ) {
+		if ( ( is_array( $item->classes ) && in_array( 'pull-right', $item->classes ) ) || $left ) {
 			$item->left = true;
 		} else {
 			$item->left = false;
@@ -301,15 +301,17 @@ function aus_get_title( $args = array() ) {
 	return $title;
 }
 
-function aus_date( $args = array() ) {
+function aus_date( $post_id = null, $args = array() ) {
 	global $post;
-	echo aus_get_date();
+	echo aus_get_date( $post_id = null, $args );
 }
 
-function aus_get_date( $args = array() ) {
+function aus_get_date( $post_id = null ) {
 	global $post;
-	extract( $args, EXTR_OVERWRITE );
-	$date = date_i18n( get_option( 'date_format' ), strtotime( get_the_date( 'Y-m-d' ) ) );
+	if ( $post_id == null ) {
+		$post_id = $post->ID;
+	}
+	$date = date_i18n( get_option( 'date_format' ), strtotime( get_the_date( 'Y-m-d' ), $post_id ) );
 	return $date;
 }
 
@@ -385,21 +387,25 @@ function aus_get_categories( $post_id = null, $args = array() ) {
 	}
 }
 
-function aus_comments() {
-	echo aus_get_comments();
+function aus_comments( $post_id = null ) {
+	echo aus_get_comments( $post_id );
 }
 
-function aus_get_comments() {
+function aus_get_comments( $post_id = null ) {
 	global $post;
-	$num_comments = get_comments_number(); // get_comments_number returns only a numeric value
+	if ( $post_id == null ) {
+		$post_id = $post->ID;
+	}
+	$num_comments = get_comments_number( $post_id ); 
+	// get_comments_number returns only a numeric value
 
-	if ( comments_open() ) {
+	if ( comments_open( $post_id ) ) {
 		if ( $num_comments == 0 ) {
-			$html = '<a href="' . get_comments_link() .'">' . __( 'No Comments', 'aus-basic' ) .'</a>';
+			$html = '<a href="' . get_comments_link( $post_id ) .'">' . __( 'No Comments', 'aus-basic' ) .'</a>';
 		} elseif ( $num_comments > 1 ) {
-			$html = '<a href="' . get_comments_link() .'">' . $num_comments . __( ' Comments', 'aus-basic' ) .'</a>';
+			$html = '<a href="' . get_comments_link( $post_id ) .'">' . $num_comments . __( ' Comments', 'aus-basic' ) .'</a>';
 		} else {
-			$html = '<a href="' . get_comments_link() .'">' . __( '1 Comment', 'aus-basic' ) .'</a>';
+			$html = '<a href="' . get_comments_link( $post_id ) .'">' . __( '1 Comment', 'aus-basic' ) .'</a>';
 		}
 	} else {
 		$html =  __('Comments are off for this post.', 'aus-basic' );
@@ -415,8 +421,8 @@ function aus_get_comments() {
  * trim( strip_tags( $wp_postmeta->_wp_attachment_image_alt ) ) )
  * @param $post_id integer
  */
-function aus_thumbnail( $size = null, $attr = array(), $post_id = '' ) {
-	echo aus_get_thumbnail( $size, $attr, $post_id );
+function aus_thumbnail( $size = null, $attr = array(), $post_id = '', $format = 'link' ) {
+	echo aus_get_thumbnail( $size, $attr, $post_id, $format );
 }
 /**
  * Function to display post thumbnail
@@ -425,7 +431,7 @@ function aus_thumbnail( $size = null, $attr = array(), $post_id = '' ) {
  * trim( strip_tags( $wp_postmeta->_wp_attachment_image_alt ) ) )
  * @param $post_id integer
  */
-function aus_get_thumbnail( $size = null, $attr = array(), $post_id = '' ) {
+function aus_get_thumbnail( $size = null, $attr = array(), $post_id = '', $format = 'link' ) {
 	if ( empty( $post_id ) ) {
 		global $post;
 	} else {
@@ -435,41 +441,52 @@ function aus_get_thumbnail( $size = null, $attr = array(), $post_id = '' ) {
 		$size = aus_settings( 'thumbnail_size' );
 	}
 
-	if ( !is_array( $attr ) or empty( $attr ) ) {
+	if ( ! is_array( $attr ) or empty( $attr ) ) {
 		$attr = array();
 	}
-
-	$thumbnail = get_the_post_thumbnail( $post->ID, $size, $attr );
 
 	$args = '';
 	foreach ( $attr as $key => $value ) {
 		$args .= $key . '="' . $value . '" ';
 	}
 
-	$doc = new DOMDocument();
-	@$doc->loadHTML( $post->post_content );
-	$images = $doc->getElementsByTagName('img');
-	$first_img = false;
-	foreach ($images as $img) {
-		$first_img = $img->getAttribute('src');
-		break;
+	// Empty thumbnail_src
+	$thumbnail_src = '';
+	// Get post thumbnail id to get the image url
+	$thumbnail_id = get_post_thumbnail_id( $post->ID );
+	if ( ! empty( $thumbnail_id ) ) {
+		// Get image url from post thumbnail id
+		$thumbnail_src = wp_get_attachment_image_src( $thumbnail_id, $size );
+		if ( isset( $thumbnail_src[0] ) ) {
+			$thumbnail_src = $thumbnail_src[0];
+		}
+	} else {
+		// No featured image for the post, let's find one from content
+		$doc = new DOMDocument();
+		@$doc->loadHTML( $post->post_content );
+		$images = $doc->getElementsByTagName('img');
+		$first_img = false;
+		foreach ($images as $img) {
+			$first_img = $img->getAttribute('src');
+			break;
+		}
+
+		if ( $first_img ) {
+			global $wpdb;
+			$attachment = $wpdb->get_col( $wpdb->prepare( "SELECT ID FROM $wpdb->posts WHERE guid='%s';", $first_img ) );
+			if ( isset( $attachment[0] ) ) {
+				$first_img = wp_get_attachment_image_src( $attachment[0], $size );
+			}
+			if ( isset( $first_img[0] ) ) {
+				$thumbnail_src = $first_img[0];
+			}
+		}
+
 	}
 
-	if ( $first_img ) {
-		global $wpdb;
-		$attachment = $wpdb->get_col( $wpdb->prepare( "SELECT ID FROM $wpdb->posts WHERE guid='%s';", $first_img ) );
-		if ( isset( $attachment[0] ) ) {
-			$first_img = wp_get_attachment_image_src( $attachment[0], $size );
-		}
-		if ( isset( $first_img[0] ) ) {
-			$first_img = $first_img[0];
-		}
-	}
-
-	if ( ! empty( $thumbnail ) ) {
-		echo '<a href="' . get_permalink( $post->ID, $post->name ) . '">' . $thumbnail . '</a>';
-	} elseif ( ! empty( $first_img ) ) {
-		echo '<a href="' . get_permalink( $post->ID, $post->name ) . '"><img src="' . $first_img . '" ' . $args . '/></a>';
+	$image = '';
+	if ( ! empty( $thumbnail_src ) ) {
+		$image .= ( $format == 'link' ? '<a href="' . get_permalink( $post->ID, $post->name ) . '">' : '' ) .'<img src="' . $thumbnail_src . '" ' . $args . '/>' . ( $format == 'link' ? '</a>' : '');
 	} elseif ( aus_settings( 'thumbnail_img' ) ) {
 
 		$default_thumbnail_sized = aus_get_thumbnail_sized( aus_settings( 'thumbnail_img' ), aus_settings( 'thumbnail_size' ) );
@@ -479,8 +496,13 @@ function aus_get_thumbnail( $size = null, $attr = array(), $post_id = '' ) {
 		} else {
 			$default_thumbnail = aus_settings( 'thumbnail_img' );
 		}
-		echo '<a href="' . get_permalink( $post->ID, $post->name ) . '"><img src="' . $default_thumbnail . '" ' . $args . '/></a>';
-	
+		$image .= ( $format == 'link' ? '<a href="' . get_permalink( $post->ID, $post->name ) . '">' : '' ) .'<img src="' . $default_thumbnail . '" ' . $args . '/>' . ( $format == 'link' ? '</a>' : '');
+	}
+
+	if ( $format == 'src' ) {
+		return $thumbnail_src;
+	} else {
+		return $image;
 	}
 }
 
@@ -495,24 +517,22 @@ function aus_get_thumbnail_sized( $image, $size ) {
 	return false;
 }
 
-function aus_excerpt( $limit = 250, $post_id = '', $bywords = false ) {
+function aus_excerpt( $limit = 250, $post_id = null, $bywords = false ) {
 	echo aus_get_excerpt( $limit, $post_id, $bywords );
 }
 /**
  * @param $limit
  * @param $post_id
  */
-function aus_get_excerpt( $limit = 250, $post_id = '', $bywords = false ) {
-	if ( empty( $post_id ) ) {
+function aus_get_excerpt( $limit = 250, $post_id = null, $bywords = false ) {
+	if ( $post_id == null ) {
 		global $post;
+		$post_id = $post->ID;
 	} else {
 		$post = get_post( $post_id );
 	}
 
-	$excerpt = get_the_content();
-	if ( ! $excerpt ) {
-		$excerpt = $post->post_content;
-	}
+	$excerpt = apply_filters( 'the_content', $post->post_content );
 	$excerpt = preg_replace( " ( \[.*?\] )", '', $excerpt );
 	$excerpt = strip_shortcodes( $excerpt );
 	$excerpt = strip_tags( $excerpt );
@@ -530,20 +550,28 @@ function aus_content() {
 	the_content();
 }
 
-function aus_readmore( $args = array() ) {
-	echo aus_get_readmore( $args );
+function aus_readmore( $args = array(), $post_id = null, $post_name = null ) {
+	echo aus_get_readmore( $args, $post_id );
 }
 /**
  * @param array $args
  */
-function aus_get_readmore( $args = array() ) {
+function aus_get_readmore( $args = array(), $post_id = null, $post_name = null ) {
+	if ( $post_id == null ) {
+		global $post;
+		$post_id = $post->ID;
+	}
 
-	global $post;
+	if ( $post_id == null && $post_name == null ) {
+		global $post;
+		$post_name = $post->name;
+	}
+	
 	$class = '';
 
 	extract( $args, EXTR_OVERWRITE );
 
-	$html = '<a class="' . $class . '" href="' . get_permalink( $post->ID ) . '">' . __( 'Read more <i class="fa fa-angle-double-right"></i>', 'aus-basic' ) . '</a>';
+	$html = '<a class="' . $class . '" href="' . get_permalink( $post_id, $post_name ) . '">' . __( 'Read more <i class="fa fa-angle-double-right"></i>', 'aus-basic' ) . '</a>';
 	return $html;
 
 }
@@ -738,7 +766,9 @@ function aus_string_limit( $text, $limit = 300, $bywords = false ) {
 		if ( str_word_count( $text, 0, $cyr_chars ) >= $limit ) {
 			$words = str_word_count( $text, 2, $cyr_chars );
 			$pos = array_keys( $words );
-			$text = substr( $text, 0, $pos[ $limit ] );
+			if ( isset( $pos[ $limit ] ) ) {
+				$text = mb_substr( $text, 0, $pos[ $limit ], 'UTF-8' );
+			}
 		}
 	} else {
 		mb_internal_encoding("UTF-8");

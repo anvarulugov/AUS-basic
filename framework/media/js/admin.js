@@ -34,7 +34,7 @@ jQuery(document).ready(function($){
 	});
 
 	$(function() {
-		$('.aus-panel .checkbox-label .checkbox').on('click', function() {
+		$('.aus-label .checkbox').on('click', function() {
 			var checkbox = $(this).parent().find('input[type="checkbox"]');
 			checkbox.prop("checked", !checkbox.prop("checked"));
 			$(this).toggleClass('checked');

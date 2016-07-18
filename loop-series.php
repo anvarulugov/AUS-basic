@@ -1,7 +1,6 @@
-<?php global $aus_elements; ?>
 <div <?php content_class('content'); ?> role="main">
 <div class="bs-callout bs-callout-info">
-	<h4><?php echo $aus_elements->page_title(); ?></h4>
+	<h4><?php aus_page_title(); ?></h4>
 	<p><?php echo category_description(); ?></p>
 </div>
 <?php do_action( 'aus_before_loop' ); ?>
@@ -13,7 +12,7 @@
 <?php do_action( 'aus_after_post' ); ?>
 <?php endwhile; ?>
 </ol>
-<?php $aus_elements->pager(); ?>
+<?php aus_pager(); ?>
 <?php else : ?>
 	<p><?php _e( 'Sorry, no posts matched your criteria.', 'aus-basic' ); ?></p>
 <?php endif; ?>

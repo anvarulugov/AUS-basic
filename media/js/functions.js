@@ -9,10 +9,19 @@ jQuery(document).ready(function($){
 		event.preventDefault(); 
 		// Avoid having the menu to close when clicking
 		event.stopPropagation(); 
+		// If a menu is already open we close it
+		$('ul.dropdown-menu.dropdown-sub-menu [data-toggle=dropdown]').parent().removeClass('open');
 		// Re-add .open to parent sub-menu item
 		$(this).parent().toggleClass('open');
 	});
 	
 	$('.widget_search').removeClass('panel panel-default');
 
+	$('.aus-recent-comments a').on('mouseover',function() { 
+		$(this).addClass('animated flipInX').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend',
+			function() {
+				$(this).removeClass('animated flipInX');
+			}
+	)});
+	
 });

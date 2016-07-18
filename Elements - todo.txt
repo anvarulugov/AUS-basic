@@ -15,3 +15,10 @@ Admin Options
 
 Post/Page Settings
 1. Layout settings
+
+
+Bugs:
+1. Catchable fatal error: Argument 1 passed to AUS_Widget_Nav_Menu::buildTree() must be of the type array, boolean given, called in D:\wserver\htdocs\omonxona.uz\wp-content\themes\aus-omonxona\framework\widgets\widget-nav-menu.php on line 63 and defined in D:\wserver\htdocs\omonxona.uz\wp-content\themes\aus-omonxona\framework\widgets\widget-nav-menu.php on line 121
+
+2. Notice: Trying to get property of non-object in D:\wserver\htdocs\blog\wp-content\themes\aus-oqtepa\framework\functions.php on line 68
+class="col-lg-9 col-md-9 col-sm-12 content" role="main">

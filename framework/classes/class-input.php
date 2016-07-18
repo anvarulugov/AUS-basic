@@ -154,7 +154,7 @@ class AUS_input {
 				break;
 
 			case 'checkbox':
-				$input = '<fieldset class="checkbox-label">';
+				$input = '<fieldset class="checkbox-label aus-label">';
 				$input .= '<label title="' . $id . '">';
 				$input .= '<input name="' . $field_name . '" id="' .$id . '" type="' .$type . '" value="1"' . $attributes  . ( $value ? 'checked="checked"' : '' ) . ' />';
 				$input .= $title;

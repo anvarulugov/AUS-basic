@@ -69,7 +69,7 @@ class AUS_Widget_Nav_Menu extends WP_Widget {
 			} else {
 				$expanded = 'false';
 			}
-			$html .= '<a ' . ( $page->children ? 'data-toggle="collapse" aria-expanded="' . $expanded . '" aria-controls="collapse-' . $page->ID . '" href="#collapse-' . $page->ID . '"' : 'href="' . esc_url( $page->url ) . '"' ) . ' title="' . esc_attr( $page->attr_title ) . '" id="menu-item-' . esc_attr( $page->ID ) . '" class="' . ( $page->children ? 'has-collapse ' : '' ) . 'list-group-item menu-item menu-item-type-' . esc_attr( $page->type ) . ' menu-item-object-' . $page->object . ' menu-item-' . esc_attr( $page->ID ) . ' ' . implode( ' ', $page->classes ) . ( aus_is_active_menu( $page->object, $page->object_id ) ? ' active' : '' ) . '" target="' . esc_attr( $page->target ) . '" rel="' . esc_attr( $page->xfn ) . '">' . esc_attr( $page->title );
+			$html .= '<a ' . ( $page->children ? 'data-toggle="collapse" aria-expanded="' . $expanded . '" aria-controls="collapse-' . $page->ID . '" href="#collapse-' . $page->ID . '"' : 'href="' . esc_url( $page->url ) . '"' ) . ' title="' . esc_attr( $page->attr_title ) . '" id="menu-item-' . esc_attr( $page->ID ) . '" class="' . ( $page->children ? 'has-collapse ' : '' ) . 'list-group-item menu-item menu-item-type-' . esc_attr( $page->type ) . ' menu-item-object-' . $page->object . ' menu-item-' . esc_attr( $page->ID ) . ' ' . implode( ' ', $page->classes ) . ( aus_is_active_menu( $page->object, $page->object_id ) ? ' active' : '' ) . '" target="' . esc_attr( $page->target ) . '" rel="' . esc_attr( $page->xfn ) . '">' . $page->title;
 			$html .= '</a>';
 			if ( $page->children ) {
 				$html .= $this->show_children( $page->children, $page->ID, 1, $expanded );
@@ -93,7 +93,7 @@ class AUS_Widget_Nav_Menu extends WP_Widget {
 			} else {
 				$expanded = 'false';
 			}
-			$html .= '<a ' . ( $page->children ? 'data-toggle="collapse" aria-expanded="' . $expanded . '" aria-controls="collapse-' . $page->ID . '" href="#collapse-' . $page->ID . '"' : 'href="' . esc_url( $page->url ) . '"' ) . ' title="' . esc_attr( $page->attr_title ) . '" id="menu-item-' . esc_attr( $page->ID ) . '" class="' . ( $page->children ? 'has-collapse ' : '' ) . 'list-group-item menu-item menu-item-type-' . esc_attr( $page->type ) . ' menu-item-object-' . $page->object . ' menu-item-' . esc_attr( $page->ID ) . ' ' . implode( ' ', $page->classes ) . ( aus_is_active_menu( $page->object, $page->object_id ) ? ' active' : '' ) . '" target="' . esc_attr( $page->target ) . '" rel="' . esc_attr( $page->xfn ) . '">' . $indent . esc_attr( $page->title );
+			$html .= '<a ' . ( $page->children ? 'data-toggle="collapse" aria-expanded="' . $expanded . '" aria-controls="collapse-' . $page->ID . '" href="#collapse-' . $page->ID . '"' : 'href="' . esc_url( $page->url ) . '"' ) . ' title="' . esc_attr( $page->attr_title ) . '" id="menu-item-' . esc_attr( $page->ID ) . '" class="' . ( $page->children ? 'has-collapse ' : '' ) . 'list-group-item menu-item menu-item-type-' . esc_attr( $page->type ) . ' menu-item-object-' . $page->object . ' menu-item-' . esc_attr( $page->ID ) . ' ' . implode( ' ', $page->classes ) . ( aus_is_active_menu( $page->object, $page->object_id ) ? ' active' : '' ) . '" target="' . esc_attr( $page->target ) . '" rel="' . esc_attr( $page->xfn ) . '">' . $indent . $page->title;
 			$html .= '</a>';
 			if ( $page->children ) {
 				$html .= $this->show_children( $page->children, $page->ID, $level+1, $expanded );

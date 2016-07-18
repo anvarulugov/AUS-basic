@@ -12,6 +12,8 @@ class AUS_Shortcodes {
 
 		/* Load the news box. */
 		require_once( trailingslashit( AUS_SHORTCODES ) . 'class-news-box.php' );
+		/* Load the Carousels. */
+		require_once( trailingslashit( AUS_SHORTCODES ) . 'class-carousel.php' );
 
 	}
 
